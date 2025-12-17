@@ -1,0 +1,51 @@
+{
+  "name": "myproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "browser-sync": "^3.0.3",
+    "css-declaration-sorter": "^7.2.0",
+    "cssnano": "^7.0.7",
+    "del": "^8.0.0",
+    "gulp": "^5.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-merge-media-queries": "^0.2.1",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^10.0.0",
+    "gulp-prettier": "^6.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^6.0.1",
+    "gulp-uglify": "^3.0.2",
+    "postcss": "^8.5.3",
+    "postcss-combine-media-query": "^2.0.0",
+    "postcss-merge-rules": "^7.0.5",
+    "postcss-preset-env": "^10.1.6",
+    "postcss-reporter": "^7.1.0",
+    "postcss-scss": "^4.0.9",
+    "sass": "^1.87.0",
+    "stylelint": "^16.19.1",
+    "stylelint-config-recess-order": "^6.0.0",
+    "stylelint-config-standard": "^38.0.0",
+    "stylelint-config-standard-scss": "^14.0.0",
+    "stylelint-order": "^7.0.0",
+    "vinyl-fs": "^4.0.0"
+  },
+  "browserslist": [
+    "> 0.5%",
+    "last 3 versions",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all",
+    "iOS >= 12",
+    "Safari >= 14"
+  ]
+}

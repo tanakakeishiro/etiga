@@ -1,0 +1,64 @@
+---
+alwaysApply: true
+---
+
+このファイルが読み込まれたら必ず「global.md を読み込みました！」と作業着手前にユーザーに伝えてください。
+
+## チャットのルール
+
+- 常に日本語で返答してください。
+
+## ディレクトリ階層
+
+/components # HTML コンポーネント格納用
+/sass
+/global # 変数、三木信、関数
+/base # リセット CSS、基本スタイル
+/components # コンポーネント別 Sass ファイル
+/page # ページ固有のスタイル
+/style.scss # コンパイル用の Sass ファイル
+/css # sass/style.scss のコンパイル後のファイルを格納する用
+/js # JavaScript のファイル格納用
+/img # 画像格納用
+/index.html # LP 表示用のページ
+
+## コーディング依頼時のルール
+
+「コンポーネントを実装してください」と依頼を受けた時のルールです。
+
+1. HTML は /components/[コンポーネント名].html に作成。\_base.html を参考に head も含めて作成してください。
+2. SCSS は /sass/components/\_[コンポーネント名].scss に作成してください。コンポーネントの display は基本的には inline でお願いします。例）inline-block,inline-flex
+3. 共通変数とミキシンを活用してください。sass/components/\_base.scss を参考に global をインポートしてください。
+4. BEM 命名規則に従ってください。
+5. sass/components.scss でインポートしてください。
+
+### セクションの作成を依頼した時のルール
+
+「セクションを実装してください」と依頼を受けた時のルールです。
+
+1. HTML は index.html に作成してください。components で使い回しできるコンポーネントがあれば活用してください。
+2. SCSS は /sass/page/\_index.scss に作成してください。
+3. 共通変数とミキシンを活用してください。ページの先頭で global をインポートしてください。
+4. コンポーネントを活用する際は、ページの先頭で必要なコンポーネントだけインポートしてください。
+5. BEM 命名規則に従ってください。
+6. page の各ファイルは sass/style.scss でインポートしてください。
+
+## 変数使用ルール
+
+- 必須ルール: デザイン値（色・フォント・サイズ・行間・余白・幅・ブレークポイント等）をコードに直接記述してはならない。必ず`sass/global/_variables.scss`の変数・マップ・ミキシンを使用すること。**ただし、以下の場合は例外とする：**
+  - リセット CSS（`_reset.scss`）
+  - ユーティリティクラス（`.u-*`）
+  - 一時的なデバッグ用スタイル
+  - 変数化する意味がない一回限りの値（例：`border-radius: 50%`、`transform: rotate(45deg)`）
+- 例: `color: $color-base; font-family: $font-family-ja; font-size: $font-size-base; line-height: $line-height-base; width: $width-inner; @include mq(sp) { ... }`
+- 禁止例: `color: #111; font-family: "Noto Sans JP", sans-serif; font-size: 16px; line-height: 1.7; width: 1140px; @media (max-width: 768px) { ... }`
+- レビュー項目: デザイン値の直書きがないか/変数へ置換されているか/ブレークポイントは`$breakpoints`利用かを必ず確認すること。
+
+## メディアクエリのルール
+
+- 必須ルール: メディアクエリは必ず`@include mq(変数)`を使用すること
+- 禁止: `@media #{map-get($breakpoints, 変数)}`の直接記述は禁止
+- 理由: コードの可読性、保守性、一貫性の向上、エラーの防止
+- 例: `@include mq(sp) { ... }`、`@include mq(pc) { ... }`
+- 禁止例: `@media #{map-get($breakpoints, sp)} { ... }`、`@media (max-width: 767px) { ... }`
+- レビュー項目: メディアクエリは`@include mq()`を使用しているか/直接記述がないかを必ず確認すること。

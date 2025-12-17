@@ -1,0 +1,99 @@
+@use "sass:map";
+
+$main-color: #3ea1d1;
+$font-base: "Noto Serif JP", serif;
+$color-base: #333;
+$background-base: #fff;
+$font-size-base: 1em; // 16px = 1em
+$line-height-base: 1.7;
+$font-weight-base: 300;
+
+@function px-to-rem($pixels, $baseFontSize: 16) {
+  @return math.div($pixels, $baseFontSize) * 1rem;
+}
+
+$header-height-sp: 60px;
+$header-height-pc: 70px;
+$width-inner: 1280px;
+$color-text-gray: #888;
+$color-text-light-gray: #989898;
+$color-accent: #e7728e;
+$color-bg-footer: #f7f7f7;
+$color-overlay: rgb(0 0 0 / 12%);
+$breakpoints: (
+  sm: "screen and (min-width: 600px)",
+  pc: "screen and (min-width: 768px)",
+  lg: "screen and (min-width: 900px)",
+  xl: "screen and (min-width: 1200px)",
+);
+
+@mixin mq($breakpoint: pc) {
+  @media #{map.get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+// 重なり順の定義
+$layer: (
+  // ローディング
+  loading: 300,
+  // モーダル
+  modal: 100,
+  // ドロワー
+  drawer: 40,
+  // フローティング
+  floating: 30,
+  // ヘッダー
+  header: 20,
+  // フッター
+  footer: 10,
+  default: 1
+);
+
+body {
+  font-family: $font-base;
+  color: $color-base;
+  background-color: $background-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  font-weight: $font-weight-base;
+  padding-top: $header-height-sp;
+
+  @include mq(pc) {
+    padding-top: 0;
+  }
+}
+
+.inner {
+  padding-inline: 15px;
+
+  @include mq(pc) {
+    max-width: calc(1200px + 40px * 2);
+    margin-inline: auto;
+    padding-inline: 40px;
+  }
+}
+
+.xl-br {
+  display: none;
+
+  @include mq(xl) {
+    display: block;
+  }
+}
+
+.pc-br {
+  display: none;
+
+  @include mq(pc) {
+    display: block;
+  }
+}
+
+.sp-br {
+  display: block;
+
+  @include mq(pc) {
+    display: none;
+  }
+}
