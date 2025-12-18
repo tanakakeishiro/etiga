@@ -34,7 +34,7 @@ GitHub 上で **Use this template** をクリックし、案件用リポジト�
 ### 2. パッケージインストール
 
 ```bash
-npm install
+npm install gulp -D
 ```
 
 ---
