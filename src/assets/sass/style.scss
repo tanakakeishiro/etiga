@@ -948,7 +948,7 @@ body {
 
 .work__prev {
   left: -8px;
-  background: url("../img/icon_work01.png") no-repeat center center / contain;
+  background: url("../img/work-icon.webp") no-repeat center center / contain;
 
   @include mq(md) {
     left: 1px;
@@ -957,7 +957,7 @@ body {
 
 .work__next {
   right: 10px;
-  background: url("../img/icon_work02.png") no-repeat center center / contain;
+  background: url("../img/work-icon-2.webp") no-repeat center center / contain;
 
   @include mq(md) {
     right: 1px;

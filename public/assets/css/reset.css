@@ -1,0 +1,98 @@
+@charset "UTF-8";
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+dl,
+li,
+dt,
+dd,
+p,
+div,
+span,
+img,
+a,
+table,
+tr,
+th,
+td {
+  vertical-align: baseline;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-size: 100%;
+}
+
+header,
+footer,
+nav,
+section,
+article,
+main,
+aside,
+figure,
+figcaption {
+  display: block;
+}
+
+figure,
+figcaption {
+  margin: 0; /* ← 追加 */
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img {
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  margin: 0;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  vertical-align: top;
+  color: inherit;
+  font: inherit;
+}
+
+address {
+  font-style: normal;
+}
+
+blockquote {
+  margin: 0;
+  padding: 0;
+  quotes: none;
+}
