@@ -1,60 +1,958 @@
 <!doctype html>
 <html lang="ja">
-  <head　prefix="og: https://ogp.me/ns#">
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <!-- 検索にヒットさせない -->
     <meta name="robots" content="noindex" />
 
-    <!-- タイトル・ディスクリプション -->
-    <title>タイトルを入れる</title>
-    <meta
-      name="description"
-      content="ディスクリプションを入れる"
+    <title>e-tiga</title>
+
+    <meta name="description" content="ディスクリプションを入れる" />
+
+    <!-- ここからmetaタグの記述 -->
+    <meta property="og:url" content=" ページのURL" />
+    <meta property="og:type" content=" ページの種類" />
+    <meta property="og:title" content=" ページのタイトル" />
+    <meta property="og:description" content=" ページの説明文" />
+    <meta property="og:site_name" content="サイト名" />
+    <meta property="og:image" content=" サムネイル画像のURL" />
+    <!-- ここからTwitterカードの記述 -->
+    <meta name="twitter:card" content="Twitterカードの種類" />
+    <meta name="twitter:site" content="@Twitterユーザー名" />
+    <!-- ここからFacebookカードの記述 -->
+    <meta property="fb:app_id" content="FacebookアプリID" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      fetchpriority="high"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap"
     />
-
-    <!-- ファビコン -->
-    <link rel="icon" href="/favicon.ico" />
-
-
-  <!-- ここからmetaタグの記述 -->
-  <meta property="og:url" content=" ページのURL" />
-  <meta property="og:type" content=" ページの種類" />
-  <meta property="og:title" content=" ページのタイトル" />
-  <meta property="og:description" content=" ページの説明文" />
-  <meta property="og:site_name" content="サイト名" />
-  <meta property="og:image" content=" サムネイル画像のURL" />
-  <!-- ここからTwitterカードの記述 -->
-  <meta name="twitter:card" content="Twitterカードの種類" />
-  <meta name="twitter:site" content="@Twitterユーザー名" />
-  <!-- ここからFacebookカードの記述 -->
-  <meta property="fb:app_id" content="FacebookアプリID" />
-
-     <!-- Google Fonts -->
-     <link rel="preconnect" href="https://fonts.googleapis.com" />
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-     <link
-       rel="preload"
-       href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap"
-       as="style"
-       fetchpriority="high"
-     />
-     <link
-       rel="stylesheet"
-       href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap"
-       media="print"
-       onload="this.media='all'"
-     />
-
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    
     <!-- スタイルシート -->
     <link rel="stylesheet" href="./css/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./css/reset.min.css" />
     <link rel="stylesheet" href="./css/style.min.css" />
   </head>
   <body>
+    <header class="header">
+      <div class="header__inner inner">
+        <div class="header__content">
+          <h1 class="header__logo">
+            <a href="">
+              <img
+                src="./img/header-logo.png"
+                alt="e-tiga"
+                width="320"
+                height="64"
+              />
+            </a>
+          </h1>
+          <nav id="js-drawer-content" class="header__nav">
+            <div class="header__logo-white">
+              <a href="">
+                <img
+                  src="./img/sp/header-logo__white.png"
+                  alt="e-tiga"
+                  width="360"
+                  height="72"
+                />
+              </a>
+            </div>
+            <ul class="header__list">
+              <li class="header__item">
+                <a href="" class="header__link">e-tigaとは</a>
+              </li>
+              <li class="header__item">
+                <a href="" class="header__link">ご利用の流れ</a>
+              </li>
+              <li class="header__item">
+                <a href="" class="header__link">プラン</a>
+              </li>
+              <li class="header__item">
+                <a href="" class="header__link">運営会社</a>
+              </li>
+              <li class="header-item__button">
+                <a href="" class="button">無料で登録</a>
+              </li>
+            </ul>
+          </nav>
+          <button
+            id="js-drawer-button"
+            type="button"
+            class="header__open drawer-icon"
+          >
+            <span class="drawer-icon__bar"></span
+            ><span class="drawer-icon__bar"></span
+            ><span class="drawer-icon__bar"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="main-visual">
+      <div class="fv">
+        <div class="fv__inner inner">
+          <div class="fv__container">
+            <picture class="fv__image">
+              <source
+                media="(min-width: 768px)"
+                srcset="img/pc/first-view-2.png"
+              />
+              <img
+                src="./img/sp/first-view-1.png"
+                alt=""
+                width="796"
+                height="570"
+              />
+            </picture>
+            <div class="fv__content">
+              <div class="fv__logo">
+                <img
+                  src="./img/header-logo.png"
+                  alt="e-tiga"
+                  width="320"
+                  height="64"
+                />
+              </div>
+              <p class="fv__title">会社の「チーム力」を強化する</p>
+              <p class="fv__text">
+                誰でも簡単らくらくに、<br />
+                スケジュールや名刺をデジタル化。<br />
+                チームの管理をよりスピーディーに円滑にします。
+              </p>
+              <div class="fv__button">
+                <a href="" class="button">無料で登録</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="news main">
+        <div class="news__inner inner">
+          <h2 class="news__heading section__head">NEWS</h2>
+          <div class="news__container">
+            <article class="news__card">
+              <a href="" class="news-card">
+                <time datetime="2022-12-15" class="news-card__date"
+                  >2022年12月15日</time
+                >
+                <h3 class="news-card__title news-card__title-1">
+                  年末年始について
+                </h3>
+              </a>
+            </article>
+            <article class="news__card">
+              <a href="" class="news-card">
+                <time
+                  datetime="2022-12-10"
+                  class="news-card__date news-card__date-1"
+                  >2022年12月10日</time
+                >
+                <h3 class="news-card__title news-card__title-2">
+                  チームマーケティングプランでフル活用。マーケティング部長に聞いたe-toraの活用方法とは。チームマーケティングプランでフル活用。マーケティング部長に聞いたe-toraの活用方法とは。
+                </h3>
+              </a>
+            </article>
+            <article class="news__card">
+              <a href="" class="news-card news-card-1">
+                <time datetime="2022-09-01" class="news-card__date"
+                  >2022年9月1日</time
+                >
+                <h3 class="news-card__title">
+                  商談効率アップ！セミナーを開催します。
+                </h3>
+              </a>
+            </article>
+            <article class="news__card">
+              <a href="" class="news-card news-card-1">
+                <time datetime="2022-08-01" class="news-card__date"
+                  >2022年8月1日</time
+                >
+                <h3 class="news-card__title">営業時間の変更について</h3>
+              </a>
+            </article>
+            <article class="news__card">
+              <a href="" class="news-card news-card-1">
+                <time datetime="2022-06-01" class="news-card__date"
+                  >2022年6月1日</time
+                >
+                <h3 class="news-card__title">
+                  e-tiga出張無料体験会を実施致します。
+                </h3>
+              </a>
+            </article>
+          </div>
+          <div class="news__foot">
+            <ul class="news__Pagination">
+              <li class="Pagination-Item">
+                <a class="Pagination-Item__link" href="/pages/1/">
+                  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                    <path
+                      d="M24 13L17 18L24 23"
+                      stroke="#828282"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M18 13L11 18L18 23"
+                      stroke="#828282"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li class="Pagination-Item isActive">
+                <a href="/pages/1/"><span>1</span></a>
+              </li>
+              <li class="Pagination-Item">
+                <a href="/pages/2/"><span>2</span></a>
+              </li>
+              <li class="Pagination-Item">
+                <a href="/pages/3/"><span>3</span></a>
+              </li>
+              <li class="Pagination-Item">
+                <a href="/pages/4/"><span>4</span></a>
+              </li>
+              <li class="Pagination-Item">
+                <a href="/pages/5/"><span>5</span></a>
+              </li>
+              <li class="Pagination-Item">
+                <a class="Pagination-Item__link" href="/pages/5/">
+                  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                    <path
+                      d="M12 13L19 18L12 23"
+                      stroke="#828282"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M18 13L25 18L18 23"
+                      stroke="#828282"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+            <div class="news__button">
+              <a href="" class="buttons news__buttons">全てみる</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="concept main">
+        <div class="concept__inner inner">
+          <div class="concept__container">
+            <div class="concept__image">
+              <img
+                src="./img/concept-img.png"
+                alt=""
+                width="620"
+                height="600"
+              />
+            </div>
+            <div class="concept__content">
+              <p class="concept__title">
+                名刺作成から、<br />
+                スケジュール管理、<br />
+                経理までを簡単スピーディーに。
+              </p>
+              <p class="concept__text">
+                誰でも簡単らくらくに、スケジュールや名刺をデジタル化。チームの管理をよりスピーディーに円滑にします。誰でも簡単らくらくに、スケジュールや名刺をデジタル化。チームの管理をよりスピーディーに円滑にします。誰でも簡単らくらくに、
+              </p>
+              <div class="concept__button">
+                <a href="" class="button concept__buttons"
+                  >詳細・できることへ</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="work main">
+        <div class="work__inner inner">
+          <div class="work-heading heading">
+            <h2 class="work-heading__title heading__title">CASESTUDY</h2>
+            <p class="work-heading__subtitle heading__subtitle">お客様の声</p>
+          </div>
+          <div class="work__slider">
+            <div id="js-work-swiper" class="swiper work__swiper">
+              <div class="swiper-wrapper">
+                <article class="swiper-slide work__slide">
+                  <a href="" class="work__card work-card">
+                    <div class="work-card__image">
+                      <img
+                        src="./img/card-1-img.jpg"
+                        alt=""
+                        width="640"
+                        height="428"
+                      />
+                    </div>
+                    <div class="work-card__content">
+                      <p class="work-card__title">
+                        在宅でも団結したチームワークに。
+                      </p>
+                      <div class="work-card__box">
+                        <p class="work-card__text">〇〇株式会社</p>
+                        <p class="work-card__text">吉本様</p>
+                      </div>
+                      <div class="work-card__label">情報通信業</div>
+                    </div>
+                  </a>
+                </article>
+                <article class="swiper-slide work__slide">
+                  <a href="" class="work__card work-card">
+                    <div class="work-card__image">
+                      <img
+                        src="./img/card-2-img.jpg"
+                        alt=""
+                        width="640"
+                        height="428"
+                      />
+                    </div>
+                    <div class="work-card__content">
+                      <p class="work-card__title">
+                        1日2時間分の処理時間の削減に成功
+                      </p>
+                      <div class="work-card__box">
+                        <p class="work-card__text">〇〇株式会社</p>
+                        <p class="work-card__text">竹内様</p>
+                      </div>
+                      <div class="work-card__label">情報通信業</div>
+                    </div>
+                  </a>
+                </article>
+                <article class="swiper-slide work__slide">
+                  <a href="" class="work__card work-card">
+                    <div class="work-card__image">
+                      <img
+                        src="./img/card-3-img.jpg"
+                        alt=""
+                        width="640"
+                        height="428"
+                      />
+                    </div>
+                    <div class="work-card__content">
+                      <p class="work-card__title">導入から1年で残業0へ。</p>
+                      <div class="work-card__box">
+                        <p class="work-card__text">〇〇株式会社</p>
+                        <p class="work-card__text">三島様</p>
+                      </div>
+                      <div class="work-card__label">情報通信業</div>
+                    </div>
+                  </a>
+                </article>
+              </div>
+            </div>
+            <!-- If we need pagination -->
+            <div
+              id="js-work-pagination"
+              class="swiper-pagination work__pagination"
+            ></div>
+
+            <!-- If we need navigation buttons -->
+            <div id="js-work-prev" class="swiper-button-prev work__prev"></div>
+            <div id="js-work-next" class="swiper-button-next work__next"></div>
+          </div>
+          <div class="work__button">
+            <a href="" class="buttons">全てみる</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="service main">
+        <div class="service__inner inner">
+          <div class="service-heading heading">
+            <h2 class="service-heading__title heading__title">PRICE</h2>
+            <p class="service-heading__subtitle heading__subtitle">料金</p>
+          </div>
+          <div class="service__container">
+            <article class="service__box">
+              <div class="service-box is-box">
+                <h3 class="service-box__title">ライトプラン</h3>
+                <p class="service-box__price space">無料</p>
+                <table class="service-box__table">
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">人数</th>
+                    <td class="service-box__td">3人</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">電話サポート</th>
+                    <td class="service-box__td">なし</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">名刺作成</th>
+                    <td class="service-box__td">月2枚まで</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">サポート1</th>
+                    <td class="service-box__td">なし</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">サポート2</th>
+                    <td class="service-box__td">なし</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">サポート3</th>
+                    <td class="service-box__td">なし</td>
+                  </tr>
+                </table>
+                <div class="service-box__button">
+                  <a href="" class="button">お申し込み</a>
+                </div>
+              </div>
+            </article>
+            <article class="service__box">
+              <div class="service-box">
+                <h3 class="service-box__title is-title">スタンダードプラン</h3>
+                <p class="service-box__price is-price">
+                  <span class="is-required">月</span>980<span
+                    class="is-required"
+                    >円</span
+                  >
+                </p>
+                <table class="service-box__table is-table">
+                  <tr class="service-box__tr is-tr">
+                    <th class="service-box__th">人数</th>
+                    <td class="service-box__td">20人</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">電話サポート</th>
+                    <td class="service-box__td">なし</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">名刺作成</th>
+                    <td class="service-box__td">月15枚まで</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">サポート1</th>
+                    <td class="service-box__td">あり</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">サポート2</th>
+                    <td class="service-box__td">なし</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">サポート3</th>
+                    <td class="service-box__td">なし</td>
+                  </tr>
+                </table>
+                <div class="service-box__button">
+                  <a href="" class="button">お申し込み</a>
+                </div>
+              </div>
+            </article>
+            <article class="service__box">
+              <div class="service-box">
+                <h3 class="service-box__title is-title">プロプラン</h3>
+                <p class="service-box__price is-price-2">
+                  <span class="is-required">月</span>2,480<span
+                    class="is-required"
+                    >円</span
+                  >
+                </p>
+                <table class="service-box__table is-table-2">
+                  <tr class="service-box__tr is-tr-2">
+                    <th class="service-box__th">人数</th>
+                    <td class="service-box__td">無制限</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">電話サポート</th>
+                    <td class="service-box__td">無制限</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">名刺作成</th>
+                    <td class="service-box__td">無制限</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">サポート1</th>
+                    <td class="service-box__td">あり</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">サポート2</th>
+                    <td class="service-box__td">あり</td>
+                  </tr>
+                  <tr class="service-box__tr">
+                    <th class="service-box__th">サポート3</th>
+                    <td class="service-box__td">あり</td>
+                  </tr>
+                </table>
+                <div class="service-box__button">
+                  <a href="" class="button">お申し込み</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="company main">
+        <div class="company__inner inner">
+          <div class="company-heading heading">
+            <h2 class="company-heading__title heading__title">COMPANY</h2>
+            <p class="company-heading__subtitle heading__subtitle">会社概要</p>
+          </div>
+          <div class="company__tab company-tab">
+            <ul class="company-tab__list">
+              <li class="company-tab__menu js-tab current">会社概要</li>
+              <li class="company-tab__menu is-tab__menu js-tab">沿革</li>
+              <li class="company-tab__menu js-tab">認証所得</li>
+            </ul>
+          </div>
+          <div class="company__group">
+            <div class="company-group__content js-content">
+              <div class="company-group__description">会社概要</div>
+              <p class="company-group__text">ここに会社概要が入ります。</p>
+              <table class="company-group__table">
+                <tbody class="company-group__tbody">
+                  <tr class="company-group__tr div1">
+                    <th class="company-group__th">会社名</th>
+                    <td class="company-group__td">株式会社e-tiga</td>
+                  </tr>
+                  <tr class="company-group__tr div2">
+                    <th class="company-group__th">資本金</th>
+                    <td class="company-group__td">1000万円</td>
+                  </tr>
+                  <tr class="company-group__tr div3">
+                    <th class="company-group__th is-group__th">本社所在地</th>
+                    <td class="company-group__td is-group__td">
+                      東京都〇〇区〇〇　 〇〇ビル4階
+                    </td>
+                  </tr>
+                  <tr class="company-group__tr div4">
+                    <th class="company-group__th">創業</th>
+                    <td class="company-group__td">2018年7月10日</td>
+                  </tr>
+                  <tr class="company-group__tr div5">
+                    <th class="company-group__th">代表社員</th>
+                    <td class="company-group__td">田中　太郎</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="company-group__content js-content">
+              <ul class="company-group__timeline">
+                <li class="company-timeline__date">2021年4月</li>
+                <p class="company-timeline__text">株式会社e-tiga設立</p>
+                <li class="company-timeline__date">2021年12月</li>
+                <p class="company-timeline__text">e-tigaリリース</p>
+                <li class="company-timeline__date">2022年3月</li>
+                <p class="company-timeline__text">導入企業1,000社突破</p>
+                <li class="company-timeline__date">2022年10月</li>
+                <p class="company-timeline__text">導入企業2,000社を突破</p>
+                <li class="company-timeline__date">2023年9月</li>
+                <p class="company-timeline__text">事務所を渋谷に移転</p>
+              </ul>
+            </div>
+            <div class="company-group__content js-content">
+              <div class="company-group__information">
+                <p class="company-group__info">〇〇◎1111認証取得</p>
+                <p class="company-info__text">
+                  国際規格である〇〇
+                  認証取得しております。セキュリティ管理システムを開発・運用しており、大切な情報をお守りします。国際規格である〇〇
+                  認証取得しております。セキュリティ管理システムを開発・運用しており、大切な情報をお守りします。国際規格である〇〇
+                  認証取得しております。セキュリティ管理システムを開発・運用しており、大切な情報をお守りします。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="cta main">
+        <div class="cta__inner inner">
+          <p class="cta__title">まずは無料お試し</p>
+          <p class="cta__text">ライトプランなら無料でお使いいただけます。</p>
+          <div class="cta__button">
+            <a href="" class="button cta__buttons">お申し込み</a>
+          </div>
+        </div>
+      </aside>
+
+      <section class="blog main">
+        <div class="blog__inner inner">
+          <div class="blog-heading heading">
+            <h2 class="blog-heading__title heading__title">BLOG</h2>
+            <p class="blog-heading__subtitle heading__subtitle">ブログ</p>
+          </div>
+          <div class="blog__container">
+            <article class="blog__card">
+              <a href="" class="blog-card">
+                <div class="blog-card__post">
+                  <div class="blog-card__image">
+                    <img
+                      src="./img/blog__img-1.jpg"
+                      alt=""
+                      width="660"
+                      height="440"
+                    />
+                    <div class="blog-card__label">ラベル</div>
+                  </div>
+                  <p class="blog-card__title">タイトルタイトル</p>
+                  <p class="blog-card__text">
+                    テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                  </p>
+                </div>
+              </a>
+            </article>
+            <article class="blog__card">
+              <a href="" class="blog-card">
+                <div class="blog-card__post">
+                  <div class="blog-card__image">
+                    <img
+                      src="./img/blog__img-2.jpg"
+                      alt=""
+                      width="660"
+                      height="440"
+                    />
+                    <div class="blog-card__label">ラベル</div>
+                  </div>
+                  <p class="blog-card__title">タイトルタイトル</p>
+                  <p class="blog-card__text">
+                    テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                  </p>
+                </div>
+              </a>
+            </article>
+            <article class="blog__card">
+              <a href="" class="blog-card">
+                <div class="blog-card__post">
+                  <div class="blog-card__image">
+                    <img
+                      src="./img/blog__img-3.jpg"
+                      alt=""
+                      width="660"
+                      height="440"
+                    />
+                    <div class="blog-card__label">ラベル</div>
+                  </div>
+                  <p class="blog-card__title">タイトルタイトル</p>
+                  <p class="blog-card__text">
+                    テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                  </p>
+                </div>
+              </a>
+            </article>
+            <article class="blog__card">
+              <a href="" class="blog-card">
+                <div class="blog-card__post">
+                  <div class="blog-card__image">
+                    <img
+                      src="./img/blog__img-4.jpg"
+                      alt=""
+                      width="660"
+                      height="440"
+                    />
+                    <div class="blog-card__label">ラベル</div>
+                  </div>
+                  <p class="blog-card__title">タイトルタイトル</p>
+                  <p class="blog-card__text">
+                    テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                  </p>
+                </div>
+              </a>
+            </article>
+            <article class="blog__card">
+              <a href="" class="blog-card">
+                <div class="blog-card__post">
+                  <div class="blog-card__image">
+                    <img
+                      src="./img/blog__img-5.jpg"
+                      alt=""
+                      width="660"
+                      height="440"
+                    />
+                    <div class="blog-card__label">ラベル</div>
+                  </div>
+                  <p class="blog-card__title">タイトルタイトル</p>
+                  <p class="blog-card__text">
+                    テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                  </p>
+                </div>
+              </a>
+            </article>
+            <article class="blog__card">
+              <a href="" class="blog-card">
+                <div class="blog-card__post">
+                  <div class="blog-card__image">
+                    <img
+                      src="./img/blog__img-6.jpg"
+                      alt=""
+                      width="660"
+                      height="440"
+                    />
+                    <div class="blog-card__label">ラベル</div>
+                  </div>
+                  <p class="blog-card__title">タイトルタイトル</p>
+                  <p class="blog-card__text">
+                    テキストテキストテキストテキストテキストテキストテキストテキストテキスト
+                  </p>
+                </div>
+              </a>
+            </article>
+          </div>
+          <div class="blog__button">
+            <a href="" class="button">ブログ一覧へ</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="event main">
+        <div class="event__inner inner">
+          <div class="event-heading heading">
+            <h2 class="event-heading__title heading__title">SEMINAR</h2>
+            <p class="event-heading__subtitle heading__subtitle">セミナー</p>
+          </div>
+          <div class="event__container">
+            <article class="event__card">
+              <div class="event-card">
+                <div class="event-card__post">
+                  <div class="event-card__image">
+                    <img
+                      src="./img/seminar-img.jpg"
+                      alt=""
+                      width="648"
+                      height="480"
+                    />
+                  </div>
+                  <div class="event-card__content">
+                    <div class="event-card__head">
+                      <div class="event-card__label">開催日</div>
+                      <time datetime="2024-02-08" class="event-card__date"
+                        >2024.02.08</time
+                      >
+                    </div>
+                    <p class="event-card__title">
+                      マーケティングセミナーを開催します。
+                    </p>
+                    <p class="event-card__text">
+                      ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。
+                    </p>
+                    <div class="event-card__button">
+                      <a href="" class="buttons event-card__buttons"
+                        >詳細を見る</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="event__card">
+              <div class="event-card">
+                <div class="event-card__post">
+                  <div class="event-card__image">
+                    <img
+                      src="./img/seminar-img.jpg"
+                      alt=""
+                      width="648"
+                      height="480"
+                    />
+                  </div>
+                  <div class="event-card__content">
+                    <div class="event-card__head">
+                      <div class="event-card__label">開催日</div>
+                      <time datetime="2024-02-08" class="event-card__date"
+                        >2024.02.08</time
+                      >
+                    </div>
+                    <p class="event-card__title">
+                      マーケティングセミナーを開催します。
+                    </p>
+                    <p class="event-card__text">
+                      ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。
+                    </p>
+                    <div class="event-card__button">
+                      <a href="" class="buttons event-card__buttons"
+                        >詳細を見る</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="event__card">
+              <div class="event-card">
+                <div class="event-card__post">
+                  <div class="event-card__image">
+                    <img
+                      src="./img/seminar-img.jpg"
+                      alt=""
+                      width="648"
+                      height="480"
+                    />
+                  </div>
+                  <div class="event-card__content">
+                    <div class="event-card__head">
+                      <div class="event-card__label">開催日</div>
+                      <time datetime="2024-02-08" class="event-card__date"
+                        >2024.02.08</time
+                      >
+                    </div>
+                    <p class="event-card__title">
+                      マーケティングセミナーを開催します。
+                    </p>
+                    <p class="event-card__text">
+                      ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。ここに抜粋が入ります。
+                    </p>
+                    <div class="event-card__button">
+                      <a href="" class="buttons event-card__buttons"
+                        >詳細を見る</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+          <div class="event__button">
+            <a href="" class="button">セミナー一覧へ</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq main">
+        <div class="faq__inner inner">
+          <h2 class="faq__heading section__head">Q&A</h2>
+          <div class="faq__container">
+            <dl class="faq__box faq-box">
+              <dt class="faq-box__head js-accordion">
+                <span class="faq-box__head-icon">Q</span>
+                <span class="faq-box__head-text open"
+                  >ここにテキストが入ります。</span
+                >
+              </dt>
+              <dd class="faq-box__body" style="display: block">
+                <span class="faq-box__body-text"
+                  >ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</span
+                >
+              </dd>
+            </dl>
+            <dl class="faq__box faq-box">
+              <dt class="faq-box__head js-accordion">
+                <span class="faq-box__head-icon">Q</span>
+                <span class="faq-box__head-text faq-text-1"
+                  >ここにテキストが入ります。</span
+                >
+              </dt>
+              <dd class="faq-box__body">
+                <span class="faq-box__body-text"
+                  >ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</span
+                >
+              </dd>
+            </dl>
+            <dl class="faq__box faq-box">
+              <dt class="faq-box__head js-accordion">
+                <span class="faq-box__head-icon is-type-2">Q</span>
+                <span class="faq-box__head-text is-head-text-2"
+                  >ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここ<br />にテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</span
+                >
+              </dt>
+              <dd class="faq-box__body">
+                <span class="faq-box__body-text"
+                  >ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</span
+                >
+              </dd>
+            </dl>
+            <dl class="faq__box faq-box">
+              <dt class="faq-box__head js-accordion">
+                <span class="faq-box__head-icon">Q</span>
+                <span class="faq-box__head-text"
+                  >ここにテキストが入ります。</span
+                >
+              </dt>
+              <dd class="faq-box__body">
+                <span class="faq-box__body-text"
+                  >ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</span
+                >
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer__inner inner">
+          <div class="footer__container">
+            <div class="footer__content">
+              <div class="footer__logo">
+                <a href=""
+                  ><img src="./img/logo.png" alt="" width="320" height="64"
+                /></a>
+              </div>
+              <address class="footer__address">
+                <p class="footer__text">
+                  住所：<span class="footer__text-2"
+                    >東京都〇〇区〇〇　〇〇ビル4階</span
+                  >
+                </p>
+                <p class="footer__text">TEL：0000-00-0000</p>
+                <p class="footer__text">FAX：0000-00-0000</p>
+              </address>
+            </div>
+            <ul class="footer__list">
+              <li class="footer__item">
+                <a href="">
+                  <p class="footer__text">お問い合わせ</p>
+                </a>
+              </li>
+              <li class="footer__item">
+                <a href="">
+                  <p class="footer__text is-line">プライバシーポリシー</p>
+                </a>
+              </li>
+              <li class="footer__item">
+                <a href="">
+                  <p class="footer__text">特定商取引法</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="footer-sns-list">
+              <li class="footer-sns-item">
+                <a href="" class="footer-sns-link"
+                  ><img src="./img/twitter.svg" alt="" width="30" height="30"
+                /></a>
+              </li>
+              <li class="footer-sns-item">
+                <a href="" class="footer-sns-link"
+                  ><img src="./img/facebook.svg" alt="" width="30" height="30"
+                /></a>
+              </li>
+              <li class="footer-sns-item">
+                <a href="" class="footer-sns-link"
+                  ><img src="./img/instagram.svg" alt="" width="30" height="30"
+                /></a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer__wrapper">
+            <small class="footer__copyright"
+              >Copyright © 2023 デイトラ All rights reserved.</small
+            >
+          </div>
+        </div>
+      </footer>
+    </main>
     <script src="./js/swiper-bundle.min.js" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      defer
+    ></script>
+    <script src="./js/paginathing.min.js" defer></script>
     <script src="./js/script.min.js" defer></script>
   </body>
 </html>
