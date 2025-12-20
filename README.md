@@ -36,8 +36,7 @@ GitHub 上で **Use this template** をクリックし、案件用リポジト�
 ```bash
 npm install gulp -D
 ```
-
----
+package-lock.jsonとpackage.jsonが生成される。
 
 ### 3. 開発開始
 
