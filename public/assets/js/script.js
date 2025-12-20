@@ -27,17 +27,84 @@
   switchViewport();
 })();
 
-jQuery("#js-drawer-button").on("click", function (e) {
+// =============================
+// ハンバーガーメニュー
+// =============================
+const backgroundFix = (bool) => {
+  const scrollingElement = () =>
+    "scrollingElement" in document
+      ? document.scrollingElement
+      : document.documentElement;
+
+  const scrollY = bool
+    ? scrollingElement().scrollTop
+    : parseInt(document.body.style.top || "0");
+
+  if (bool) {
+    Object.assign(document.body.style, {
+      height: "100vh",
+      position: "fixed",
+      top: `${scrollY * -1}px`,
+      left: "0",
+      width: "100vw",
+    });
+  } else {
+    Object.assign(document.body.style, {
+      height: "",
+      position: "",
+      top: "",
+      left: "",
+      width: "",
+    });
+    window.scrollTo(0, scrollY * -1);
+  }
+};
+
+const CLASS = "is-checked";
+let flg = false;
+const $hamburger = jQuery("#js-drawer-button");
+const $menu = jQuery("#js-drawer-content");
+const $focusTrap = jQuery("#js-focus-trap");
+const $firstLink = jQuery(".header__link").first();
+
+const closeMenu = () => {
+  $hamburger
+    .removeClass(CLASS)
+    .attr({
+      "aria-expanded": "false",
+      "aria-haspopup": "menu",
+    })
+    .focus();
+  $menu.removeClass(CLASS);
+  backgroundFix(false);
+  flg = false;
+};
+
+const openMenu = () => {
+  $hamburger
+    .addClass(CLASS)
+    .attr("aria-expanded", "true")
+    .removeAttr("aria-haspopup");
+  $menu.addClass(CLASS);
+  backgroundFix(true);
+  flg = true;
+  setTimeout(() => $firstLink.length && $firstLink.focus(), 100);
+};
+
+$hamburger.on("click", function (e) {
   e.preventDefault();
-  jQuery("#js-drawer-button").toggleClass("is-checked");
-  jQuery("#js-drawer-content").toggleClass("is-checked");
+  flg ? closeMenu() : openMenu();
 });
 
-// sp表示のときにドロワーメニューが開いている状態でリンクをクリックしたときに、ドロワーメニューを閉じるようにするためのコードです。
-jQuery('#js-drawer-content a[href^="#"]').on("click", function (e) {
-  jQuery("#js-drawer-icon").removeClass("is-checked");
-  jQuery("#js-drawer-content").removeClass("is-checked");
+jQuery(window).on("keydown", (e) => {
+  if (e.key === "Escape" && flg) closeMenu();
 });
+
+$focusTrap.on("focus", () => {
+  $hamburger.focus();
+});
+
+jQuery('#js-drawer-content a[href^="#"]').on("click", closeMenu);
 
 $("#js-drawer-button").click(function () {
   $(".drawer-icon__bar").toggleClass("drawer-icon__color");

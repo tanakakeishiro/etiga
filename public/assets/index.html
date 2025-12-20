@@ -58,8 +58,27 @@
               />
             </a>
           </h1>
-          <nav id="js-drawer-content" class="header__nav">
-            <div class="header__logo-white">
+
+          <button
+            id="js-drawer-button"
+            type="button"
+            class="header__open drawer-icon"
+            aria-controls="js-drawer-content"
+            aria-expanded="false"
+            aria-haspopup="menu"
+            aria-label="メニューを開閉"
+          >
+            <span class="drawer-icon__bar"></span
+            ><span class="drawer-icon__bar"></span
+            ><span class="drawer-icon__bar"></span>
+          </button>
+
+          <nav
+            id="js-drawer-content"
+            class="header__nav"
+            aria-label="グローバルナビゲーション"
+          >
+            <div class="header__logo-secondary">
               <a href="">
                 <img
                   src="./img/header-logo__white.webp"
@@ -69,37 +88,30 @@
                 />
               </a>
             </div>
-            <ul class="header__list">
-              <li class="header__item">
-                <a href="" class="header__link">e-tigaとは</a>
+
+            <ul class="header__list header-list">
+              <li class="header-list__item">
+                <a href="" class="header-list__link">e-tigaとは</a>
               </li>
-              <li class="header__item">
-                <a href="" class="header__link">ご利用の流れ</a>
+              <li class="header-list__item">
+                <a href="" class="header-list__link">ご利用の流れ</a>
               </li>
-              <li class="header__item">
-                <a href="" class="header__link">プラン</a>
+              <li class="header-list__item">
+                <a href="" class="header-list__link">プラン</a>
               </li>
-              <li class="header__item">
-                <a href="" class="header__link">運営会社</a>
+              <li class="header-list__item">
+                <a href="" class="header-list__link">運営会社</a>
               </li>
-              <li class="header-item__button">
+              <li class="header-list__button">
                 <a href="" class="button">無料で登録</a>
               </li>
             </ul>
+            <div id="js-focus-trap" tabindex="0"></div>
           </nav>
-          <button
-            id="js-drawer-button"
-            type="button"
-            class="header__open drawer-icon"
-          >
-            <span class="drawer-icon__bar"></span
-            ><span class="drawer-icon__bar"></span
-            ><span class="drawer-icon__bar"></span>
-          </button>
         </div>
       </div>
     </header>
-    <main class="main-visual">
+    <main class="main">
       <div class="fv">
         <div class="fv__inner inner">
           <div class="fv__container">
@@ -116,14 +128,14 @@
               />
             </picture>
             <div class="fv__content">
-              <div class="fv__logo">
+              <figure class="fv__logo">
                 <img
                   src="./img/header-logo.webp"
                   alt="e-tiga"
                   width="320"
                   height="64"
                 />
-              </div>
+              </figure>
               <p class="fv__title">会社の「チーム力」を強化する</p>
               <p class="fv__text">
                 誰でも簡単らくらくに、<br />
@@ -138,133 +150,113 @@
         </div>
       </div>
 
-      <section class="news main">
+      <section class="news section-spacing">
         <div class="news__inner inner">
           <h2 class="news__heading section__head">NEWS</h2>
-          <div class="news__container">
-            <article class="news__card">
-              <a href="" class="news-card">
-                <time datetime="2022-12-15" class="news-card__date"
-                  >2022年12月15日</time
-                >
-                <h3 class="news-card__title news-card__title-1">
-                  年末年始について
+          <ul class="news__list">
+            <li class="news__item">
+              <a href="" class="news__link">
+                <time class="news__date" datetime="2022-12-15">
+                  2022年12月15日
+                </time>
+                <h3 class="news__title">年末年始について</h3>
+              </a>
+            </li>
+            <li class="news__item">
+              <a href="" class="news__link">
+                <time class="news__date" datetime="2022-12-10">
+                  2022年12月10日
+                </time>
+                <h3 class="news__title">
+                  チームマーケティングプランでフル活用。マーケティング部長に聞いた
+                  e-toraの活用方法とは。チームマーケティングプランでフル活用。
+                  マーケティング部長に聞いたe-toraの活用方法とは。
                 </h3>
               </a>
-            </article>
-            <article class="news__card">
-              <a href="" class="news-card">
-                <time
-                  datetime="2022-12-10"
-                  class="news-card__date news-card__date-1"
-                  >2022年12月10日</time
-                >
-                <h3 class="news-card__title news-card__title-2">
-                  チームマーケティングプランでフル活用。マーケティング部長に聞いたe-toraの活用方法とは。チームマーケティングプランでフル活用。マーケティング部長に聞いたe-toraの活用方法とは。
-                </h3>
-              </a>
-            </article>
-            <article class="news__card">
-              <a href="" class="news-card news-card-1">
-                <time datetime="2022-09-01" class="news-card__date"
-                  >2022年9月1日</time
-                >
-                <h3 class="news-card__title">
+            </li>
+            <li class="news__item">
+              <a href="" class="news__link">
+                <time class="news__date" datetime="2022-09-01">
+                  2022年9月1日
+                </time>
+                <h3 class="news__title">
                   商談効率アップ！セミナーを開催します。
                 </h3>
               </a>
-            </article>
-            <article class="news__card">
-              <a href="" class="news-card news-card-1">
-                <time datetime="2022-08-01" class="news-card__date"
-                  >2022年8月1日</time
-                >
-                <h3 class="news-card__title">営業時間の変更について</h3>
+            </li>
+            <li class="news__item">
+              <a href="" class="news__link">
+                <time class="news__date" datetime="2022-08-01">
+                  2022年8月1日
+                </time>
+                <h3 class="news__title">営業時間の変更について</h3>
               </a>
-            </article>
-            <article class="news__card">
-              <a href="" class="news-card news-card-1">
-                <time datetime="2022-06-01" class="news-card__date"
-                  >2022年6月1日</time
-                >
-                <h3 class="news-card__title">
+            </li>
+            <li class="news__item">
+              <a href="" class="news__link">
+                <time class="news__date" datetime="2022-06-01">
+                  2022年6月1日
+                </time>
+                <h3 class="news__title">
                   e-tiga出張無料体験会を実施致します。
                 </h3>
               </a>
-            </article>
-          </div>
+            </li>
+          </ul>
           <div class="news__foot">
-            <ul class="news__Pagination">
-              <li class="Pagination-Item">
-                <a class="Pagination-Item__link" href="/pages/1/">
-                  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                    <path
-                      d="M24 13L17 18L24 23"
-                      stroke="#828282"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M18 13L11 18L18 23"
-                      stroke="#828282"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                  </svg>
+            <ul class="news__pagination pagination">
+              <li class="pagination__item">
+                <a class="pagination__link" href="/pages/1/">
+                  <!-- prev icon -->
                 </a>
               </li>
-              <li class="Pagination-Item isActive">
-                <a href="/pages/1/"><span>1</span></a>
+              <li class="pagination__item pagination__item--active">
+                <span class="pagination__number">1</span>
               </li>
-              <li class="Pagination-Item">
-                <a href="/pages/2/"><span>2</span></a>
+              <li class="pagination__item">
+                <a class="pagination__link" href="/pages/2/">
+                  <span class="pagination__number">2</span>
+                </a>
               </li>
-              <li class="Pagination-Item">
-                <a href="/pages/3/"><span>3</span></a>
+              <li class="pagination__item">
+                <a class="pagination__link" href="/pages/3/">
+                  <span class="pagination__number">3</span>
+                </a>
               </li>
-              <li class="Pagination-Item">
-                <a href="/pages/4/"><span>4</span></a>
+              <li class="pagination__item">
+                <a class="pagination__link" href="/pages/4/">
+                  <span class="pagination__number">4</span>
+                </a>
               </li>
-              <li class="Pagination-Item">
-                <a href="/pages/5/"><span>5</span></a>
+              <li class="pagination__item">
+                <a class="pagination__link" href="/pages/5/">
+                  <span class="pagination__number">5</span>
+                </a>
               </li>
-              <li class="Pagination-Item">
-                <a class="Pagination-Item__link" href="/pages/5/">
-                  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                    <path
-                      d="M12 13L19 18L12 23"
-                      stroke="#828282"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M18 13L25 18L18 23"
-                      stroke="#828282"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                  </svg>
+              <li class="pagination__item">
+                <a class="pagination__link" href="/pages/5/">
+                  <!-- next icon -->
                 </a>
               </li>
             </ul>
             <div class="news__button">
-              <a href="" class="buttons news__buttons">全てみる</a>
+              <a href="" class="buttons news__button-link">全てみる</a>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="concept main">
+      <section class="concept section-spacing">
         <div class="concept__inner inner">
           <div class="concept__container">
-            <div class="concept__image">
+            <figure class="concept__image">
               <img
                 src="./img/concept-img.webp"
                 alt=""
                 width="620"
                 height="600"
               />
-            </div>
+            </figure>
             <div class="concept__content">
               <p class="concept__title">
                 名刺作成から、<br />
@@ -275,16 +267,14 @@
                 誰でも簡単らくらくに、スケジュールや名刺をデジタル化。チームの管理をよりスピーディーに円滑にします。誰でも簡単らくらくに、スケジュールや名刺をデジタル化。チームの管理をよりスピーディーに円滑にします。誰でも簡単らくらくに、
               </p>
               <div class="concept__button">
-                <a href="" class="button concept__buttons"
-                  >詳細・できることへ</a
-                >
+                <a href="" class="button">詳細・できることへ</a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="work main">
+      <section class="work section-spacing">
         <div class="work__inner inner">
           <div class="work-heading heading">
             <h2 class="work-heading__title heading__title">CASESTUDY</h2>
@@ -375,7 +365,7 @@
         </div>
       </section>
 
-      <section class="service main">
+      <section class="service section-spacing">
         <div class="service__inner inner">
           <div class="service-heading heading">
             <h2 class="service-heading__title heading__title">PRICE</h2>
@@ -501,7 +491,7 @@
         </div>
       </section>
 
-      <section class="company main">
+      <section class="company section-spacing">
         <div class="company__inner inner">
           <div class="company-heading heading">
             <h2 class="company-heading__title heading__title">COMPANY</h2>
@@ -574,7 +564,7 @@
         </div>
       </section>
 
-      <aside class="cta main">
+      <aside class="cta section-spacing">
         <div class="cta__inner inner">
           <p class="cta__title">まずは無料お試し</p>
           <p class="cta__text">ライトプランなら無料でお使いいただけます。</p>
@@ -584,7 +574,7 @@
         </div>
       </aside>
 
-      <section class="blog main">
+      <section class="blog section-spacing">
         <div class="blog__inner inner">
           <div class="blog-heading heading">
             <h2 class="blog-heading__title heading__title">BLOG</h2>
@@ -712,7 +702,7 @@
         </div>
       </section>
 
-      <section class="event main">
+      <section class="event section-spacing">
         <div class="event__inner inner">
           <div class="event-heading heading">
             <h2 class="event-heading__title heading__title">SEMINAR</h2>
@@ -825,7 +815,7 @@
         </div>
       </section>
 
-      <section class="faq main">
+      <section class="faq section-spacing">
         <div class="faq__inner inner">
           <h2 class="faq__heading section__head">Q&A</h2>
           <div class="faq__container">
