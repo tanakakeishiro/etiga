@@ -39,6 +39,10 @@ $layer: (
   default: 1
 );
 
+@function layer($key) {
+  @return map.get($layer, $key);
+}
+
 body {
   font-family: $font-family-base;
   color: $color-base;
@@ -190,7 +194,7 @@ body {
   height: 20px;
   margin-top: -2px;
   position: relative;
-  z-index: 20;
+  z-index: layer(header);
 
   &.is-checked {
     .drawer-icon__bar {
@@ -778,10 +782,10 @@ body {
   }
 }
 
-// .work-heading__title {
+// .work__heading-title {
 // }
 
-// .work-heading__subtitle {
+// .work__heading-subtitle {
 // }
 
 .work__slider {
@@ -944,7 +948,7 @@ body {
   }
 }
 
-.service-heading {
+.service__heading {
   margin-bottom: 46px;
 
   @include mq(md) {
@@ -956,11 +960,11 @@ body {
   }
 }
 
-.service-heading__title {
-}
+// .service__heading-title {
+// }
 
-.service-heading__subtitle {
-}
+// .service__heading-subtitle {
+// }
 
 .service__container {
   display: flex;
@@ -997,8 +1001,8 @@ body {
   text-align: center;
 }
 
-.is-box {
-}
+// .is-box {
+// }
 
 .service-box__title {
   color: #2392db;
@@ -1007,8 +1011,8 @@ body {
   padding-top: 28px;
 }
 
-.is-title {
-}
+// .is-title {
+// }
 
 .service-box__price {
   margin-top: 7px;
@@ -1078,19 +1082,19 @@ body {
   }
 }
 
-.is-tr {
-}
+// .is-tr {
+// }
 
 .is-tr-2 {
   padding-top: 5px;
   padding-bottom: 6px;
 }
 
-.service-box__th {
-}
+// .service-box__th {
+// }
 
-.service-box__td {
-}
+// .service-box__td {
+// }
 
 .service-box__button {
   margin-top: 27px;
@@ -1100,8 +1104,8 @@ body {
      company
     ------------------------- */
 
-.company {
-}
+// .company {
+// }
 
 .company__inner {
   @include mq(md) {
@@ -1113,7 +1117,7 @@ body {
   }
 }
 
-.company-heading {
+.company__heading {
   padding-left: 15px;
 
   @include mq(md) {
@@ -1125,16 +1129,16 @@ body {
   }
 }
 
-.company-heading__title {
-}
+// .company__heading-title {
+// }
 
-.company-heading__subtitle {
-}
+// .company__heading-subtitle {
+// }
 
 .company__tab {
   display: flex;
   position: relative;
-  z-index: 100;
+  z-index: layer(modal);
   top: 46px;
   box-shadow: 5px 7px 34px 0 #f1f1f1;
   max-width: 366px;
@@ -1146,7 +1150,7 @@ body {
   }
 }
 
-.company-tab__list {
+.company-tab {
   display: flex;
 }
 
@@ -1219,7 +1223,7 @@ body {
   background: #fff;
   margin-top: 22px;
   position: relative;
-  z-index: 30;
+  z-index: layer(floating);
   margin-inline: auto;
 
   @include mq(md) {
@@ -1230,10 +1234,10 @@ body {
 }
 
 .company-group__content {
-  display: none;
+  // display: none;
 }
 
-.company-group__description {
+.company-group__heading {
   font-size: 22px;
   font-weight: 700;
   margin-top: 57px;
@@ -1253,90 +1257,118 @@ body {
   }
 }
 
-.company-group__table {
+.company-group__dl {
   margin-top: 20px;
   margin-bottom: 47px;
-  margin-inline: auto;
-  border-collapse: collapse;
+
+  // margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+
+  // justify-content: center;
+  align-items: center;
 
   @include mq(md) {
     margin-top: 39px;
     margin-bottom: 93px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 0;
+    max-width: 800px;
+    margin-inline: auto;
   }
 }
 
-.company-group__tbody {
+.company-group__row {
+  display: flex;
+
+  // justify-content: center;
+  // max-width: 320px;
+  // margin-inline: auto;
+
   @include mq(md) {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    // display: flex;
+    // flex-wrap: wrap;
+    // justify-content: center;
   }
 }
 
-.company-group__tr {
-}
+// .company-group__tr {
+// }
 
 .div1 {
-  order: 1;
+  @include mq(md) {
+    order: 1;
+  }
 }
 
 .div2 {
-  order: 3;
+  @include mq(md) {
+    order: 3;
+  }
 }
 
 .div3 {
-  order: 5;
+  @include mq(md) {
+    order: 5;
+  }
 }
 
 .div4 {
-  order: 2;
+  @include mq(md) {
+    order: 2;
+  }
 }
 
 .div5 {
-  order: 4;
+  @include mq(md) {
+    order: 4;
+  }
 }
 
-.company-group__th {
+.company-group__term {
   border: 1px solid #dbdbdb;
   background: #f2f2f2;
   font-weight: 700;
-  text-align: center;
-  width: min(160px, 40vw);
-  height: 54px;
-  vertical-align: middle;
+  width: 160px;
+  display: grid;
+  place-items: center;
+  padding-block: 14px;
 
   @include mq(md) {
-    width: min(200px, 18vw);
+    width: 200px;
   }
 }
 
-.is-group__th {
-  height: 80px;
+// .is-group__th {
+//   height: 80px;
 
-  @include mq(md) {
-    height: 54px;
-  }
-}
+//   @include mq(md) {
+//     height: 54px;
+//   }
+// }
 
-.company-group__td {
+.company-group__description {
   border: 1px solid #dbdbdb;
   background: #fff;
-  width: min(160px, 40vw);
+  width: 42.7vw;
   padding-left: 10px;
-  height: 54px;
-  vertical-align: middle;
+
+  // height: 54px;
+  display: flex;
+  align-items: center;
 
   @include mq(md) {
-    width: min(200px, 18vw);
+    width: 200px;
     padding-left: 24px;
   }
 }
 
-.is-group__td {
+// 3番目の行（本社所在地）のdd要素だけ幅を変更
+.company-group__row:nth-child(3) .company-group__description {
   @include mq(md) {
-    width: min(601px, 54vw);
-    height: 54px;
-    padding-left: 19px;
+    width: min(600px, 54vw);
   }
 }
 

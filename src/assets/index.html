@@ -233,7 +233,11 @@
           <div class="news__foot">
             <ul class="news__pagination pagination">
               <li class="pagination__item">
-                <a class="pagination__link" href="/pages/1/">
+                <a
+                  class="pagination__link"
+                  href="/pages/1/"
+                  aria-label="前のページへ"
+                >
                   <!-- prev icon -->
                 </a>
               </li>
@@ -261,7 +265,11 @@
                 </a>
               </li>
               <li class="pagination__item">
-                <a class="pagination__link" href="/pages/5/">
+                <a
+                  class="pagination__link"
+                  href="/pages/5/"
+                  aria-label="次のページへ"
+                >
                   <!-- next icon -->
                 </a>
               </li>
@@ -303,14 +311,14 @@
 
       <section class="work section-spacing">
         <div class="work__inner inner">
-          <div class="work-heading heading">
-            <h2 class="work-heading__title heading__title">CASESTUDY</h2>
-            <p class="work-heading__subtitle heading__subtitle">お客様の声</p>
+          <div class="work__heading heading">
+            <h2 class="work__heading-title heading__title">CASESTUDY</h2>
+            <p class="work__heading-subtitle heading__subtitle">お客様の声</p>
           </div>
           <div class="work__slider">
             <div id="js-work-swiper" class="swiper work__swiper">
               <div class="swiper-wrapper">
-                <article class="swiper-slide work__slide">
+                <div class="swiper-slide work__slide">
                   <a href="" class="work__card work-card">
                     <div class="work-card__image">
                       <img
@@ -328,11 +336,12 @@
                         <p class="work-card__text">〇〇株式会社</p>
                         <p class="work-card__text">吉本様</p>
                       </div>
-                      <div class="work-card__label">情報通信業</div>
+                      <p class="work-card__label">情報通信業</p>
                     </div>
                   </a>
-                </article>
-                <article class="swiper-slide work__slide">
+                </div>
+
+                <div class="swiper-slide work__slide">
                   <a href="" class="work__card work-card">
                     <div class="work-card__image">
                       <img
@@ -350,11 +359,12 @@
                         <p class="work-card__text">〇〇株式会社</p>
                         <p class="work-card__text">竹内様</p>
                       </div>
-                      <div class="work-card__label">情報通信業</div>
+                      <p class="work-card__label">情報通信業</p>
                     </div>
                   </a>
-                </article>
-                <article class="swiper-slide work__slide">
+                </div>
+
+                <div class="swiper-slide work__slide">
                   <a href="" class="work__card work-card">
                     <div class="work-card__image">
                       <img
@@ -370,10 +380,10 @@
                         <p class="work-card__text">〇〇株式会社</p>
                         <p class="work-card__text">三島様</p>
                       </div>
-                      <div class="work-card__label">情報通信業</div>
+                      <p class="work-card__label">情報通信業</p>
                     </div>
                   </a>
-                </article>
+                </div>
               </div>
             </div>
             <!-- If we need pagination -->
@@ -394,124 +404,128 @@
 
       <section class="service section-spacing">
         <div class="service__inner inner">
-          <div class="service-heading heading">
-            <h2 class="service-heading__title heading__title">PRICE</h2>
-            <p class="service-heading__subtitle heading__subtitle">料金</p>
+          <div class="service__heading heading">
+            <h2 class="service__heading-title heading__title">PRICE</h2>
+            <p class="service__heading-subtitle heading__subtitle">料金</p>
           </div>
           <div class="service__container">
-            <article class="service__box">
-              <div class="service-box is-box">
-                <h3 class="service-box__title">ライトプラン</h3>
-                <p class="service-box__price space">無料</p>
-                <table class="service-box__table">
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">人数</th>
-                    <td class="service-box__td">3人</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">電話サポート</th>
-                    <td class="service-box__td">なし</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">名刺作成</th>
-                    <td class="service-box__td">月2枚まで</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">サポート1</th>
-                    <td class="service-box__td">なし</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">サポート2</th>
-                    <td class="service-box__td">なし</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">サポート3</th>
-                    <td class="service-box__td">なし</td>
-                  </tr>
-                </table>
-                <div class="service-box__button">
-                  <a href="" class="button">お申し込み</a>
-                </div>
+            <article class="service__box service-box is-box">
+              <h3 class="service-box__title">ライトプラン</h3>
+              <p class="service-box__price space">無料</p>
+              <table
+                class="service-box__table"
+                aria-label="ライトプランの料金詳細"
+              >
+                <tr class="service-box__tr">
+                  <th class="service-box__th">人数</th>
+                  <td class="service-box__td">3人</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">電話サポート</th>
+                  <td class="service-box__td">なし</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">名刺作成</th>
+                  <td class="service-box__td">月2枚まで</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">サポート1</th>
+                  <td class="service-box__td">なし</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">サポート2</th>
+                  <td class="service-box__td">なし</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">サポート3</th>
+                  <td class="service-box__td">なし</td>
+                </tr>
+              </table>
+              <div class="service-box__button">
+                <a href="" class="button">お申し込み</a>
               </div>
             </article>
-            <article class="service__box">
-              <div class="service-box">
-                <h3 class="service-box__title is-title">スタンダードプラン</h3>
-                <p class="service-box__price is-price">
-                  <span class="is-required">月</span>980<span
-                    class="is-required"
-                    >円</span
-                  >
-                </p>
-                <table class="service-box__table is-table">
-                  <tr class="service-box__tr is-tr">
-                    <th class="service-box__th">人数</th>
-                    <td class="service-box__td">20人</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">電話サポート</th>
-                    <td class="service-box__td">なし</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">名刺作成</th>
-                    <td class="service-box__td">月15枚まで</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">サポート1</th>
-                    <td class="service-box__td">あり</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">サポート2</th>
-                    <td class="service-box__td">なし</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">サポート3</th>
-                    <td class="service-box__td">なし</td>
-                  </tr>
-                </table>
-                <div class="service-box__button">
-                  <a href="" class="button">お申し込み</a>
-                </div>
+
+            <article class="service__box service-box">
+              <h3 class="service-box__title is-title">スタンダードプラン</h3>
+              <p class="service-box__price is-price">
+                <span class="is-required">月</span>980<span class="is-required"
+                  >円</span
+                >
+              </p>
+              <table
+                class="service-box__table is-table"
+                aria-label="スタンダードプランの料金詳細"
+              >
+                <tr class="service-box__tr is-tr">
+                  <th class="service-box__th">人数</th>
+                  <td class="service-box__td">20人</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">電話サポート</th>
+                  <td class="service-box__td">なし</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">名刺作成</th>
+                  <td class="service-box__td">月15枚まで</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">サポート1</th>
+                  <td class="service-box__td">あり</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">サポート2</th>
+                  <td class="service-box__td">なし</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">サポート3</th>
+                  <td class="service-box__td">なし</td>
+                </tr>
+              </table>
+              <div class="service-box__button">
+                <a href="" class="button">お申し込み</a>
               </div>
             </article>
-            <article class="service__box">
-              <div class="service-box">
-                <h3 class="service-box__title is-title">プロプラン</h3>
-                <p class="service-box__price is-price-2">
-                  <span class="is-required">月</span>2,480<span
-                    class="is-required"
-                    >円</span
-                  >
-                </p>
-                <table class="service-box__table is-table-2">
-                  <tr class="service-box__tr is-tr-2">
-                    <th class="service-box__th">人数</th>
-                    <td class="service-box__td">無制限</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">電話サポート</th>
-                    <td class="service-box__td">無制限</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">名刺作成</th>
-                    <td class="service-box__td">無制限</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">サポート1</th>
-                    <td class="service-box__td">あり</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">サポート2</th>
-                    <td class="service-box__td">あり</td>
-                  </tr>
-                  <tr class="service-box__tr">
-                    <th class="service-box__th">サポート3</th>
-                    <td class="service-box__td">あり</td>
-                  </tr>
-                </table>
-                <div class="service-box__button">
-                  <a href="" class="button">お申し込み</a>
-                </div>
+
+            <article class="service__box service-box">
+              <h3 class="service-box__title is-title">プロプラン</h3>
+              <p class="service-box__price is-price-2">
+                <span class="is-required">月</span>2,480<span
+                  class="is-required"
+                  >円</span
+                >
+              </p>
+              <table
+                class="service-box__table is-table-2"
+                aria-label="プロプランの料金詳細"
+              >
+                <tr class="service-box__tr is-tr-2">
+                  <th class="service-box__th">人数</th>
+                  <td class="service-box__td">無制限</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">電話サポート</th>
+                  <td class="service-box__td">無制限</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">名刺作成</th>
+                  <td class="service-box__td">無制限</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">サポート1</th>
+                  <td class="service-box__td">あり</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">サポート2</th>
+                  <td class="service-box__td">あり</td>
+                </tr>
+                <tr class="service-box__tr">
+                  <th class="service-box__th">サポート3</th>
+                  <td class="service-box__td">あり</td>
+                </tr>
+              </table>
+              <div class="service-box__button">
+                <a href="" class="button">お申し込み</a>
               </div>
             </article>
           </div>
@@ -520,71 +534,113 @@
 
       <section class="company section-spacing">
         <div class="company__inner inner">
-          <div class="company-heading heading">
-            <h2 class="company-heading__title heading__title">COMPANY</h2>
-            <p class="company-heading__subtitle heading__subtitle">会社概要</p>
+          <div class="company__heading heading">
+            <h2 class="company__heading-title heading__title">COMPANY</h2>
+            <p class="company__heading-subtitle heading__subtitle">会社概要</p>
           </div>
-          <div class="company__tab company-tab">
-            <ul class="company-tab__list">
-              <li class="company-tab__menu js-tab current">会社概要</li>
-              <li class="company-tab__menu is-tab__menu js-tab">沿革</li>
-              <li class="company-tab__menu js-tab">認証所得</li>
-            </ul>
-          </div>
+
+          <ul class="company__tab company-tab">
+            <li class="company-tab__menu js-tab current">
+              <button
+                class="company-tab__button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel1"
+                id="tab1"
+              >
+                会社概要
+              </button>
+            </li>
+            <li class="company-tab__menu is-tab__menu js-tab">
+              <button
+                class="company-tab__button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel2"
+                id="tab2"
+              >
+                沿革
+              </button>
+            </li>
+            <li class="company-tab__menu js-tab">
+              <button
+                class="company-tab__button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel3"
+                id="tab3"
+              >
+                認証所得
+              </button>
+            </li>
+          </ul>
+
           <div class="company__group">
             <div class="company-group__content js-content">
-              <div class="company-group__description">会社概要</div>
+              <h3 class="company-group__heading">会社概要</h3>
               <p class="company-group__text">ここに会社概要が入ります。</p>
-              <table class="company-group__table">
-                <tbody class="company-group__tbody">
-                  <tr class="company-group__tr div1">
-                    <th class="company-group__th">会社名</th>
-                    <td class="company-group__td">株式会社e-tiga</td>
-                  </tr>
-                  <tr class="company-group__tr div2">
-                    <th class="company-group__th">資本金</th>
-                    <td class="company-group__td">1000万円</td>
-                  </tr>
-                  <tr class="company-group__tr div3">
-                    <th class="company-group__th is-group__th">本社所在地</th>
-                    <td class="company-group__td is-group__td">
-                      東京都〇〇区〇〇　 〇〇ビル4階
-                    </td>
-                  </tr>
-                  <tr class="company-group__tr div4">
-                    <th class="company-group__th">創業</th>
-                    <td class="company-group__td">2018年7月10日</td>
-                  </tr>
-                  <tr class="company-group__tr div5">
-                    <th class="company-group__th">代表社員</th>
-                    <td class="company-group__td">田中　太郎</td>
-                  </tr>
-                </tbody>
-              </table>
+              <dl class="company-group__dl" aria-label="会社概要">
+                <div class="company-group__row div1">
+                  <dt class="company-group__term">会社名</dt>
+                  <dd class="company-group__description">株式会社e-tiga</dd>
+                </div>
+                <div class="company-group__row div2">
+                  <dt class="company-group__term">資本金</dt>
+                  <dd class="company-group__description">1000万円</dd>
+                </div>
+                <div class="company-group__row div3">
+                  <dt class="company-group__term is-group__th">本社所在地</dt>
+                  <dd class="company-group__description is-group__td">
+                    東京都〇〇区〇〇　 〇〇ビル4階
+                  </dd>
+                </div>
+                <div class="company-group__row div4">
+                  <dt class="company-group__term">創業</dt>
+                  <dd class="company-group__description">2018年7月10日</dd>
+                </div>
+                <div class="company-group__row div5">
+                  <dt class="company-group__term">代表社員</dt>
+                  <dd class="company-group__description">田中　太郎</dd>
+                </div>
+              </dl>
             </div>
             <div class="company-group__content js-content">
-              <ul class="company-group__timeline">
-                <li class="company-timeline__date">2021年4月</li>
-                <p class="company-timeline__text">株式会社e-tiga設立</p>
-                <li class="company-timeline__date">2021年12月</li>
-                <p class="company-timeline__text">e-tigaリリース</p>
-                <li class="company-timeline__date">2022年3月</li>
-                <p class="company-timeline__text">導入企業1,000社突破</p>
-                <li class="company-timeline__date">2022年10月</li>
-                <p class="company-timeline__text">導入企業2,000社を突破</p>
-                <li class="company-timeline__date">2023年9月</li>
-                <p class="company-timeline__text">事務所を渋谷に移転</p>
-              </ul>
+              <dl class="company-group__timeline">
+                <div class="company-timeline__item">
+                  <dt class="company-timeline__date">2021年4月</dt>
+                  <dd class="company-timeline__text">株式会社e-tiga設立</dd>
+                </div>
+                <div class="company-timeline__item">
+                  <dt class="company-timeline__date">2021年12月</dt>
+                  <dd class="company-timeline__text">e-tigaリリース</dd>
+                </div>
+                <div class="company-timeline__item">
+                  <dt class="company-timeline__date">2022年3月</dt>
+                  <dd class="company-timeline__text">導入企業1,000社突破</dd>
+                </div>
+                <div class="company-timeline__item">
+                  <dt class="company-timeline__date">2022年10月</dt>
+                  <dd class="company-timeline__text">導入企業2,000社を突破</dd>
+                </div>
+                <div class="company-timeline__item">
+                  <dt class="company-timeline__date">2023年9月</dt>
+                  <dd class="company-timeline__text">事務所を渋谷に移転</dd>
+                </div>
+              </dl>
             </div>
             <div class="company-group__content js-content">
               <div class="company-group__information">
-                <p class="company-group__info">〇〇◎1111認証取得</p>
-                <p class="company-info__text">
-                  国際規格である〇〇
-                  認証取得しております。セキュリティ管理システムを開発・運用しており、大切な情報をお守りします。国際規格である〇〇
-                  認証取得しております。セキュリティ管理システムを開発・運用しており、大切な情報をお守りします。国際規格である〇〇
-                  認証取得しております。セキュリティ管理システムを開発・運用しており、大切な情報をお守りします。
-                </p>
+                <dl class="company-group__info-list">
+                  <div class="company-group__info-row">
+                    <dt class="company-group__info-term">〇〇◎1111認証取得</dt>
+                    <dd class="company-group__info-description">
+                      国際規格である〇〇
+                      認証取得しております。セキュリティ管理システムを開発・運用しており、大切な情報をお守りします。国際規格である〇〇
+                      認証取得しております。セキュリティ管理システムを開発・運用しており、大切な情報をお守りします。国際規格である〇〇
+                      認証取得しております。セキュリティ管理システムを開発・運用しており、大切な情報をお守りします。
+                    </dd>
+                  </div>
+                </dl>
               </div>
             </div>
           </div>
@@ -907,8 +963,12 @@
           <div class="footer__container">
             <div class="footer__content">
               <div class="footer__logo">
-                <a href=""
-                  ><img src="./img/logo.webp" alt="" width="320" height="64"
+                <a href="" aria-label="e-tigaホームへ"
+                  ><img
+                    src="./img/logo.webp"
+                    alt="e-tiga"
+                    width="320"
+                    height="64"
                 /></a>
               </div>
               <address class="footer__address">
@@ -940,17 +1000,17 @@
             </ul>
             <ul class="footer-sns-list">
               <li class="footer-sns-item">
-                <a href="" class="footer-sns-link"
+                <a href="" class="footer-sns-link" aria-label="Twitter"
                   ><img src="./img/twitter.svg" alt="" width="30" height="30"
                 /></a>
               </li>
               <li class="footer-sns-item">
-                <a href="" class="footer-sns-link"
+                <a href="" class="footer-sns-link" aria-label="Facebook"
                   ><img src="./img/facebook.svg" alt="" width="30" height="30"
                 /></a>
               </li>
               <li class="footer-sns-item">
-                <a href="" class="footer-sns-link"
+                <a href="" class="footer-sns-link" aria-label="Instagram"
                   ><img src="./img/instagram.svg" alt="" width="30" height="30"
                 /></a>
               </li>
