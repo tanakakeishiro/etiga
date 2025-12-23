@@ -1408,13 +1408,13 @@ body {
 }
 
 @media screen and (min-width: 768px) {
-  .blog-heading {
+  .blog__heading {
     gap: 25px;
   }
 }
 
 @media screen and (min-width: 768px) {
-  .blog-heading__subtitle {
+  .blog__heading-subtitle {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1443,12 +1443,8 @@ body {
   }
 }
 
-.blog__card {
-  margin-right: auto;
-  margin-left: auto;
-}
 @media screen and (min-width: 1200px) {
-  .blog__card {
+  .blog-card {
     max-width: 360px;
   }
 }
