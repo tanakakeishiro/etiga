@@ -1268,6 +1268,10 @@ body {
   }
 }
 
+.company-group__description-text {
+  margin-left: 8px;
+}
+
 .company-group__timeline {
   margin-top: 42px;
   margin-bottom: 122px;
@@ -1327,16 +1331,16 @@ body {
   }
 }
 
-.company-group__info {
+.company-group__info-term {
   color: #2392db;
   font-weight: 700;
 }
 
-.company-info__text {
+.company-group__info-description {
   margin-top: 14px;
 }
 @media screen and (min-width: 768px) {
-  .company-info__text {
+  .company-group__info-description {
     margin-top: 16px;
   }
 }
