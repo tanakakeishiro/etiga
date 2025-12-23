@@ -540,9 +540,9 @@
           </div>
 
           <ul class="company__tab company-tab">
-            <li class="company-tab__menu js-tab current">
+            <li class="company-tab__menu js-tab-menu current">
               <button
-                class="company-tab__button"
+                class="company-tab__button js-tab"
                 role="tab"
                 aria-selected="true"
                 aria-controls="panel1"
@@ -551,9 +551,9 @@
                 会社概要
               </button>
             </li>
-            <li class="company-tab__menu is-tab__menu js-tab">
+            <li class="company-tab__menu js-tab-menu">
               <button
-                class="company-tab__button"
+                class="company-tab__button js-tab"
                 role="tab"
                 aria-selected="false"
                 aria-controls="panel2"
@@ -562,9 +562,9 @@
                 沿革
               </button>
             </li>
-            <li class="company-tab__menu js-tab">
+            <li class="company-tab__menu js-tab-menu">
               <button
-                class="company-tab__button"
+                class="company-tab__button js-tab"
                 role="tab"
                 aria-selected="false"
                 aria-controls="panel3"
@@ -576,35 +576,48 @@
           </ul>
 
           <div class="company__group">
-            <div class="company-group__content js-content">
+            <div
+              class="company-group__content js-content"
+              id="panel1"
+              role="tabpanel"
+              tabindex="0"
+              aria-labelledby="tab1"
+            >
               <h3 class="company-group__heading">会社概要</h3>
               <p class="company-group__text">ここに会社概要が入ります。</p>
               <dl class="company-group__dl" aria-label="会社概要">
-                <div class="company-group__row div1">
+                <div class="company-group__row">
                   <dt class="company-group__term">会社名</dt>
                   <dd class="company-group__description">株式会社e-tiga</dd>
                 </div>
-                <div class="company-group__row div2">
+                <div class="company-group__row">
                   <dt class="company-group__term">資本金</dt>
                   <dd class="company-group__description">1000万円</dd>
                 </div>
-                <div class="company-group__row div3">
+                <div class="company-group__row">
                   <dt class="company-group__term is-group__th">本社所在地</dt>
                   <dd class="company-group__description is-group__td">
                     東京都〇〇区〇〇　 〇〇ビル4階
                   </dd>
                 </div>
-                <div class="company-group__row div4">
+                <div class="company-group__row">
                   <dt class="company-group__term">創業</dt>
                   <dd class="company-group__description">2018年7月10日</dd>
                 </div>
-                <div class="company-group__row div5">
+                <div class="company-group__row">
                   <dt class="company-group__term">代表社員</dt>
                   <dd class="company-group__description">田中　太郎</dd>
                 </div>
               </dl>
             </div>
-            <div class="company-group__content js-content">
+
+            <div
+              class="company-group__content js-content"
+              id="panel2"
+              role="tabpanel"
+              tabindex="0"
+              aria-labelledby="tab2"
+            >
               <dl class="company-group__timeline">
                 <div class="company-timeline__item">
                   <dt class="company-timeline__date">2021年4月</dt>
@@ -628,7 +641,14 @@
                 </div>
               </dl>
             </div>
-            <div class="company-group__content js-content">
+
+            <div
+              class="company-group__content js-content"
+              id="panel3"
+              role="tabpanel"
+              tabindex="0"
+              aria-labelledby="tab3"
+            >
               <div class="company-group__information">
                 <dl class="company-group__info-list">
                   <div class="company-group__info-row">
