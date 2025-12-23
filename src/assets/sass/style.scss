@@ -1191,22 +1191,22 @@ body {
   }
 }
 
-.is-tab__menu {
-  border-right: 1px solid #2392db;
-  padding-left: 44px;
-  padding-right: 45px;
+// .is-tab__menu {
+//   border-right: 1px solid #2392db;
+//   padding-left: 44px;
+//   padding-right: 45px;
 
-  @include mq(md) {
-    padding-left: 85px;
-    padding-right: 57px;
-  }
+//   @include mq(md) {
+//     padding-left: 85px;
+//     padding-right: 57px;
+//   }
 
-  &::before {
-    @include mq(md) {
-      left: 73px;
-    }
-  }
-}
+//   &::before {
+//     @include mq(md) {
+//       left: 73px;
+//     }
+//   }
+// }
 
 .current {
   background: #2392db;
@@ -1233,9 +1233,9 @@ body {
   }
 }
 
-.company-group__content {
-  // display: none;
-}
+// .company-group__content {
+//   // display: none;
+// }
 
 .company-group__heading {
   font-size: 22px;
@@ -1355,6 +1355,10 @@ body {
   }
 }
 
+.company-group__description-text {
+  margin-left: 4px;
+}
+
 // // 3番目の行（本社所在地）のdd要素だけ幅を変更
 // .company-group__row:nth-child(3) {
 //   @include mq(md) {
@@ -1426,12 +1430,12 @@ body {
   }
 }
 
-.company-group__info {
+.company-group__info-term {
   color: #2392db;
   font-weight: 700;
 }
 
-.company-info__text {
+.company-group__info-description {
   margin-top: 14px;
 
   @include mq(md) {

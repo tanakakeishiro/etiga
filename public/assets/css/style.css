@@ -1150,23 +1150,6 @@ body {
   }
 }
 
-.is-tab__menu {
-  border-right: 1px solid #2392db;
-  padding-right: 45px;
-  padding-left: 44px;
-}
-@media screen and (min-width: 768px) {
-  .is-tab__menu {
-    padding-right: 57px;
-    padding-left: 85px;
-  }
-}
-@media screen and (min-width: 768px) {
-  .is-tab__menu::before {
-    left: 73px;
-  }
-}
-
 .current {
   background: #2392db;
   color: #fff;
