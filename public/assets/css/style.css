@@ -1519,18 +1519,18 @@ body {
   }
 }
 
-.event-heading {
+.event__heading {
   gap: 3px;
   padding-left: 15px;
 }
 @media screen and (min-width: 768px) {
-  .event-heading {
+  .event__heading {
     gap: 27px;
     margin-top: 3px;
   }
 }
 @media screen and (min-width: 1200px) {
-  .event-heading {
+  .event__heading {
     padding-left: 20px;
   }
 }

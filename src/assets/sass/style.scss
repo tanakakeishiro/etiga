@@ -1606,8 +1606,8 @@ body {
    event
   ------------------------- */
 
-.event {
-}
+// .event {
+// }
 
 .event__inner {
   @include mq(md) {
@@ -1619,7 +1619,7 @@ body {
   }
 }
 
-.event-heading {
+.event__heading {
   gap: 3px;
   padding-left: 15px;
 
@@ -1633,11 +1633,11 @@ body {
   }
 }
 
-.event-heading__title {
-}
+// .event__heading-title {
+// }
 
-.event-heading__subtitle {
-}
+// .event__heading-subtitle {
+// }
 
 .event__container {
   margin-block: 46px;
@@ -1654,11 +1654,11 @@ body {
   }
 }
 
-.event__card {
-}
+// .event__card {
+// }
 
-.event-card {
-}
+// .event-card {
+// }
 
 .event-card__post {
   padding-bottom: 30px;
@@ -1687,8 +1687,6 @@ body {
       max-width: 324px;
       width: 30vw;
       height: 100%;
-
-      // 要素の縦横比を維持したまま、要素を切り取る。
       object-fit: cover;
     }
   }
@@ -1758,14 +1756,8 @@ body {
   margin-right: -3px;
 }
 
-.buttons {
-}
-
 .event-card__buttons {
-  // border分の1pxを引く。
   padding-block: calc(8px - 1px);
-
-  // padding-inline: calc(44px - 1px);
   padding-inline: 0;
   width: 158px;
   font-size: 14px;
