@@ -174,135 +174,167 @@ $(function () {
   const $newsList = $(".js-news-list");
   if (!$pagination.length || !$newsList.length) return;
 
-  const ACTIVE_CLASS = "pagination__item--active";
-  const DISABLED_CLASS = "pagination__item--disabled";
-  const ITEMS_PER_PAGE = 5; // 1ページあたりの表示件数
+  // 定数定義
+  const CONFIG = {
+    ITEMS_PER_PAGE: 5,
+    ACTIVE_CLASS: "pagination__item--active",
+    DISABLED_CLASS: "pagination__item--disabled",
+    VISIBLE_CLASS: "on",
+    SVG_COLORS: {
+      DEFAULT: "#828282",
+      DISABLED: "#c0c0c0",
+    },
+  };
+
+  // SVGパス定義
+  const SVG_PATHS = {
+    PREV: [
+      "M14.2903 0.75L7.29034 5.75L14.2903 10.75",
+      "M8.29034 0.75L1.29034 5.75L8.29034 10.75",
+    ],
+    NEXT: [
+      "M0.750061 0.75L7.75006 5.75L0.750061 10.75",
+      "M6.75006 0.75L13.7501 5.75L6.75006 10.75",
+    ],
+  };
+
+  // 状態管理
   let currentPage = 1;
+  const $newsItems = $newsList.find("[data-item-index]");
+  const totalItems = $newsItems.length;
+  const totalPages = Math.ceil(totalItems / CONFIG.ITEMS_PER_PAGE);
 
-  // ニュースアイテムの総数を取得
-  const totalItems = $newsList.find("[data-item-index]").length;
-  // 総ページ数を計算（ニュースアイテムの数から自動計算）
-  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  // 初期ページの取得（URLパラメータから）
+  const getInitialPage = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get("page");
+    if (!pageParam) return 1;
 
-  // URLパラメータから現在のページを取得
-  const urlParams = new URLSearchParams(window.location.search);
-  const pageParam = urlParams.get("page");
-  if (pageParam) {
-    currentPage = parseInt(pageParam, 10) || 1;
-    // 有効なページ範囲内に収める
-    if (currentPage < 1) currentPage = 1;
-    if (currentPage > totalPages) currentPage = totalPages;
-  }
+    const page = parseInt(pageParam, 10);
+    if (isNaN(page) || page < 1) return 1;
+    if (page > totalPages) return totalPages;
+    return page;
+  };
 
-  // ページネーションのHTMLを生成する関数
-  const generatePaginationHTML = () => {
-    let html = "";
+  currentPage = getInitialPage();
 
-    // 前のページボタンのSVG
-    const prevSvg = `<svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M14.2903 0.75L7.29034 5.75L14.2903 10.75" stroke="#828282" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M8.29034 0.75L1.29034 5.75L8.29034 10.75" stroke="#828282" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>`;
+  // SVGアイコン生成関数
+  const createSvgIcon = (paths, color = CONFIG.SVG_COLORS.DEFAULT) => {
+    const pathElements = paths
+      .map(
+        (path) =>
+          `<path d="${path}" stroke="${color}" stroke-width="1.5" stroke-linecap="round"/>`
+      )
+      .join("");
+    return `<svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${pathElements}</svg>`;
+  };
 
-    // 次のページボタンのSVG
-    const nextSvg = `<svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M0.750061 0.75L7.75006 5.75L0.750061 10.75" stroke="#828282" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M6.75006 0.75L13.7501 5.75L6.75006 10.75" stroke="#828282" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>`;
+  // ナビゲーションボタン生成関数
+  const createNavButton = (type, disabled, targetPage) => {
+    const isPrev = type === "prev";
+    const paths = isPrev ? SVG_PATHS.PREV : SVG_PATHS.NEXT;
+    const svgColor = disabled
+      ? CONFIG.SVG_COLORS.DISABLED
+      : CONFIG.SVG_COLORS.DEFAULT;
+    const svg = createSvgIcon(paths, svgColor);
+    const classNames = [
+      "pagination__item",
+      disabled ? CONFIG.DISABLED_CLASS : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
 
-    // 前のページボタン
-    const prevDisabled = currentPage === 1;
-    const prevClass = prevDisabled ? DISABLED_CLASS : "";
-    const prevSvgColor = prevDisabled ? "#c0c0c0" : "#828282";
-    const prevSvgDisabled = `<svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M14.2903 0.75L7.29034 5.75L14.2903 10.75" stroke="${prevSvgColor}" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M8.29034 0.75L1.29034 5.75L8.29034 10.75" stroke="${prevSvgColor}" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>`;
-    html += `<li class="pagination__item ${prevClass}">`;
-    if (prevDisabled) {
-      html += `<span class="pagination__link js-pagination-prev" aria-label="前のページへ（現在1ページ目）" aria-disabled="true" tabindex="-1" role="link">`;
-      html += prevSvgDisabled;
-      html += "</span>";
+    let buttonHtml = "";
+    if (disabled) {
+      const label = isPrev
+        ? `前のページへ（現在1ページ目）`
+        : `次のページへ（現在${totalPages}ページ目）`;
+      buttonHtml = `<li class="${classNames}">
+        <span class="pagination__link js-pagination-${type}" 
+              aria-label="${label}" 
+              aria-disabled="true" 
+              tabindex="-1" 
+              role="link">${svg}</span>
+      </li>`;
     } else {
-      html += `<a class="pagination__link js-pagination-prev" href="#" aria-label="前のページへ（${currentPage - 1}ページ目）" aria-disabled="false">`;
-      html += prevSvg;
-      html += "</a>";
+      const label = isPrev
+        ? `前のページへ（${targetPage}ページ目）`
+        : `次のページへ（${targetPage}ページ目）`;
+      buttonHtml = `<li class="${classNames}">
+        <a class="pagination__link js-pagination-${type}" 
+           href="#" 
+           aria-label="${label}" 
+           aria-disabled="false">${svg}</a>
+      </li>`;
     }
-    html += "</li>";
+    return buttonHtml;
+  };
 
-    // ページ番号を生成
+  // ページ番号生成関数
+  const createPageNumbers = () => {
+    let html = "";
     for (let i = 1; i <= totalPages; i++) {
-      if (i === currentPage) {
-        // 現在のページはspanで表示し、aria-current="page"を追加
-        html += `<li class="pagination__item ${ACTIVE_CLASS} isActive" data-page="${i}">`;
-        html += `<span class="pagination__number" aria-current="page" aria-label="現在のページ、${i}ページ目">${i}</span>`;
-        html += "</li>";
+      const isActive = i === currentPage;
+      const classNames = [
+        "pagination__item",
+        isActive ? `${CONFIG.ACTIVE_CLASS} isActive` : "",
+      ]
+        .filter(Boolean)
+        .join(" ");
+
+      if (isActive) {
+        html += `<li class="${classNames}" data-page="${i}">
+          <span class="pagination__number" 
+                aria-current="page" 
+                aria-label="現在のページ、${i}ページ目">${i}</span>
+        </li>`;
       } else {
-        // 他のページはリンクで表示
-        html += `<li class="pagination__item" data-page="${i}">`;
-        html += `<a class="pagination__link js-pagination-link" href="#" data-page="${i}" aria-label="${i}ページ目へ移動">`;
-        html += `<span class="pagination__number">${i}</span>`;
-        html += "</a>";
-        html += "</li>";
+        html += `<li class="${classNames}" data-page="${i}">
+          <a class="pagination__link js-pagination-link" 
+             href="#" 
+             data-page="${i}" 
+             aria-label="${i}ページ目へ移動">
+            <span class="pagination__number">${i}</span>
+          </a>
+        </li>`;
       }
     }
-
-    // 次のページボタン
-    const nextDisabled = currentPage === totalPages;
-    const nextClass = nextDisabled ? DISABLED_CLASS : "";
-    const nextSvgColor = nextDisabled ? "#c0c0c0" : "#828282";
-    const nextSvgDisabled = `<svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M0.750061 0.75L7.75006 5.75L0.750061 10.75" stroke="${nextSvgColor}" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M6.75006 0.75L13.7501 5.75L6.75006 10.75" stroke="${nextSvgColor}" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>`;
-    html += `<li class="pagination__item ${nextClass}">`;
-    if (nextDisabled) {
-      html += `<span class="pagination__link js-pagination-next" aria-label="次のページへ（現在${totalPages}ページ目）" aria-disabled="true" tabindex="-1" role="link">`;
-      html += nextSvgDisabled;
-      html += "</span>";
-    } else {
-      html += `<a class="pagination__link js-pagination-next" href="#" aria-label="次のページへ（${currentPage + 1}ページ目）" aria-disabled="false">`;
-      html += nextSvg;
-      html += "</a>";
-    }
-    html += "</li>";
-
     return html;
   };
 
-  // ページネーションのHTMLを生成
-  $pagination.html(generatePaginationHTML()).attr("aria-busy", "false");
+  // ページネーションHTML生成関数
+  const generatePaginationHTML = () => {
+    const prevButton = createNavButton(
+      "prev",
+      currentPage === 1,
+      currentPage - 1
+    );
+    const nextButton = createNavButton(
+      "next",
+      currentPage === totalPages,
+      currentPage + 1
+    );
+    const pageNumbers = createPageNumbers();
 
-  // ニュースアイテムの表示/非表示を制御する関数（参考ページの.onクラス方式を採用）
+    return prevButton + pageNumbers + nextButton;
+  };
+
+  // ニュースアイテムの表示/非表示制御
   const updateNewsItems = (page) => {
-    const startIndex = (page - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE - 1;
+    const startIndex = (page - 1) * CONFIG.ITEMS_PER_PAGE;
+    const endIndex = startIndex + CONFIG.ITEMS_PER_PAGE;
 
-    // すべてのアイテムから.onクラスを削除
-    $newsList.find("[data-item-index]").removeClass("on");
+    $newsItems.each(function () {
+      const $item = $(this);
+      const itemIndex = parseInt($item.attr("data-item-index"), 10);
+      const shouldShow = itemIndex >= startIndex && itemIndex < endIndex;
 
-    // 表示するアイテムに.onクラスを追加
-    $newsList.find("[data-item-index]").each(function () {
-      const itemIndex = parseInt($(this).attr("data-item-index"), 10);
-      if (itemIndex >= startIndex && itemIndex <= endIndex) {
-        $(this).addClass("on");
-      }
+      $item.toggleClass(CONFIG.VISIBLE_CLASS, shouldShow);
     });
   };
 
-  // ページを更新する関数
-  const updatePagination = (page) => {
-    if (page < 1 || page > totalPages) return;
-
-    currentPage = page;
-
-    // ニュースアイテムの表示/非表示を更新
-    updateNewsItems(page);
-
-    // ページネーションのHTMLを再生成（前/次のボタンの状態も含む）
-    $pagination.html(generatePaginationHTML()).attr("aria-busy", "false");
-
-    // URLを更新（履歴に追加しない）
+  // URL更新関数
+  const updateURL = (page) => {
     const newUrl = new URL(window.location);
     if (page === 1) {
       newUrl.searchParams.delete("page");
@@ -312,72 +344,69 @@ $(function () {
     window.history.replaceState({}, "", newUrl);
   };
 
-  // イベントハンドラを設定（委譲イベントなので動的に追加された要素にも機能する）
+  // フォーカス管理関数
+  const focusFirstVisibleItem = () => {
+    const $firstVisible = $newsItems.filter(`.${CONFIG.VISIBLE_CLASS}`).first();
+    const $link = $firstVisible.find("a");
+    if ($link.length) {
+      $link[0].focus();
+    }
+  };
+
+  // ページ更新関数
+  const updatePagination = (page) => {
+    if (page < 1 || page > totalPages || page === currentPage) return;
+
+    currentPage = page;
+    updateNewsItems(page);
+    $pagination.html(generatePaginationHTML()).attr("aria-busy", "false");
+    updateURL(page);
+    focusFirstVisibleItem();
+  };
+
+  // イベントハンドラー
+  const handlePaginationClick = (e, getTargetPage) => {
+    e.preventDefault();
+    const $target = $(e.currentTarget);
+    if ($target.attr("aria-disabled") === "true") return;
+
+    const targetPage = getTargetPage();
+    if (targetPage && targetPage !== currentPage) {
+      updatePagination(targetPage);
+    }
+  };
+
+  // イベントリスナー設定
   $(document).on("click", ".js-pagination-link", function (e) {
-    e.preventDefault();
-    const page = parseInt($(this).attr("data-page"), 10);
-    if (page && page !== currentPage) {
-      updatePagination(page);
-      // フォーカス管理：ページ切り替え後に最初のニュースアイテムにフォーカスを移動
-      const $firstVisibleItem = $newsList
-        .find("[data-item-index]")
-        .filter(":visible")
-        .first();
-      if ($firstVisibleItem.length) {
-        $firstVisibleItem.find("a").focus();
-      }
-    }
+    handlePaginationClick(e, () => {
+      return parseInt($(this).attr("data-page"), 10);
+    });
   });
 
-  // 前のページボタンのクリック処理
   $(document).on("click", ".js-pagination-prev", function (e) {
-    e.preventDefault();
-    if (currentPage > 1 && !$(this).attr("aria-disabled")) {
-      updatePagination(currentPage - 1);
-      // フォーカス管理
-      const $firstVisibleItem = $newsList
-        .find("[data-item-index]")
-        .filter(":visible")
-        .first();
-      if ($firstVisibleItem.length) {
-        $firstVisibleItem.find("a").focus();
-      }
-    }
+    handlePaginationClick(e, () => currentPage > 1 && currentPage - 1);
   });
 
-  // 次のページボタンのクリック処理
   $(document).on("click", ".js-pagination-next", function (e) {
-    e.preventDefault();
-    if (currentPage < totalPages && !$(this).attr("aria-disabled")) {
-      updatePagination(currentPage + 1);
-      // フォーカス管理
-      const $firstVisibleItem = $newsList
-        .find("[data-item-index]")
-        .filter(":visible")
-        .first();
-      if ($firstVisibleItem.length) {
-        $firstVisibleItem.find("a").focus();
-      }
-    }
+    handlePaginationClick(e, () => currentPage < totalPages && currentPage + 1);
   });
 
-  // キーボードナビゲーションのサポート（AUIGガイドラインに準拠）
+  // キーボードナビゲーション
   $(document).on(
     "keydown",
     ".js-pagination-link, .js-pagination-prev, .js-pagination-next",
     function (e) {
-      // EnterキーとSpaceキーでクリックと同じ動作
-      if (e.key === "Enter" || e.key === " ") {
+      if (
+        (e.key === "Enter" || e.key === " ") &&
+        !$(this).attr("aria-disabled")
+      ) {
         e.preventDefault();
-        if (!$(this).attr("aria-disabled")) {
-          $(this).click();
-        }
+        $(this).click();
       }
     }
   );
 
   // 初期化
-  // 最初にニュースアイテムを非表示にしてから、現在のページのアイテムを表示
-  // 参考ページの方式：初期状態ではすべて非表示（CSSで制御）
-  updatePagination(currentPage);
+  $pagination.html(generatePaginationHTML()).attr("aria-busy", "false");
+  updateNewsItems(currentPage);
 });
