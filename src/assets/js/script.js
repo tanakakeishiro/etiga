@@ -273,17 +273,19 @@ $(function () {
   // ページネーションのHTMLを生成
   $pagination.html(generatePaginationHTML()).attr("aria-busy", "false");
 
-  // ニュースアイテムの表示/非表示を制御する関数
+  // ニュースアイテムの表示/非表示を制御する関数（参考ページの.onクラス方式を採用）
   const updateNewsItems = (page) => {
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE - 1;
 
+    // すべてのアイテムから.onクラスを削除
+    $newsList.find("[data-item-index]").removeClass("on");
+
+    // 表示するアイテムに.onクラスを追加
     $newsList.find("[data-item-index]").each(function () {
       const itemIndex = parseInt($(this).attr("data-item-index"), 10);
       if (itemIndex >= startIndex && itemIndex <= endIndex) {
-        $(this).show();
-      } else {
-        $(this).hide();
+        $(this).addClass("on");
       }
     });
   };
@@ -376,6 +378,6 @@ $(function () {
 
   // 初期化
   // 最初にニュースアイテムを非表示にしてから、現在のページのアイテムを表示
-  $newsList.find("[data-item-index]").hide();
+  // 参考ページの方式：初期状態ではすべて非表示（CSSで制御）
   updatePagination(currentPage);
 });

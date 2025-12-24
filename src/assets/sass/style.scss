@@ -490,11 +490,16 @@ body {
 }
 
 .news__item {
-  display: flex;
+  display: none; // 初期状態は非表示（参考ページの方式を採用）
   flex-direction: column;
   border-bottom: 1px solid #e3e3e3;
   padding-top: 10px;
   padding-bottom: 12px;
+
+  // .onクラスが付いている要素だけ表示（参考ページの方式）
+  &.on {
+    display: flex;
+  }
 
   @include mq(md) {
     flex-direction: row;

@@ -433,11 +433,14 @@ body {
 }
 
 .news__item {
-  display: flex;
+  display: none;
   flex-direction: column;
   border-bottom: 1px solid #e3e3e3;
   padding-top: 10px;
   padding-bottom: 12px;
+}
+.news__item.on {
+  display: flex;
 }
 @media screen and (min-width: 768px) {
   .news__item {
