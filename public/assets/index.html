@@ -412,8 +412,82 @@
           </ul>
           <div class="news__foot">
             <nav class="news__pagination" aria-label="ページネーション">
-              <ul class="pagination js-pagination" aria-busy="true">
-                <!-- ページネーションはJavaScriptで動的に生成されます -->
+              <ul class="pagination js-pagination">
+                <!-- 前のページボタン -->
+                <li class="pagination__item pagination__item--disabled">
+                  <span
+                    class="pagination__link js-pagination-prev"
+                    aria-label="前のページへ"
+                    aria-disabled="true"
+                    tabindex="-1"
+                    role="link"
+                  >
+                    <svg
+                      width="16"
+                      height="12"
+                      viewBox="0 0 16 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M14.2903 0.75L7.29034 5.75L14.2903 10.75"
+                        stroke="#c0c0c0"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M8.29034 0.75L1.29034 5.75L8.29034 10.75"
+                        stroke="#c0c0c0"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </li>
+                <!-- ページ番号はJavaScriptで動的に追加されます -->
+                <li
+                  class="pagination__item pagination__item--active isActive"
+                  data-page="1"
+                >
+                  <span
+                    class="pagination__number"
+                    aria-current="page"
+                    aria-label="現在のページ、1ページ目"
+                    >1</span
+                  >
+                </li>
+                <!-- 次のページボタン -->
+                <li class="pagination__item">
+                  <a
+                    class="pagination__link js-pagination-next"
+                    href="#"
+                    aria-label="次のページへ"
+                    aria-disabled="false"
+                  >
+                    <svg
+                      width="16"
+                      height="12"
+                      viewBox="0 0 16 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M0.750061 0.75L7.75006 5.75L0.750061 10.75"
+                        stroke="#828282"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M6.75006 0.75L13.7501 5.75L6.75006 10.75"
+                        stroke="#828282"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </a>
+                </li>
               </ul>
             </nav>
             <div class="news__button">

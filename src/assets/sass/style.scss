@@ -648,6 +648,11 @@ body {
     display: block;
     width: 100%;
     height: 100%;
+
+    path {
+      stroke: #828282;
+      transition: stroke 0.15s linear;
+    }
   }
 
   // フォーカス状態のスタイル（AUIGガイドラインに準拠）
@@ -661,6 +666,10 @@ body {
     cursor: not-allowed;
     opacity: 0.6;
     pointer-events: none;
+
+    svg path {
+      stroke: #c0c0c0;
+    }
   }
 
   // ホバー状態（無効でない場合のみ）

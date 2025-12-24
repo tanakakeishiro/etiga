@@ -180,22 +180,6 @@ $(function () {
     ACTIVE_CLASS: "pagination__item--active",
     DISABLED_CLASS: "pagination__item--disabled",
     VISIBLE_CLASS: "on",
-    SVG_COLORS: {
-      DEFAULT: "#828282",
-      DISABLED: "#c0c0c0",
-    },
-  };
-
-  // SVGパス定義
-  const SVG_PATHS = {
-    PREV: [
-      "M14.2903 0.75L7.29034 5.75L14.2903 10.75",
-      "M8.29034 0.75L1.29034 5.75L8.29034 10.75",
-    ],
-    NEXT: [
-      "M0.750061 0.75L7.75006 5.75L0.750061 10.75",
-      "M6.75006 0.75L13.7501 5.75L6.75006 10.75",
-    ],
   };
 
   // 状態管理
@@ -218,105 +202,122 @@ $(function () {
 
   currentPage = getInitialPage();
 
-  // SVGアイコン生成関数
-  const createSvgIcon = (paths, color = CONFIG.SVG_COLORS.DEFAULT) => {
-    const pathElements = paths
-      .map(
-        (path) =>
-          `<path d="${path}" stroke="${color}" stroke-width="1.5" stroke-linecap="round"/>`
-      )
-      .join("");
-    return `<svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${pathElements}</svg>`;
-  };
-
-  // ナビゲーションボタン生成関数
-  const createNavButton = (type, disabled, targetPage) => {
-    const isPrev = type === "prev";
-    const paths = isPrev ? SVG_PATHS.PREV : SVG_PATHS.NEXT;
-    const svgColor = disabled
-      ? CONFIG.SVG_COLORS.DISABLED
-      : CONFIG.SVG_COLORS.DEFAULT;
-    const svg = createSvgIcon(paths, svgColor);
-    const classNames = [
-      "pagination__item",
-      disabled ? CONFIG.DISABLED_CLASS : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
-
-    let buttonHtml = "";
-    if (disabled) {
-      const label = isPrev
-        ? `前のページへ（現在1ページ目）`
-        : `次のページへ（現在${totalPages}ページ目）`;
-      buttonHtml = `<li class="${classNames}">
-        <span class="pagination__link js-pagination-${type}" 
-              aria-label="${label}" 
-              aria-disabled="true" 
-              tabindex="-1" 
-              role="link">${svg}</span>
-      </li>`;
+  // ページ番号要素の生成
+  const createPageNumber = (pageNum, isActive) => {
+    if (isActive) {
+      return $(`
+        <li class="pagination__item ${CONFIG.ACTIVE_CLASS} isActive" data-page="${pageNum}">
+          <span class="pagination__number" aria-current="page" aria-label="現在のページ、${pageNum}ページ目">${pageNum}</span>
+        </li>
+      `);
     } else {
-      const label = isPrev
-        ? `前のページへ（${targetPage}ページ目）`
-        : `次のページへ（${targetPage}ページ目）`;
-      buttonHtml = `<li class="${classNames}">
-        <a class="pagination__link js-pagination-${type}" 
-           href="#" 
-           aria-label="${label}" 
-           aria-disabled="false">${svg}</a>
-      </li>`;
+      return $(`
+        <li class="pagination__item" data-page="${pageNum}">
+          <a class="pagination__link js-pagination-link" href="#" data-page="${pageNum}" aria-label="${pageNum}ページ目へ移動">
+            <span class="pagination__number">${pageNum}</span>
+          </a>
+        </li>
+      `);
     }
-    return buttonHtml;
   };
 
-  // ページ番号生成関数
-  const createPageNumbers = () => {
-    let html = "";
-    for (let i = 1; i <= totalPages; i++) {
-      const isActive = i === currentPage;
-      const classNames = [
-        "pagination__item",
-        isActive ? `${CONFIG.ACTIVE_CLASS} isActive` : "",
-      ]
-        .filter(Boolean)
-        .join(" ");
+  // ページ番号の更新（既存のページ番号要素を削除して再生成）
+  const updatePageNumbers = () => {
+    const $prevButton = $pagination.find(".js-pagination-prev").closest("li");
+    const $nextButton = $pagination.find(".js-pagination-next").closest("li");
 
-      if (isActive) {
-        html += `<li class="${classNames}" data-page="${i}">
-          <span class="pagination__number" 
-                aria-current="page" 
-                aria-label="現在のページ、${i}ページ目">${i}</span>
-        </li>`;
+    // 既存のページ番号要素を削除（前/次ボタン以外）
+    $pagination.find("li[data-page]").remove();
+
+    // ページ番号を生成して「次へ」ボタンの前に挿入（昇順で並べる）
+    for (let i = 1; i <= totalPages; i++) {
+      const $pageNum = createPageNumber(i, i === currentPage);
+      $nextButton.before($pageNum);
+    }
+  };
+
+  // 前/次ボタンの状態更新
+  const updateNavButtons = () => {
+    const $prevItem = $pagination.find(".js-pagination-prev").closest("li");
+    const $prevLink = $pagination.find(".js-pagination-prev");
+    const $nextItem = $pagination.find(".js-pagination-next").closest("li");
+    const $nextLink = $pagination.find(".js-pagination-next");
+
+    // 前のページボタン
+    const prevDisabled = currentPage === 1;
+    $prevItem.toggleClass(CONFIG.DISABLED_CLASS, prevDisabled);
+
+    if (prevDisabled) {
+      // 無効時：spanに変更
+      if ($prevLink.is("a")) {
+        const $span = $("<span>")
+          .addClass("pagination__link js-pagination-prev")
+          .attr({
+            "aria-label": `前のページへ（現在1ページ目）`,
+            "aria-disabled": "true",
+            tabindex: "-1",
+            role: "link",
+          })
+          .html($prevLink.html());
+        $prevLink.replaceWith($span);
+      }
+      $prevLink.attr("aria-disabled", "true");
+    } else {
+      // 有効時：aタグに変更
+      if ($prevLink.is("span")) {
+        const $a = $("<a>")
+          .addClass("pagination__link js-pagination-prev")
+          .attr("href", "#")
+          .attr("aria-label", `前のページへ（${currentPage - 1}ページ目）`)
+          .attr("aria-disabled", "false")
+          .html($prevLink.html());
+        $prevLink.replaceWith($a);
       } else {
-        html += `<li class="${classNames}" data-page="${i}">
-          <a class="pagination__link js-pagination-link" 
-             href="#" 
-             data-page="${i}" 
-             aria-label="${i}ページ目へ移動">
-            <span class="pagination__number">${i}</span>
-          </a>
-        </li>`;
+        $prevLink.attr(
+          "aria-label",
+          `前のページへ（${currentPage - 1}ページ目）`
+        );
+        $prevLink.attr("aria-disabled", "false");
       }
     }
-    return html;
-  };
 
-  // ページネーションHTML生成関数
-  const generatePaginationHTML = () => {
-    const prevButton = createNavButton(
-      "prev",
-      currentPage === 1,
-      currentPage - 1
-    );
-    const nextButton = createNavButton(
-      "next",
-      currentPage === totalPages,
-      currentPage + 1
-    );
-    const pageNumbers = createPageNumbers();
+    // 次のページボタン
+    const nextDisabled = currentPage === totalPages;
+    $nextItem.toggleClass(CONFIG.DISABLED_CLASS, nextDisabled);
 
-    return prevButton + pageNumbers + nextButton;
+    if (nextDisabled) {
+      // 無効時：spanに変更
+      if ($nextLink.is("a")) {
+        const $span = $("<span>")
+          .addClass("pagination__link js-pagination-next")
+          .attr({
+            "aria-label": `次のページへ（現在${totalPages}ページ目）`,
+            "aria-disabled": "true",
+            tabindex: "-1",
+            role: "link",
+          })
+          .html($nextLink.html());
+        $nextLink.replaceWith($span);
+      }
+      $nextLink.attr("aria-disabled", "true");
+    } else {
+      // 有効時：aタグに変更
+      if ($nextLink.is("span")) {
+        const $a = $("<a>")
+          .addClass("pagination__link js-pagination-next")
+          .attr("href", "#")
+          .attr("aria-label", `次のページへ（${currentPage + 1}ページ目）`)
+          .attr("aria-disabled", "false")
+          .html($nextLink.html());
+        $nextLink.replaceWith($a);
+      } else {
+        $nextLink.attr(
+          "aria-label",
+          `次のページへ（${currentPage + 1}ページ目）`
+        );
+        $nextLink.attr("aria-disabled", "false");
+      }
+    }
   };
 
   // ニュースアイテムの表示/非表示制御
@@ -359,7 +360,8 @@ $(function () {
 
     currentPage = page;
     updateNewsItems(page);
-    $pagination.html(generatePaginationHTML()).attr("aria-busy", "false");
+    updatePageNumbers();
+    updateNavButtons();
     updateURL(page);
     focusFirstVisibleItem();
   };
@@ -407,6 +409,7 @@ $(function () {
   );
 
   // 初期化
-  $pagination.html(generatePaginationHTML()).attr("aria-busy", "false");
+  updatePageNumbers();
+  updateNavButtons();
   updateNewsItems(currentPage);
 });
