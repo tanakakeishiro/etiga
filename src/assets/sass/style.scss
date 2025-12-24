@@ -1355,7 +1355,6 @@ body {
   }
 }
 
-
 .company-group__description-text {
   margin-left: 8px;
 }
@@ -1791,7 +1790,6 @@ body {
   gap: 2px;
 }
 
-
 .faq__container {
   margin-inline: auto;
   margin-top: 46px;
@@ -2009,8 +2007,8 @@ body {
   }
 }
 
-.footer__item {
-}
+// .footer__item {
+// }
 
 .is-line {
   @include mq(md) {
@@ -2056,11 +2054,11 @@ body {
   }
 }
 
-.footer-sns-item {
-}
+// .footer-sns-item {
+// }
 
-.footer-sns-link {
-}
+// .footer-sns-link {
+// }
 
 .footer__wrapper {
   padding-block: 6px;
