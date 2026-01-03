@@ -388,6 +388,80 @@ $(function () {
   };
 
   // =============================
+  // 関数: createFirstButton()
+  // =============================
+  // 【この関数の役割】
+  // 「一番最初に戻るボタン」のHTML要素を生成します。
+  //
+  // 引数: なし
+  // 戻り値: 生成されたjQueryオブジェクト（li要素）
+  const createFirstButton = () => {
+    return $(`
+      <li class="pagination__item">
+        <a
+          class="pagination__link js-pagination-first"
+          href="#"
+          aria-label="一番最初のページへ"
+        >
+          <svg
+            width="16"
+            height="12"
+            viewBox="0 0 16 12"
+            fill="none"
+            stroke="#828282"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          >
+            <defs>
+              <path
+                id="arrow"
+                d="M8.29034 0.75L1.29034 5.75L8.29034 10.75"
+              />
+            </defs>
+            <use href="#arrow" />
+            <use href="#arrow" transform="translate(6 0)" />
+          </svg>
+        </a>
+      </li>
+    `);
+  };
+
+  // =============================
+  // 関数: createPrevButton()
+  // =============================
+  // 【この関数の役割】
+  // 「前のページボタン」のHTML要素を生成します。
+  //
+  // 引数: なし
+  // 戻り値: 生成されたjQueryオブジェクト（li要素）
+  const createPrevButton = () => {
+    return $(`
+      <li class="pagination__item">
+        <a
+          class="pagination__link js-pagination-prev"
+          href="#"
+          aria-label="前のページへ（${currentPage - 1}ページ目）"
+        >
+          <svg
+            width="10"
+            height="12"
+            viewBox="0 0 10 12"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M8.29034 0.75L1.29034 5.75L8.29034 10.75"
+              stroke="#828282"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </a>
+      </li>
+    `);
+  };
+
+  // =============================
   // 関数: updatePageNumbers()
   // =============================
   // 【この関数の役割】
@@ -398,30 +472,6 @@ $(function () {
   // 引数: なし
   // 戻り値: なし
   const updatePageNumbers = () => {
-    // .find()メソッド: 指定した要素の「中にある」すべての子孫要素（子要素・孫要素・その下の要素）から、
-    //                  指定したセレクタに一致する要素を検索する
-    // ".js-pagination-prev": 前のページボタンの要素（span要素またはa要素）を取得
-    //
-    // .closest("li")メソッド: 指定した要素から「親要素の方向（上方向）」に検索して、
-    //                         最初に見つかった指定したセレクタ（"li"）に一致する要素を取得
-    //
-    // 【.find()と.closest()の違い】
-    // - .find(): 子要素の方向（下方向）に検索 → 子孫要素を探す
-    // - .closest(): 親要素の方向（上方向）に検索 → 祖先要素を探す
-    //
-    // 【HTMLの構造例】
-    // <li class="pagination__item">          ← closest("li")で取得される要素
-    //   <span class="js-pagination-prev">   ← find(".js-pagination-prev")で取得される要素
-    //     <!-- SVGアイコンなど -->
-    //   </span>
-    // </li>
-    //
-    // この場合、.js-pagination-prev（span要素）から親要素の方向に検索すると、
-    // すぐ上のli要素が見つかるので、それがclosest("li")の結果になる
-    //
-    // $prevButton: 前のページボタンの親要素（li要素）のjQueryオブジェクト
-    const $prevButton = $pagination.find(".js-pagination-prev").closest("li");
-
     // ".js-pagination-next": 次のページボタンの要素を取得
     // $nextButton: 次のページボタンの親要素（li要素）のjQueryオブジェクト
     const $nextButton = $pagination.find(".js-pagination-next").closest("li");
@@ -504,113 +554,86 @@ $(function () {
   // 関数: updateNavButtons()
   // =============================
   // 【この関数の役割】
-  // 前/次ボタンの状態（有効/無効）を更新します。
-  // 1ページ目の場合は「前へボタン」を無効にし、最後のページの場合は「次へボタン」を無効にします。
-  // 無効な場合はspanタグに変更してクリックできないようにし、
-  // 有効な場合はaタグに変更してクリック可能にします。
+  // 4つのナビゲーションボタン（最初、前、次、最後）の状態（有効/無効）を更新します。
+  // 1ページ目の場合は「最初」「前」ボタンを削除し、1ページ目以外の場合は追加します。
+  // 最後のページの場合は「次」「最後」ボタンを無効にします。
   //
   // 引数: なし
   // 戻り値: なし
   const updateNavButtons = () => {
-    // 前のページボタンの親要素（li要素）を取得
+    // 一番最初に戻るボタンと前のページボタンの要素を取得（存在する場合）
+    const $firstItem = $pagination.find(".js-pagination-first").closest("li");
     const $prevItem = $pagination.find(".js-pagination-prev").closest("li");
 
-    // 前のページボタン自体（a要素またはspan要素）を取得
-    const $prevLink = $pagination.find(".js-pagination-prev");
+    // 次のページボタンの親要素（li要素）を取得（常に存在する）
+    const $nextButton = $pagination.find(".js-pagination-next").closest("li");
 
     // 次のページボタンの親要素（li要素）を取得
     const $nextItem = $pagination.find(".js-pagination-next").closest("li");
-
     // 次のページボタン自体（a要素またはspan要素）を取得
     const $nextLink = $pagination.find(".js-pagination-next");
 
+    // 一番最後に飛ぶボタンの親要素（li要素）を取得
+    const $lastItem = $pagination.find(".js-pagination-last").closest("li");
+    // 一番最後に飛ぶボタン自体（a要素またはspan要素）を取得
+    const $lastLink = $pagination.find(".js-pagination-last");
+
     // =============================
-    // 前のページボタンの処理
+    // 一番最初に戻るボタンと前のページボタンの処理
     // =============================
-    // 現在のページが1ページ目の場合、前のページボタンは無効
-    // 真偽値（true/false）を変数に格納
-    //
-    // 【このコードの役割】
-    // prevDisabled変数に、前のページボタンを無効にするかどうかの判定結果を格納する
-    //
-    // 【判定ロジック】
-    // currentPage === 1: 現在のページが1ページ目かどうかを判定
-    //   - currentPage が 1 の場合 → true（前のページボタンを無効にする）
-    //   - currentPage が 1 以外の場合 → false（前のページボタンを有効にする）
-    //
-    // 【具体例】
-    // - currentPage = 1 の場合:
-    //   prevDisabled = 1 === 1 → true
-    //   → 前のページボタンは無効（1ページ目より前のページは存在しないため）
-    //
-    // - currentPage = 2 の場合:
-    //   prevDisabled = 2 === 1 → false
-    //   → 前のページボタンは有効（1ページ目に戻れるため）
-    //
-    // - currentPage = 3 の場合:
-    //   prevDisabled = 3 === 1 → false
-    //   → 前のページボタンは有効（2ページ目に戻れるため）
-    //
-    // この変数は、後続の処理で前のページボタンのスタイルや動作を制御するために使用される
-    const prevDisabled = currentPage === 1;
+    // 1ページ目の場合は削除、1ページ目以外の場合は追加
+    const isFirstPage = currentPage === 1;
 
-    // .toggleClass()メソッド: クラスを追加/削除する
-    // 第1引数: 追加/削除するクラス名
-    // 第2引数: trueの場合はクラスを追加、falseの場合は削除
-    // prevDisabledがtrueの場合、DISABLED_CLASSを追加（無効状態を視覚的に示す）
-    $prevItem.toggleClass(CONFIG.DISABLED_CLASS, prevDisabled);
-
-    // 無効状態の場合は非表示にする
-    if (prevDisabled) {
-      $prevItem.hide();
-    } else {
-      $prevItem.show();
-    }
-
-    // 無効状態の場合
-    if (prevDisabled) {
-      // .is()メソッド: 要素が指定したセレクタに一致するかどうかを判定
-      // "a"はaタグを表すセレクタ
-      // 現在aタグの場合は、spanタグに変更する（クリックできないようにするため）
-      if ($prevLink.is("a")) {
-        // $()関数: 新しい要素を作成
-        // "<span>": 作成する要素のタグ名
-        const $span = $("<span>")
-          // .addClass()メソッド: CSSクラスを追加
-          .addClass("pagination__link js-pagination-prev")
-          // .attr()メソッド: 属性を設定（オブジェクト形式で複数指定可能）
-          .attr({
-            "aria-disabled": "true", // 無効状態を示すARIA属性
-            tabindex: "-1", // キーボードフォーカスを受け取らないようにする
-            role: "link", // 要素の役割を指定（リンクとして認識させる）
-          })
-          // .html()メソッド: 要素の内部HTMLを取得（SVGアイコンなどを保持）
-          .html($prevLink.html());
-
-        // .replaceWith()メソッド: 要素を別の要素に置き換える
-        // aタグをspanタグに置き換える
-        $prevLink.replaceWith($span);
+    if (isFirstPage) {
+      // 1ページ目の場合: ボタンを削除
+      if ($firstItem.length) {
+        $firstItem.remove();
       }
-      // aria-disabled属性をtrueに設定（無効状態を明確にする）
-      $prevLink.attr("aria-disabled", "true");
+      if ($prevItem.length) {
+        $prevItem.remove();
+      }
     } else {
-      // 有効状態の場合
-      // 現在spanタグの場合は、aタグに変更する（クリック可能にするため）
-      if ($prevLink.is("span")) {
-        const $a = $("<a>")
-          .addClass("pagination__link js-pagination-prev")
-          .attr("href", "#") // リンク先を設定
-          .attr("aria-label", `前のページへ（${currentPage - 1}ページ目）`)
-          .attr("aria-disabled", "false")
-          .html($prevLink.html());
-        $prevLink.replaceWith($a);
+      // 1ページ目以外の場合: ボタンを追加または更新
+      // ページ番号の最初の要素を取得（挿入位置の基準）
+      const $firstPageNumber = $pagination.find("li[data-page]").first();
+
+      // 一番最初に戻るボタンの処理
+      if (!$firstItem.length) {
+        // ボタンが存在しない場合は追加
+        const $firstButton = createFirstButton();
+        // ページ番号の前に挿入、ページ番号がない場合は次へボタンの前に挿入
+        if ($firstPageNumber.length) {
+          $firstPageNumber.before($firstButton);
+        } else {
+          $nextButton.before($firstButton);
+        }
       } else {
-        // すでにaタグの場合は、aria-label属性だけを更新
-        $prevLink.attr(
-          "aria-label",
-          `前のページへ（${currentPage - 1}ページ目）`
-        );
-        $prevLink.attr("aria-disabled", "false");
+        // ボタンが存在する場合はaria-labelを更新
+        $firstItem
+          .find(".js-pagination-first")
+          .attr("aria-label", "一番最初のページへ");
+      }
+
+      // 前のページボタンの処理
+      if (!$prevItem.length) {
+        // ボタンが存在しない場合は追加
+        const $prevButton = createPrevButton();
+        // 一番最初に戻るボタンの後、またはページ番号の前に挿入
+        const $firstItemAfter = $pagination
+          .find(".js-pagination-first")
+          .closest("li");
+        if ($firstItemAfter.length) {
+          $firstItemAfter.after($prevButton);
+        } else if ($firstPageNumber.length) {
+          $firstPageNumber.before($prevButton);
+        } else {
+          $nextButton.before($prevButton);
+        }
+      } else {
+        // ボタンが存在する場合はaria-labelを更新
+        $prevItem
+          .find(".js-pagination-prev")
+          .attr("aria-label", `前のページへ（${currentPage - 1}ページ目）`);
       }
     }
 
@@ -658,6 +681,46 @@ $(function () {
           `次のページへ（${currentPage + 1}ページ目）`
         );
         $nextLink.attr("aria-disabled", "false");
+      }
+    }
+
+    // =============================
+    // 一番最後に飛ぶボタンの処理
+    // =============================
+    const lastDisabled = currentPage === totalPages;
+    $lastItem.toggleClass(CONFIG.DISABLED_CLASS, lastDisabled);
+
+    if (lastDisabled) {
+      $lastItem.hide();
+    } else {
+      $lastItem.show();
+    }
+
+    if (lastDisabled) {
+      if ($lastLink.is("a")) {
+        const $span = $("<span>")
+          .addClass("pagination__link js-pagination-last")
+          .attr({
+            "aria-disabled": "true",
+            tabindex: "-1",
+            role: "link",
+          })
+          .html($lastLink.html());
+        $lastLink.replaceWith($span);
+      }
+      $lastLink.attr("aria-disabled", "true");
+    } else {
+      if ($lastLink.is("span")) {
+        const $a = $("<a>")
+          .addClass("pagination__link js-pagination-last")
+          .attr("href", "#")
+          .attr("aria-label", "一番最後のページへ")
+          .attr("aria-disabled", "false")
+          .html($lastLink.html());
+        $lastLink.replaceWith($a);
+      } else {
+        $lastLink.attr("aria-label", "一番最後のページへ");
+        $lastLink.attr("aria-disabled", "false");
       }
     }
   };
@@ -886,6 +949,18 @@ $(function () {
     handlePaginationClick(e, () => currentPage < totalPages && currentPage + 1);
   });
 
+  // 一番最初に戻るボタンのクリックイベント
+  $(document).on("click", ".js-pagination-first", function (e) {
+    // 現在のページが1より大きい場合のみ、1ページ目を返す
+    handlePaginationClick(e, () => currentPage > 1 && 1);
+  });
+
+  // 一番最後に飛ぶボタンのクリックイベント
+  $(document).on("click", ".js-pagination-last", function (e) {
+    // 現在のページが最後のページより小さい場合のみ、最後のページ番号を返す
+    handlePaginationClick(e, () => currentPage < totalPages && totalPages);
+  });
+
   // =============================
   // キーボードナビゲーション
   // =============================
@@ -894,7 +969,7 @@ $(function () {
   // アクセシビリティの向上のため、マウスを使わずにキーボードだけで操作できるようにしています。
   $(document).on(
     "keydown", // キーボードのキーが押されたときに発生するイベント
-    ".js-pagination-link, .js-pagination-prev, .js-pagination-next", // 複数のセレクタをカンマで区切る
+    ".js-pagination-link, .js-pagination-first, .js-pagination-prev, .js-pagination-next, .js-pagination-last", // 複数のセレクタをカンマで区切る
     function (e) {
       // e.key: 押されたキーの名前
       // "Enter": Enterキー

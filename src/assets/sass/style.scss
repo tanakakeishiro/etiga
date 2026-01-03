@@ -631,6 +631,13 @@ body {
   :not(.isActive):hover {
     text-decoration: none;
   }
+
+  // 768px未満で、現在のページ以外のページ番号を非表示
+  @media screen and (max-width: 767px) {
+    &[data-page]:not(.pagination__item--active) {
+      display: none;
+    }
+  }
 }
 
 .pagination__link {
@@ -646,8 +653,9 @@ body {
 
   svg {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 16px;
+    height: 12px;
+    flex-shrink: 0;
 
     path {
       stroke: #828282;

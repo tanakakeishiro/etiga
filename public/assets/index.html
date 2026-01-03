@@ -413,32 +413,7 @@
           <div class="news__foot">
             <nav class="news__pagination" aria-label="ページネーション">
               <ul class="pagination js-pagination">
-                <!-- 前のページボタン -->
-                <li class="pagination__item pagination__item--disabled">
-                  <span
-                    class="pagination__link js-pagination-prev"
-                    aria-disabled="true"
-                    tabindex="-1"
-                    role="link"
-                  >
-                    <svg
-                      width="16"
-                      height="12"
-                      viewBox="0 0 16 12"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <g
-                        stroke="#c0c0c0"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                      >
-                        <path d="M14.2903 0.75L7.29034 5.75L14.2903 10.75" />
-                        <path d="M8.29034 0.75L1.29034 5.75L8.29034 10.75" />
-                      </g>
-                    </svg>
-                  </span>
-                </li>
+                <!-- 一番最初に戻るボタンと前のページボタンはJavaScriptで動的に追加されます -->
                 <!-- ページ番号はJavaScriptで動的に追加されます -->
                 <li
                   class="pagination__item pagination__item--active isActive"
@@ -454,20 +429,46 @@
                     aria-label="次のページへ"
                   >
                     <svg
+                      width="10"
+                      height="12"
+                      viewBox="0 0 10 12"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M0.750061 0.75L7.75006 5.75L0.750061 10.75"
+                        stroke="#828282"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </a>
+                </li>
+                <!-- 一番最後に飛ぶボタン -->
+                <li class="pagination__item">
+                  <a
+                    class="pagination__link js-pagination-last"
+                    href="#"
+                    aria-label="一番最後のページへ"
+                  >
+                    <svg
                       width="16"
                       height="12"
                       viewBox="0 0 16 12"
                       fill="none"
-                      aria-hidden="true"
+                      stroke="#828282"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
                     >
-                      <g
-                        stroke="#828282"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                      >
-                        <path d="M0.750061 0.75L7.75006 5.75L0.750061 10.75" />
-                        <path d="M6.75006 0.75L13.7501 5.75L6.75006 10.75" />
-                      </g>
+                      <defs>
+                        <path
+                          id="arrow-last"
+                          d="M0.750061 0.75L7.75006 5.75L0.750061 10.75"
+                        />
+                      </defs>
+
+                      <use href="#arrow-last" />
+                      <use href="#arrow-last" transform="translate(6 0)" />
                     </svg>
                   </a>
                 </li>
