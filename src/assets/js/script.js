@@ -565,18 +565,9 @@ $(function () {
     const $firstItem = $pagination.find(".js-pagination-first").closest("li");
     const $prevItem = $pagination.find(".js-pagination-prev").closest("li");
 
-    // 次のページボタンの親要素（li要素）を取得（常に存在する）
-    const $nextButton = $pagination.find(".js-pagination-next").closest("li");
-
-    // 次のページボタンの親要素（li要素）を取得
+    // 次のページボタンと最後のページボタンの親要素（li要素）を取得
     const $nextItem = $pagination.find(".js-pagination-next").closest("li");
-    // 次のページボタン自体（a要素またはspan要素）を取得
-    const $nextLink = $pagination.find(".js-pagination-next");
-
-    // 一番最後に飛ぶボタンの親要素（li要素）を取得
     const $lastItem = $pagination.find(".js-pagination-last").closest("li");
-    // 一番最後に飛ぶボタン自体（a要素またはspan要素）を取得
-    const $lastLink = $pagination.find(".js-pagination-last");
 
     // =============================
     // 一番最初に戻るボタンと前のページボタンの処理
@@ -586,12 +577,8 @@ $(function () {
 
     if (isFirstPage) {
       // 1ページ目の場合: ボタンを削除
-      if ($firstItem.length) {
-        $firstItem.remove();
-      }
-      if ($prevItem.length) {
-        $prevItem.remove();
-      }
+      $firstItem.length && $firstItem.remove();
+      $prevItem.length && $prevItem.remove();
     } else {
       // 1ページ目以外の場合: ボタンを追加または更新
       // ページ番号の最初の要素を取得（挿入位置の基準）
@@ -605,7 +592,7 @@ $(function () {
         if ($firstPageNumber.length) {
           $firstPageNumber.before($firstButton);
         } else {
-          $nextButton.before($firstButton);
+          $nextItem.before($firstButton);
         }
       } else {
         // ボタンが存在する場合はaria-labelを更新
@@ -619,16 +606,12 @@ $(function () {
         // ボタンが存在しない場合は追加
         const $prevButton = createPrevButton();
         // 一番最初に戻るボタンの後、またはページ番号の前に挿入
-        const $firstItemAfter = $pagination
-          .find(".js-pagination-first")
-          .closest("li");
-        if ($firstItemAfter.length) {
-          $firstItemAfter.after($prevButton);
-        } else if ($firstPageNumber.length) {
-          $firstPageNumber.before($prevButton);
-        } else {
-          $nextButton.before($prevButton);
-        }
+        const $insertTarget = $firstItem.length
+          ? $firstItem
+          : $firstPageNumber.length
+            ? $firstPageNumber
+            : $nextItem;
+        $insertTarget[$firstItem.length ? "after" : "before"]($prevButton);
       } else {
         // ボタンが存在する場合はaria-labelを更新
         $prevItem
@@ -638,27 +621,20 @@ $(function () {
     }
 
     // =============================
-    // 次のページボタンの処理（前のページボタンと同じロジック）
+    // 次のページボタンと最後のページボタンの処理
     // =============================
-    // 現在のページが最後のページの場合、次のページボタンは無効
-    const nextDisabled = currentPage === totalPages;
-    $nextItem.toggleClass(CONFIG.DISABLED_CLASS, nextDisabled);
+    // 現在のページが最後のページの場合、ボタンは無効
+    const isLastPage = currentPage === totalPages;
 
-    // 無効状態の場合は非表示にする
-    if (nextDisabled) {
-      $nextItem.hide();
-    } else {
-      $nextItem.show();
-    }
+    // 次のページボタンの状態を更新
+    $nextItem
+      .toggleClass(CONFIG.DISABLED_CLASS, isLastPage)
+      .toggle(!isLastPage);
 
-    const lastDisabled = currentPage === totalPages;
-    $lastItem.toggleClass(CONFIG.DISABLED_CLASS, lastDisabled);
-
-    if (lastDisabled) {
-      $lastItem.hide();
-    } else {
-      $lastItem.show();
-    }
+    // 最後のページボタンの状態を更新
+    $lastItem
+      .toggleClass(CONFIG.DISABLED_CLASS, isLastPage)
+      .toggle(!isLastPage);
   };
 
   // =============================
@@ -896,35 +872,6 @@ $(function () {
     // 現在のページが最後のページより小さい場合のみ、最後のページ番号を返す
     handlePaginationClick(e, () => currentPage < totalPages && totalPages);
   });
-
-  // =============================
-  // キーボードナビゲーション
-  // =============================
-  // 【このセクションの役割】
-  // キーボードユーザーがEnterキーやSpaceキーでページネーションを操作できるようにします。
-  // アクセシビリティの向上のため、マウスを使わずにキーボードだけで操作できるようにしています。
-  $(document).on(
-    "keydown", // キーボードのキーが押されたときに発生するイベント
-    ".js-pagination-link, .js-pagination-first, .js-pagination-prev, .js-pagination-next, .js-pagination-last", // 複数のセレクタをカンマで区切る
-    function (e) {
-      // e.key: 押されたキーの名前
-      // "Enter": Enterキー
-      // " ": Spaceキー（スペース）
-      // &&演算子: 両方の条件がtrueの場合のみ実行
-      // !$(this).attr("aria-disabled"): aria-disabled属性が"true"でない場合（有効な場合）
-      if (
-        (e.key === "Enter" || e.key === " ") &&
-        !$(this).attr("aria-disabled")
-      ) {
-        // デフォルトの動作をキャンセル（Spaceキーの場合はページスクロールを防ぐ）
-        e.preventDefault();
-
-        // .click()メソッド: プログラム的にクリックイベントを発生させる
-        // これにより、クリックと同じ動作を実行
-        $(this).click();
-      }
-    }
-  );
 
   // =============================
   // 初期化処理
