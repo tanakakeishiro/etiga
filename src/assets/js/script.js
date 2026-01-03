@@ -651,42 +651,6 @@ $(function () {
       $nextItem.show();
     }
 
-    if (nextDisabled) {
-      // 無効時：spanに変更
-      if ($nextLink.is("a")) {
-        const $span = $("<span>")
-          .addClass("pagination__link js-pagination-next")
-          .attr({
-            "aria-disabled": "true",
-            tabindex: "-1",
-            role: "link",
-          })
-          .html($nextLink.html());
-        $nextLink.replaceWith($span);
-      }
-      $nextLink.attr("aria-disabled", "true");
-    } else {
-      // 有効時：aタグに変更
-      if ($nextLink.is("span")) {
-        const $a = $("<a>")
-          .addClass("pagination__link js-pagination-next")
-          .attr("href", "#")
-          .attr("aria-label", `次のページへ（${currentPage + 1}ページ目）`)
-          .attr("aria-disabled", "false")
-          .html($nextLink.html());
-        $nextLink.replaceWith($a);
-      } else {
-        $nextLink.attr(
-          "aria-label",
-          `次のページへ（${currentPage + 1}ページ目）`
-        );
-        $nextLink.attr("aria-disabled", "false");
-      }
-    }
-
-    // =============================
-    // 一番最後に飛ぶボタンの処理
-    // =============================
     const lastDisabled = currentPage === totalPages;
     $lastItem.toggleClass(CONFIG.DISABLED_CLASS, lastDisabled);
 
@@ -694,34 +658,6 @@ $(function () {
       $lastItem.hide();
     } else {
       $lastItem.show();
-    }
-
-    if (lastDisabled) {
-      if ($lastLink.is("a")) {
-        const $span = $("<span>")
-          .addClass("pagination__link js-pagination-last")
-          .attr({
-            "aria-disabled": "true",
-            tabindex: "-1",
-            role: "link",
-          })
-          .html($lastLink.html());
-        $lastLink.replaceWith($span);
-      }
-      $lastLink.attr("aria-disabled", "true");
-    } else {
-      if ($lastLink.is("span")) {
-        const $a = $("<a>")
-          .addClass("pagination__link js-pagination-last")
-          .attr("href", "#")
-          .attr("aria-label", "一番最後のページへ")
-          .attr("aria-disabled", "false")
-          .html($lastLink.html());
-        $lastLink.replaceWith($a);
-      } else {
-        $lastLink.attr("aria-label", "一番最後のページへ");
-        $lastLink.attr("aria-disabled", "false");
-      }
     }
   };
 
