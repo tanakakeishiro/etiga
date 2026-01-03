@@ -632,10 +632,13 @@ body {
     text-decoration: none;
   }
 
-  // 768px未満で、現在のページ以外のページ番号を非表示
-  @media screen and (max-width: 767px) {
-    &[data-page]:not(.pagination__item--active) {
-      display: none;
+  // 767px以下で、現在のページ以外のページ番号を非表示
+  &[data-page]:not(.pagination__item--active) {
+    display: none;
+
+    // 768px以上で表示
+    @include mq(md) {
+      display: block;
     }
   }
 }

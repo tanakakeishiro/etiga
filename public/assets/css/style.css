@@ -583,9 +583,12 @@ body {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
-@media screen and (max-width: 767px) {
+.pagination__item[data-page]:not(.pagination__item--active) {
+  display: none;
+}
+@media screen and (min-width: 768px) {
   .pagination__item[data-page]:not(.pagination__item--active) {
-    display: none;
+    display: block;
   }
 }
 
