@@ -198,7 +198,7 @@ $(function () {
 
     // ACTIVE_CLASS: 現在のページを示すCSSクラス名（文字列）
     // このクラスが付与された要素は、現在選択されているページを視覚的に示す
-    ACTIVE_CLASS: "pagination__item--active",
+    ACTIVE_CLASS: "is-pagination--active",
 
     // DISABLED_CLASS: 無効状態のボタンを示すCSSクラス名（文字列）
     // このクラスが付与された要素は、クリックできない状態を視覚的に示す
@@ -206,7 +206,7 @@ $(function () {
 
     // VISIBLE_CLASS: 表示するニュースアイテムに付与するCSSクラス名（文字列）
     // このクラスが付与された要素だけが表示される（CSSで制御）
-    VISIBLE_CLASS: "on",
+    VISIBLE_CLASS: "is-on",
   };
 
   // =============================
@@ -362,8 +362,8 @@ $(function () {
       // テンプレートリテラル（バッククォート）: 変数を文字列に埋め込む
       // ${}: 変数や式の値を文字列に展開
       return $(`
-        <li class="pagination__item ${CONFIG.ACTIVE_CLASS} isActive" data-page="${pageNum}">
-          <a class="pagination__number" href="?page=${pageNum}" aria-current="page" onclick="return false;">${pageNum}</a>
+        <li class="pagination__item ${CONFIG.ACTIVE_CLASS}" data-page="${pageNum}">
+          <a class="pagination__number" href="?page=${pageNum}" aria-current="page">${pageNum}</a>
         </li>
       `);
     } else {
