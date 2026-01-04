@@ -116,20 +116,20 @@
               </a>
             </div>
 
-            <ul class="header__list header-list">
-              <li class="header-list__item">
-                <a href="" class="header-list__link">e-tigaとは</a>
+            <ul class="header__lists">
+              <li class="header__list">
+                <a href="" class="header__link js-header-link">e-tigaとは</a>
               </li>
-              <li class="header-list__item">
-                <a href="" class="header-list__link">ご利用の流れ</a>
+              <li class="header__list">
+                <a href="" class="header__link js-header-link">ご利用の流れ</a>
               </li>
-              <li class="header-list__item">
-                <a href="" class="header-list__link">プラン</a>
+              <li class="header__list">
+                <a href="" class="header__link js-header-link">プラン</a>
               </li>
-              <li class="header-list__item">
-                <a href="" class="header-list__link">運営会社</a>
+              <li class="header__list">
+                <a href="" class="header__link js-header-link">運営会社</a>
               </li>
-              <li class="header-list__button">
+              <li class="header__button">
                 <a href="" class="button">無料で登録</a>
               </li>
             </ul>
@@ -411,7 +411,7 @@
             </li>
           </ul>
           <div class="news__foot">
-            <nav class="news__pagination" aria-label="ページネーション">
+            <nav class="news__pagination" aria-label="ページナビゲーション">
               <ul class="pagination js-pagination">
                 <!-- 一番最初に戻るボタンと前のページボタンはJavaScriptで動的に追加されます -->
                 <!-- ページ番号はJavaScriptで動的に追加されます -->
@@ -419,7 +419,13 @@
                   class="pagination__item pagination__item--active isActive"
                   data-page="1"
                 >
-                  <span class="pagination__number" aria-current="page">1</span>
+                  <a
+                    class="pagination__number"
+                    href="?page=1"
+                    aria-current="page"
+                    onclick="return false;"
+                    >1</a
+                  >
                 </li>
                 <!-- 次のページボタン -->
                 <li class="pagination__item">

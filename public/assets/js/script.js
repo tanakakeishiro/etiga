@@ -30,42 +30,36 @@
 // =============================
 // ハンバーガーメニュー
 // =============================
-const backgroundFix = (bool) => {
-  const scrollingElement = () =>
+// メニューを開いている時、背景が動かないように固定する
+
+const CLASS = "is-checked";
+let savedScrollY = 0; // スクロール位置を保存
+
+// 背景を固定/解除する関数
+const backgroundFix = (isOpen) => {
+  const scrollingElement =
     "scrollingElement" in document
       ? document.scrollingElement
       : document.documentElement;
 
-  const scrollY = bool
-    ? scrollingElement().scrollTop
-    : parseInt(document.body.style.top || "0");
-
-  if (bool) {
-    Object.assign(document.body.style, {
-      height: "100vh",
-      position: "fixed",
-      top: `${scrollY * -1}px`,
-      left: "0",
-      width: "100vw",
-    });
+  if (isOpen) {
+    // 現在のスクロール位置を保存
+    savedScrollY = scrollingElement.scrollTop;
+    // CSS変数にスクロール位置を設定（マイナス値）
+    document.body.style.setProperty("--scroll-y", `${savedScrollY * -1}px`);
+    document.body.classList.add("is-menu-open");
   } else {
-    Object.assign(document.body.style, {
-      height: "",
-      position: "",
-      top: "",
-      left: "",
-      width: "",
-    });
-    window.scrollTo(0, scrollY * -1);
+    document.body.classList.remove("is-menu-open");
+    // スクロール位置を元に戻す
+    window.scrollTo(0, savedScrollY);
+    document.body.style.removeProperty("--scroll-y");
   }
 };
 
-const CLASS = "is-checked";
-let flg = false;
 const $hamburger = jQuery("#js-drawer-button");
 const $menu = jQuery("#js-drawer-content");
 const $focusTrap = jQuery("#js-focus-trap");
-const $firstLink = jQuery(".header__link").first();
+const $firstLink = jQuery(".js-header-link").first();
 
 const closeMenu = () => {
   $hamburger
@@ -77,7 +71,6 @@ const closeMenu = () => {
     .focus();
   $menu.removeClass(CLASS);
   backgroundFix(false);
-  flg = false;
 };
 
 const openMenu = () => {
@@ -87,28 +80,26 @@ const openMenu = () => {
     .removeAttr("aria-haspopup");
   $menu.addClass(CLASS);
   backgroundFix(true);
-  flg = true;
+  // メニューが開いた後、最初のリンクにフォーカスを当てる
   setTimeout(() => $firstLink.length && $firstLink.focus(), 100);
 };
 
 $hamburger.on("click", function (e) {
   e.preventDefault();
-  flg ? closeMenu() : openMenu();
+  $hamburger.hasClass(CLASS) ? closeMenu() : openMenu();
 });
 
 jQuery(window).on("keydown", (e) => {
-  if (e.key === "Escape" && flg) closeMenu();
+  if (e.key === "Escape" && $hamburger.hasClass(CLASS)) closeMenu();
 });
 
+// フォーカストラップ：メニュー内でキーボード操作を閉じ込める
 $focusTrap.on("focus", () => {
   $hamburger.focus();
 });
 
+// ページ内リンクをクリックした時にメニューを閉じる
 jQuery('#js-drawer-content a[href^="#"]').on("click", closeMenu);
-
-$("#js-drawer-button").click(function () {
-  $(".drawer-icon__bar").toggleClass("drawer-icon__color");
-});
 
 // const swiper = new Swiper("#js-work-swiper", {
 //   // Optional parameters
@@ -372,7 +363,7 @@ $(function () {
       // ${}: 変数や式の値を文字列に展開
       return $(`
         <li class="pagination__item ${CONFIG.ACTIVE_CLASS} isActive" data-page="${pageNum}">
-          <span class="pagination__number" aria-current="page">${pageNum}</span>
+          <a class="pagination__number" href="?page=${pageNum}" aria-current="page" onclick="return false;">${pageNum}</a>
         </li>
       `);
     } else {
@@ -872,6 +863,17 @@ $(function () {
     // 現在のページが最後のページより小さい場合のみ、最後のページ番号を返す
     handlePaginationClick(e, () => currentPage < totalPages && totalPages);
   });
+
+  // 現在のページのリンクのクリックイベント（無効化）
+  $(document).on(
+    "click",
+    ".pagination__number[aria-current='page']",
+    function (e) {
+      // 現在のページのリンクがクリックされた場合は、デフォルトの動作をキャンセル
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  );
 
   // =============================
   // 初期化処理

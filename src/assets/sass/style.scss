@@ -51,6 +51,15 @@ body {
   line-height: $line-height-base;
   font-weight: $font-wight-base;
   font-style: normal;
+
+  // メニューが開いている時、背景を固定する
+  &.is-menu-open {
+    height: 100vh;
+    position: fixed;
+    top: var(--scroll-y, 0);
+    left: 0;
+    width: 100vw;
+  }
 }
 
 .section-spacing {
@@ -287,20 +296,14 @@ body {
   }
 }
 
-.header__list {
+.header__lists {
   margin-top: 60px;
-
-  @include mq(md) {
-    margin-top: 0;
-  }
-}
-
-.header-list {
   display: flex;
   flex-direction: column;
   gap: 30px;
 
   @include mq(md) {
+    margin-top: 0;
     flex-direction: row;
     align-items: center;
     gap: 20px;
@@ -315,7 +318,7 @@ body {
   }
 }
 
-.header-list__item {
+.header__list {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -340,7 +343,7 @@ body {
   }
 }
 
-.header-list__link {
+.header__link {
   color: #fff;
   font-size: 20px;
   font-weight: 700;
@@ -352,7 +355,7 @@ body {
   }
 }
 
-.header-list__button {
+.header__button {
   display: none;
 
   @include mq(md) {
