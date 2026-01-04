@@ -412,20 +412,7 @@
           <div class="news__foot">
             <nav class="news__pagination" aria-label="ページナビゲーション">
               <ul class="pagination js-pagination">
-                <!-- 一番最初に戻るボタンと前のページボタンはJavaScriptで動的に追加されます -->
-                <!-- ページ番号はJavaScriptで動的に追加されます -->
-                <li
-                  class="pagination__item pagination__item--active isActive"
-                  data-page="1"
-                >
-                  <a
-                    class="pagination__number"
-                    href="?page=1"
-                    aria-current="page"
-                    onclick="return false;"
-                    >1</a
-                  >
-                </li>
+                <!-- ページ番号、最初/前/次/最後ボタンはJavaScriptで動的に追加されます -->
                 <!-- 次のページボタン -->
                 <li class="pagination__item">
                   <a

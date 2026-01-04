@@ -200,10 +200,6 @@ $(function () {
     // このクラスが付与された要素は、現在選択されているページを視覚的に示す
     ACTIVE_CLASS: "is-pagination--active",
 
-    // DISABLED_CLASS: 無効状態のボタンを示すCSSクラス名（文字列）
-    // このクラスが付与された要素は、クリックできない状態を視覚的に示す
-    DISABLED_CLASS: "pagination__item--disabled",
-
     // VISIBLE_CLASS: 表示するニュースアイテムに付与するCSSクラス名（文字列）
     // このクラスが付与された要素だけが表示される（CSSで制御）
     VISIBLE_CLASS: "is-on",
@@ -597,12 +593,13 @@ $(function () {
         // ボタンが存在しない場合は追加
         const $prevButton = createPrevButton();
         // 一番最初に戻るボタンの後、またはページ番号の前に挿入
-        const $insertTarget = $firstItem.length
-          ? $firstItem
-          : $firstPageNumber.length
-            ? $firstPageNumber
-            : $nextItem;
-        $insertTarget[$firstItem.length ? "after" : "before"]($prevButton);
+        if ($firstItem.length) {
+          $firstItem.after($prevButton);
+        } else if ($firstPageNumber.length) {
+          $firstPageNumber.before($prevButton);
+        } else {
+          $nextItem.before($prevButton);
+        }
       } else {
         // ボタンが存在する場合はaria-labelを更新
         $prevItem
@@ -618,14 +615,16 @@ $(function () {
     const isLastPage = currentPage === totalPages;
 
     // 次のページボタンの状態を更新
-    $nextItem
-      .toggleClass(CONFIG.DISABLED_CLASS, isLastPage)
-      .toggle(!isLastPage);
+    $nextItem.toggle(!isLastPage);
+    if (!isLastPage) {
+      $nextItem.find(".js-pagination-next").attr("aria-disabled", "false");
+    }
 
     // 最後のページボタンの状態を更新
-    $lastItem
-      .toggleClass(CONFIG.DISABLED_CLASS, isLastPage)
-      .toggle(!isLastPage);
+    $lastItem.toggle(!isLastPage);
+    if (!isLastPage) {
+      $lastItem.find(".js-pagination-last").attr("aria-disabled", "false");
+    }
   };
 
   // =============================
