@@ -74,68 +74,66 @@
   <body>
     <header class="header">
       <div class="header__inner inner">
-        <div class="header__content">
-          <h1 class="header__logo">
+        <h1 class="header__logo">
+          <a href="">
+            <img
+              src="./img/header-logo.webp"
+              alt="e-tiga"
+              width="320"
+              height="64"
+            />
+          </a>
+        </h1>
+
+        <button
+          id="js-drawer-button"
+          type="button"
+          class="header__open drawer-icon"
+          aria-controls="js-drawer-content"
+          aria-expanded="false"
+          aria-haspopup="menu"
+          aria-label="メニューを開閉"
+        >
+          <span class="drawer-icon__bar"></span
+          ><span class="drawer-icon__bar"></span
+          ><span class="drawer-icon__bar"></span>
+        </button>
+
+        <nav
+          id="js-drawer-content"
+          class="header__nav"
+          aria-label="グローバルナビゲーション"
+        >
+          <div class="header__logo-secondary">
             <a href="">
               <img
-                src="./img/header-logo.webp"
+                src="./img/header-logo__white.webp"
                 alt="e-tiga"
-                width="320"
-                height="64"
+                width="360"
+                height="72"
               />
             </a>
-          </h1>
+          </div>
 
-          <button
-            id="js-drawer-button"
-            type="button"
-            class="header__open drawer-icon"
-            aria-controls="js-drawer-content"
-            aria-expanded="false"
-            aria-haspopup="menu"
-            aria-label="メニューを開閉"
-          >
-            <span class="drawer-icon__bar"></span
-            ><span class="drawer-icon__bar"></span
-            ><span class="drawer-icon__bar"></span>
-          </button>
-
-          <nav
-            id="js-drawer-content"
-            class="header__nav"
-            aria-label="グローバルナビゲーション"
-          >
-            <div class="header__logo-secondary">
-              <a href="">
-                <img
-                  src="./img/header-logo__white.webp"
-                  alt="e-tiga"
-                  width="360"
-                  height="72"
-                />
-              </a>
-            </div>
-
-            <ul class="header__lists">
-              <li class="header__list">
-                <a href="" class="header__link js-header-link">e-tigaとは</a>
-              </li>
-              <li class="header__list">
-                <a href="" class="header__link js-header-link">ご利用の流れ</a>
-              </li>
-              <li class="header__list">
-                <a href="" class="header__link js-header-link">プラン</a>
-              </li>
-              <li class="header__list">
-                <a href="" class="header__link js-header-link">運営会社</a>
-              </li>
-              <li class="header__button">
-                <a href="" class="button">無料で登録</a>
-              </li>
-            </ul>
-            <div id="js-focus-trap" tabindex="0"></div>
-          </nav>
-        </div>
+          <ul class="header__lists">
+            <li class="header__list">
+              <a href="" class="header__link js-header-link">e-tigaとは</a>
+            </li>
+            <li class="header__list">
+              <a href="" class="header__link js-header-link">ご利用の流れ</a>
+            </li>
+            <li class="header__list">
+              <a href="" class="header__link js-header-link">プラン</a>
+            </li>
+            <li class="header__list">
+              <a href="" class="header__link js-header-link">運営会社</a>
+            </li>
+            <li class="header__button">
+              <a href="" class="button">無料で登録</a>
+            </li>
+          </ul>
+          <div id="js-focus-trap" tabindex="0"></div>
+        </nav>
       </div>
     </header>
     <main class="main">

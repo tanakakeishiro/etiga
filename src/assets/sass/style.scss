@@ -162,10 +162,24 @@ body {
   ------------------------- */
 
 .header {
+  height: $header-height;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: layer(header);
   background: #eaf4f7;
+
+  @include mq(md) {
+    position: sticky;
+  }
 }
 
 .header__inner {
+  height: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   @include mq(md) {
     padding-inline: 20px;
   }
@@ -174,13 +188,6 @@ body {
     max-width: calc(1200px + 40px * 2);
     padding-inline: 40px;
   }
-}
-
-.header__content {
-  height: $header-height;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .header__logo {
@@ -210,6 +217,7 @@ body {
       &:nth-of-type(1) {
         top: 14px;
         transform: rotate(45deg);
+        background: $background-base;
       }
 
       &:nth-of-type(2) {
@@ -219,6 +227,7 @@ body {
       &:nth-of-type(3) {
         top: 14px;
         transform: rotate(-45deg);
+        background: $background-base;
       }
     }
   }
@@ -233,8 +242,8 @@ body {
   background: #2082e0;
   border-radius: 10px;
   transition:
-    transform 0.4s linear,
-    top 0.4s linear;
+    transform 0.4s ease,
+    top 0.4s ease;
 
   // &:nth-of-type(1) {
   // }
@@ -246,11 +255,6 @@ body {
   &:nth-of-type(3) {
     top: 20px;
   }
-}
-
-.drawer-icon__color {
-  background: $background-base;
-  margin-inline: 6px;
 }
 
 .header__nav {
@@ -266,9 +270,12 @@ body {
   right: 0;
   transform: translateX(100%);
   transition: transform 0.4s linear;
+  visibility: hidden;
+  padding-left: 51px;
 
   &.is-checked {
     transform: translateX(0);
+    visibility: visible;
   }
 
   @include mq(md) {
@@ -278,6 +285,7 @@ body {
     position: static;
     padding: 0;
     transform: translateX(0);
+    visibility: visible;
   }
 }
 
@@ -334,7 +342,7 @@ body {
       height: 5px;
       background: #2082df;
       visibility: hidden;
-      transition: transform 0.4s linear;
+      transition: transform 0.4s ease;
     }
 
     &:hover::after {
