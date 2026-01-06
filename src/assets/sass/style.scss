@@ -846,12 +846,12 @@ body {
   }
 }
 
-.work-heading {
-  padding-left: 10px;
+.work__heading {
+  margin-left: 10px;
   gap: 3px;
 
   @include mq(md) {
-    padding-left: 0;
+    margin-left: 0;
     gap: 27px;
   }
 }
@@ -959,32 +959,54 @@ body {
 .work__next {
   width: 44px;
   height: 44px;
-  margin-top: -19px;
+  top: auto !important;
+  margin-top: -19px !important;
+  position: absolute;
 
   @include mq(md) {
-    margin-top: -32px;
+    margin-top: -18px !important;
   }
 
-  &::after {
-    display: none;
+  svg {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 }
 
 .work__prev {
-  left: -8px;
+  left: -8px !important;
   background: url("../img/work-icon.webp") no-repeat center center / contain;
 
   @include mq(md) {
-    left: 1px;
+    left: 1px !important;
+  }
+
+  @include mq(lg) {
+    left: -60px !important;
+  }
+
+  @include mq(xl) {
+    left: 1px !important;
   }
 }
 
 .work__next {
-  right: 10px;
+  right: 10px !important;
   background: url("../img/work-icon-2.webp") no-repeat center center / contain;
 
   @include mq(md) {
-    right: 1px;
+    right: 1px !important;
+  }
+
+  @include mq(lg) {
+    right: -60px !important;
+  }
+
+  @include mq(xl) {
+    right: 1px !important;
   }
 }
 
@@ -1051,6 +1073,7 @@ body {
   @include mq(md) {
     gap: calc(15px + 15 * ((100vw - 768px) / (899 - 768)));
     flex-direction: row;
+    padding-inline: 0;
   }
 
   @include mq(lg) {
@@ -1073,10 +1096,31 @@ body {
   border: 0 solid #707070;
   background: #fff;
   text-align: center;
-}
 
-// .is-box {
-// }
+  &:first-of-type .service-box__price {
+    @include mq(md) {
+      margin-top: 8px;
+    }
+  }
+
+  &:nth-of-type(2) .service-box__price {
+    margin-top: 6px;
+    margin-left: 3px;
+  }
+
+  &:nth-of-type(3) .service-box__price {
+    margin-top: 9px;
+    margin-left: 3px;
+  }
+
+  &:nth-of-type(2) .service-box__table {
+    margin-top: 20px;
+  }
+
+  &:nth-of-type(3) .service-box__table {
+    margin-top: 19px;
+  }
+}
 
 .service-box__title {
   color: #2392db;
@@ -1085,9 +1129,6 @@ body {
   padding-top: 28px;
 }
 
-// .is-title {
-// }
-
 .service-box__price {
   margin-top: 7px;
   color: #2392db;
@@ -1095,24 +1136,6 @@ body {
   font-weight: 700;
   line-height: 48px;
   letter-spacing: 3.6px;
-}
-
-.is-price {
-  margin-top: 6px;
-  margin-left: 3px;
-}
-
-.is-price-2 {
-  margin-top: 7px;
-  margin-left: 3px;
-}
-
-.space {
-  margin-top: 7px;
-
-  @include mq(md) {
-    margin-top: 8px;
-  }
 }
 
 .is-required {
@@ -1129,14 +1152,14 @@ body {
   @include mq(xl) {
     margin-top: 28px;
   }
-}
 
-.is-table {
-  margin-top: 21px;
-}
-
-.is-table-2 {
-  margin-top: 20px;
+  .service__container
+    .service__box:nth-of-type(3)
+    &
+    .service-box__tr:nth-of-type(2) {
+    padding-top: 5px;
+    padding-bottom: 6px;
+  }
 }
 
 .service-box__tr {
@@ -1154,14 +1177,6 @@ body {
     width: 23vw;
     max-width: 261px;
   }
-}
-
-// .is-tr {
-// }
-
-.is-tr-2 {
-  padding-top: 5px;
-  padding-bottom: 6px;
 }
 
 // .service-box__th {

@@ -101,62 +101,6 @@ $focusTrap.on("focus", () => {
 // ページ内リンクをクリックした時にメニューを閉じる
 jQuery('#js-drawer-content a[href^="#"]').on("click", closeMenu);
 
-// const swiper = new Swiper("#js-work-swiper", {
-//   // Optional parameters
-//   loop: true,
-//   // slidesPerView: "auto"に上書きされるから消した。
-//   // slidesPerView: 1.25,
-//   spaceBetween: 18,
-//   //画面幅を変えることができる。
-//   slidesPerView: "auto",
-
-//   // If we need pagination
-//   pagination: {
-//     el: "#js-work-pagination",
-//   },
-
-//   // Navigation arrows
-//   navigation: {
-//     nextEl: "#js-work-next",
-//     prevEl: "#js-work-prev",
-//   },
-// });
-
-// $(function () {
-//   $(".js-content:first-of-type").css("display", "block");
-//   $(".js-tab").on("click", function () {
-//     $(".current").removeClass("current");
-//     $(this).addClass("current");
-//     const index = $(this).index();
-//     $(".js-content").hide().eq(index).fadeIn(300);
-//   });
-// });
-
-// $(function () {
-//   $(".js-accordion").click(function () {
-//     //クリックされた質問の子要素のspan以外からはopenというクラスを外す
-//     $(".js-accordion").not(this).children("span").removeClass("open");
-//     //クリックされた質問部分に対する回答以外は全て閉じる
-//     $(".js-accordion").not(this).next().slideUp(400);
-
-//     //クリックされた質問の子要素のspanにopenクラスが付与されいなければ付与し、付与されていれば外す
-//     $(this).children("span").toggleClass("open");
-//     //クリックされた質問に対する回答を表示する
-//     $(this).next().slideToggle(400);
-//   });
-// });
-
-$(function () {
-  $(".js-content:not(:first-of-type)").hide();
-
-  $(".js-tab").on("click", function () {
-    $(".js-content").hide();
-    $("#" + $(this).attr("aria-controls")).show();
-    $(".js-tab-menu").removeClass("current");
-    $(this).parent().addClass("current");
-  });
-});
-
 // =============================
 // ページネーション
 // =============================
@@ -892,4 +836,65 @@ $(function () {
 
   // 現在のページのニュースアイテムを表示
   updateNewsItems(currentPage);
+});
+
+const swiper = new Swiper("#js-work-swiper", {
+  // Optional parameters
+  loop: true,
+  // slidesPerView: "auto"に上書きされるから消した。
+  // slidesPerView: 1.25,
+  spaceBetween: 18,
+  speed: 4000, // ループの時間
+  allowTouchMove: false, // スワイプ無効
+  //画面幅を変えることができる。
+  slidesPerView: "auto",
+  autoplay: {
+    delay: 0, // 途切れなくループ
+  },
+
+  // If we need pagination
+  pagination: {
+    el: "#js-work-pagination",
+  },
+
+  // Navigation arrows
+  navigation: {
+    nextEl: "#js-work-next",
+    prevEl: "#js-work-prev",
+  },
+});
+
+// $(function () {
+//   $(".js-content:first-of-type").css("display", "block");
+//   $(".js-tab").on("click", function () {
+//     $(".current").removeClass("current");
+//     $(this).addClass("current");
+//     const index = $(this).index();
+//     $(".js-content").hide().eq(index).fadeIn(300);
+//   });
+// });
+
+// $(function () {
+//   $(".js-accordion").click(function () {
+//     //クリックされた質問の子要素のspan以外からはopenというクラスを外す
+//     $(".js-accordion").not(this).children("span").removeClass("open");
+//     //クリックされた質問部分に対する回答以外は全て閉じる
+//     $(".js-accordion").not(this).next().slideUp(400);
+
+//     //クリックされた質問の子要素のspanにopenクラスが付与されいなければ付与し、付与されていれば外す
+//     $(this).children("span").toggleClass("open");
+//     //クリックされた質問に対する回答を表示する
+//     $(this).next().slideToggle(400);
+//   });
+// });
+
+$(function () {
+  $(".js-content:not(:first-of-type)").hide();
+
+  $(".js-tab").on("click", function () {
+    $(".js-content").hide();
+    $("#" + $(this).attr("aria-controls")).show();
+    $(".js-tab-menu").removeClass("current");
+    $(this).parent().addClass("current");
+  });
 });

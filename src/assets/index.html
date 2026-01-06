@@ -67,7 +67,7 @@
     />
 
     <!-- スタイルシート -->
-    <link rel="stylesheet" href="./css/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="./css/swiper-bundle.min.min.css" />
     <link rel="stylesheet" href="./css/reset.min.css" />
     <link rel="stylesheet" href="./css/style.min.css" />
   </head>
@@ -513,18 +513,18 @@
               <div class="swiper-wrapper">
                 <div class="swiper-slide work__slide">
                   <a href="" class="work__card work-card">
-                    <div class="work-card__image">
+                    <figure class="work-card__image">
                       <img
                         src="./img/card-1-img.webp"
                         alt=""
                         width="640"
                         height="428"
                       />
-                    </div>
+                    </figure>
                     <div class="work-card__content">
-                      <p class="work-card__title">
+                      <h3 class="work-card__title">
                         在宅でも団結したチームワークに。
-                      </p>
+                      </h3>
                       <div class="work-card__box">
                         <p class="work-card__text">〇〇株式会社</p>
                         <p class="work-card__text">吉本様</p>
@@ -536,18 +536,18 @@
 
                 <div class="swiper-slide work__slide">
                   <a href="" class="work__card work-card">
-                    <div class="work-card__image">
+                    <figure class="work-card__image">
                       <img
                         src="./img/card-2-img.webp"
                         alt=""
                         width="640"
                         height="428"
                       />
-                    </div>
+                    </figure>
                     <div class="work-card__content">
-                      <p class="work-card__title">
+                      <h3 class="work-card__title">
                         1日2時間分の処理時間の削減に成功
-                      </p>
+                      </h3>
                       <div class="work-card__box">
                         <p class="work-card__text">〇〇株式会社</p>
                         <p class="work-card__text">竹内様</p>
@@ -559,16 +559,84 @@
 
                 <div class="swiper-slide work__slide">
                   <a href="" class="work__card work-card">
-                    <div class="work-card__image">
+                    <figure class="work-card__image">
                       <img
                         src="./img/card-3-img.webp"
                         alt=""
                         width="640"
                         height="428"
                       />
-                    </div>
+                    </figure>
                     <div class="work-card__content">
-                      <p class="work-card__title">導入から1年で残業0へ。</p>
+                      <h3 class="work-card__title">導入から1年で残業0へ。</h3>
+                      <div class="work-card__box">
+                        <p class="work-card__text">〇〇株式会社</p>
+                        <p class="work-card__text">三島様</p>
+                      </div>
+                      <p class="work-card__label">情報通信業</p>
+                    </div>
+                  </a>
+                </div>
+
+                <!-- ループ用に複製したスライド -->
+                <div class="swiper-slide work__slide">
+                  <a href="" class="work__card work-card">
+                    <figure class="work-card__image">
+                      <img
+                        src="./img/card-1-img.webp"
+                        alt=""
+                        width="640"
+                        height="428"
+                      />
+                    </figure>
+                    <div class="work-card__content">
+                      <h3 class="work-card__title">
+                        在宅でも団結したチームワークに。
+                      </h3>
+                      <div class="work-card__box">
+                        <p class="work-card__text">〇〇株式会社</p>
+                        <p class="work-card__text">吉本様</p>
+                      </div>
+                      <p class="work-card__label">情報通信業</p>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="swiper-slide work__slide">
+                  <a href="" class="work__card work-card">
+                    <figure class="work-card__image">
+                      <img
+                        src="./img/card-2-img.webp"
+                        alt=""
+                        width="640"
+                        height="428"
+                      />
+                    </figure>
+                    <div class="work-card__content">
+                      <h3 class="work-card__title">
+                        1日2時間分の処理時間の削減に成功
+                      </h3>
+                      <div class="work-card__box">
+                        <p class="work-card__text">〇〇株式会社</p>
+                        <p class="work-card__text">竹内様</p>
+                      </div>
+                      <p class="work-card__label">情報通信業</p>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="swiper-slide work__slide">
+                  <a href="" class="work__card work-card">
+                    <figure class="work-card__image">
+                      <img
+                        src="./img/card-3-img.webp"
+                        alt=""
+                        width="640"
+                        height="428"
+                      />
+                    </figure>
+                    <div class="work-card__content">
+                      <h3 class="work-card__title">導入から1年で残業0へ。</h3>
                       <div class="work-card__box">
                         <p class="work-card__text">〇〇株式会社</p>
                         <p class="work-card__text">三島様</p>
@@ -602,7 +670,7 @@
             <p class="service__heading-subtitle heading__subtitle">料金</p>
           </div>
           <div class="service__container">
-            <article class="service__box service-box is-box">
+            <article class="service__box service-box">
               <h3 class="service-box__title">ライトプラン</h3>
               <p class="service-box__price space">無料</p>
               <table
@@ -681,7 +749,7 @@
             </article>
 
             <article class="service__box service-box">
-              <h3 class="service-box__title is-title">プロプラン</h3>
+              <h3 class="service-box__title">プロプラン</h3>
               <p class="service-box__price is-price-2">
                 <span class="is-required">月</span>2,480<span
                   class="is-required"
@@ -1241,12 +1309,11 @@
         </div>
       </footer>
     </main>
-    <script src="./js/swiper-bundle.min.js" defer></script>
+    <script src="./js/lib/swiper-bundle.min.min.js" defer></script>
     <script
       src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"
       defer
     ></script>
-    <script src="./js/paginathing.min.js" defer></script>
     <script src="./js/script.min.js" defer></script>
   </body>
 </html>
