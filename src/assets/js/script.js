@@ -893,8 +893,19 @@ $(function () {
 
   $(".js-tab").on("click", function () {
     $(".js-content").hide();
-    $("#" + $(this).attr("aria-controls")).show();
-    $(".js-tab-menu").removeClass("current");
-    $(this).parent().addClass("current");
+    $("#" + $(this).attr("aria-controls")).fadeIn(300);
+    $(".js-tab-menu,.js-tab").removeClass("js-tab-current");
+    $(this).parent().addClass("js-tab-current");
+    $(this).addClass("js-tab-current");
   });
 });
+
+// $(function () {
+//   $(".js-content:first-of-type").css("display", "block");
+//   $(".js-tab").on("click", function () {
+//     $(".current").removeClass("current");
+//     $(this).addClass("current");
+//     const index = $(this).index();
+//     $(".js-content").hide().eq(index).fadeIn(300);
+//   });
+// });

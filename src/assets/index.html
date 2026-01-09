@@ -801,9 +801,9 @@
           </div>
 
           <ul class="company__tab company-tab">
-            <li class="company-tab__menu js-tab-menu current">
+            <li class="company-tab__menu js-tab-menu js-tab-current">
               <button
-                class="company-tab__button js-tab"
+                class="company-tab__button js-tab js-tab-current"
                 role="tab"
                 aria-selected="true"
                 aria-controls="panel1"
@@ -858,10 +858,7 @@
                 <div class="company-group__row">
                   <dt class="company-group__term">本社所在地</dt>
                   <dd class="company-group__description">
-                    東京都〇〇区〇〇<span
-                      class="company-group__description-text"
-                      >〇〇ビル4階</span
-                    >
+                    東京都〇〇区〇〇&emsp;&nbsp;〇〇ビル4階
                   </dd>
                 </div>
                 <div class="company-group__row">
@@ -870,8 +867,10 @@
                 </div>
                 <div class="company-group__row">
                   <dt class="company-group__term">代表社員</dt>
-                  <dd class="company-group__description">
-                    田中<span class="company-group__description-text--small"
+                  <dd
+                    class="company-group__description"
+                  >
+                    田中<span class="company-group__description-text"
                       >太郎</span
                     >
                   </dd>

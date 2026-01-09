@@ -1,4 +1,3 @@
-@charset "UTF-8";
 body {
   background: #fff;
   color: #333;
@@ -141,7 +140,6 @@ body.is-menu-open {
    header
   ------------------------- */
 .header {
-  position: fixed;
   top: 0;
   left: 0;
   z-index: 20;
@@ -353,15 +351,9 @@ body.is-menu-open {
    fv
   ------------------------- */
 .fv {
-  margin-top: 80px;
   background: linear-gradient(180deg, #eaf4f7 0%, #fff 100%);
   padding-top: 20px;
   padding-bottom: 80px;
-}
-@media screen and (min-width: 768px) {
-  .fv {
-    margin-top: 0;
-  }
 }
 
 @media screen and (min-width: 768px) {
@@ -1191,17 +1183,19 @@ body.is-menu-open {
   cursor: pointer;
   background: #fff;
   padding-top: 10px;
-  padding-right: 29px;
   padding-bottom: 10px;
-  padding-left: 29px;
-  color: #2392db;
-  font-weight: 700;
+  width: 34%;
+  max-width: 122px;
   text-align: center;
+}
+.company-tab__menu:nth-of-type(2) {
+  border-right: 1px solid #2392db;
 }
 @media screen and (min-width: 768px) {
   .company-tab__menu {
     padding: 26px 50px 26px 76px;
     width: 200px;
+    max-width: none;
   }
 }
 .company-tab__menu::before {
@@ -1225,12 +1219,22 @@ body.is-menu-open {
     height: 8px;
   }
 }
+@media screen and (min-width: 768px) {
+  .company-tab__menu:nth-of-type(2)::before {
+    left: 73px;
+  }
+}
 
-.current {
+.company-tab__button {
+  color: #2392db;
+  font-weight: 700;
+}
+
+.js-tab-current {
   background: #2392db;
   color: #fff;
 }
-.current::before {
+.js-tab-current::before {
   border-top: 2px solid #fff;
   border-right: 2px solid #fff;
 }
@@ -1291,6 +1295,7 @@ body.is-menu-open {
     grid-gap: 0;
     margin-right: auto;
     margin-left: auto;
+    width: 90%;
     max-width: 800px;
   }
   .company-group__dl .company-group__row:nth-of-type(1) {
@@ -1313,17 +1318,55 @@ body.is-menu-open {
 .company-group__row {
   display: flex;
 }
+.company-group__row:nth-of-type(3) .company-group__term {
+  padding-top: 25px;
+  padding-bottom: 24px;
+}
+@media screen and (min-width: 768px) {
+  .company-group__row:nth-of-type(3) .company-group__term {
+    padding-top: 14px;
+    padding-bottom: 11px;
+    width: calc(25% - 1px);
+  }
+}
+@media screen and (min-width: 992px) {
+  .company-group__row:nth-of-type(3) .company-group__term {
+    width: 200px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .company-group__row:nth-of-type(3) .company-group__description {
+    flex: none;
+    width: calc(75.2% - 1px);
+  }
+}
+@media screen and (min-width: 992px) {
+  .company-group__row:nth-of-type(3) .company-group__description {
+    flex: 1;
+    padding-left: 19px;
+    width: calc(50% - 1px);
+  }
+}
+.company-group__row:nth-of-type(5) .company-group__description > .company-group__description-text {
+  margin-left: 15px;
+}
+
 .company-group__term {
   display: grid;
   place-items: center;
   border: 1px solid #dbdbdb;
   background: #f2f2f2;
   padding-top: 14px;
-  padding-bottom: 14px;
+  padding-bottom: 11px;
   width: 160px;
   font-weight: 700;
 }
 @media screen and (min-width: 768px) {
+  .company-group__term {
+    width: calc(50% - 1px);
+  }
+}
+@media screen and (min-width: 992px) {
   .company-group__term {
     width: 200px;
   }
@@ -1335,17 +1378,18 @@ body.is-menu-open {
   border: 1px solid #dbdbdb;
   background: #fff;
   padding-left: 10px;
-  width: 42.7vw;
+  width: 37.4vw;
 }
 @media screen and (min-width: 768px) {
   .company-group__description {
-    padding-left: 24px;
-    width: 200px;
+    flex: 1;
+    width: calc(50% - 1px);
   }
 }
-
-.company-group__description-text {
-  margin-left: 8px;
+@media screen and (min-width: 992px) {
+  .company-group__description {
+    padding-left: 24px;
+  }
 }
 
 .company-group__timeline {
@@ -1353,7 +1397,7 @@ body.is-menu-open {
   margin-bottom: 122px;
   margin-left: 45px;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 600px) {
   .company-group__timeline {
     margin-top: 78px;
     margin-right: min(372px, 242px + 130 * (100vw - 768px) / 512);
@@ -1375,7 +1419,7 @@ body.is-menu-open {
   left: -17px;
   flex-shrink: 0;
   transform: translateY(-50%);
-  border-radius: 50%; /* 丸くする */
+  border-radius: 50%;
   background: #2bcbc6;
   width: 9px;
   height: 9px;

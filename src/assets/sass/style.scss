@@ -179,7 +179,8 @@ body {
 
 .header {
   height: $header-height;
-  position: fixed;
+
+  // position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -196,6 +197,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   @include mq(md) {
     padding-inline: 20px;
   }
@@ -407,11 +409,6 @@ body {
   background: linear-gradient(180deg, #eaf4f7 0%, #fff 100%);
   padding-top: 20px;
   padding-bottom: 80px;
-  margin-top: $header-height;
-
-  @include mq(md) {
-    margin-top: 0;
-  }
 }
 
 // .fv__inner {
@@ -1245,16 +1242,25 @@ body {
 
 .company-tab__menu {
   background: #fff;
-  color: #2392db;
-  font-weight: 700;
+
+  // color: #2392db;
+  // font-weight: 700;
   padding-block: 10px;
-  padding-inline: 29px;
+  max-width: 122px;
+
+  // padding-inline: 29px;
+  width: 34%;
   text-align: center;
   cursor: pointer;
   position: relative;
 
+  &:nth-of-type(2) {
+    border-right: 1px solid #2392db;
+  }
+
   @include mq(md) {
     width: 200px;
+    max-width: none;
     padding: 26px 50px 26px 76px;
   }
 
@@ -1278,6 +1284,19 @@ body {
       height: 8px;
     }
   }
+
+  &:nth-of-type(2) {
+    @include mq(md) {
+      &::before {
+        left: 73px;
+      }
+    }
+  }
+}
+
+.company-tab__button {
+  color: #2392db;
+  font-weight: 700;
 }
 
 // .is-tab__menu {
@@ -1297,7 +1316,7 @@ body {
 //   }
 // }
 
-.current {
+.js-tab-current {
   background: #2392db;
   color: #fff;
 
@@ -1364,6 +1383,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
     grid-gap: 0;
+    width: 90%;
     max-width: 800px;
     margin-inline: auto;
 
@@ -1392,19 +1412,40 @@ body {
 .company-group__row {
   display: flex;
 
-  // justify-content: center;
-  // max-width: 320px;
-  // margin-inline: auto;
+  &:nth-of-type(3) .company-group__term {
+    padding-top: 25px;
+    padding-bottom: 24px;
 
-  @include mq(md) {
-    // display: flex;
-    // flex-wrap: wrap;
-    // justify-content: center;
+    @include mq(md) {
+      width: calc(25% - 1px);
+      padding-top: 14px;
+      padding-bottom: 11px;
+    }
+
+    @include mq(lg) {
+      width: 200px;
+    }
+  }
+
+  &:nth-of-type(3) .company-group__description {
+    @include mq(md) {
+      width: calc(75.2% - 1px);
+      flex: none;
+    }
+
+    @include mq(lg) {
+      flex: 1;
+      padding-left: 19px;
+      width: calc(50% - 1px);
+    }
+  }
+
+  &:nth-of-type(5)
+    .company-group__description
+    > .company-group__description-text {
+    margin-left: 15px;
   }
 }
-
-// .company-group__tr {
-// }
 
 .company-group__term {
   border: 1px solid #dbdbdb;
@@ -1413,60 +1454,42 @@ body {
   width: 160px;
   display: grid;
   place-items: center;
-  padding-block: 14px;
+  padding-top: 14px;
+  padding-bottom: 11px;
 
   @include mq(md) {
+    width: calc(50% - 1px);
+  }
+
+  @include mq(lg) {
     width: 200px;
   }
 }
-
-// .is-group__th {
-//   height: 80px;
-
-//   @include mq(md) {
-//     height: 54px;
-//   }
-// }
 
 .company-group__description {
   border: 1px solid #dbdbdb;
   background: #fff;
-  width: 42.7vw;
+  width: 37.4vw;
   padding-left: 10px;
-
-  // height: 54px;
   display: flex;
   align-items: center;
 
   @include mq(md) {
-    width: 200px;
+    flex: 1;
+    width: calc(50% - 1px);
+  }
+
+  @include mq(lg) {
     padding-left: 24px;
   }
 }
-
-.company-group__description-text {
-  margin-left: 8px;
-}
-
-// // 3番目の行（本社所在地）のdd要素だけ幅を変更
-// .company-group__row:nth-child(3) {
-//   @include mq(md) {
-//     grid-column: 1 / -1;
-//   }
-
-//   .company-group__description {
-//     @include mq(md) {
-//       width: calc(100% - 200px);
-//     }
-//   }
-// }
 
 .company-group__timeline {
   margin-top: 42px;
   margin-bottom: 122px;
   margin-left: 45px;
 
-  @include mq(md) {
+  @include mq(sm) {
     width: 185px;
     margin-top: 78px;
     margin-bottom: 43px;
@@ -1486,7 +1509,7 @@ body {
     content: "";
     position: absolute;
     display: block;
-    border-radius: 50%; /* 丸くする */
+    border-radius: 50%;
     width: 9px;
     left: -17px;
     top: 50%;
