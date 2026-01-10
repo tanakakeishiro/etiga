@@ -1242,13 +1242,8 @@ body {
 
 .company-tab__menu {
   background: #fff;
-
-  // color: #2392db;
-  // font-weight: 700;
   padding-block: 10px;
   max-width: 122px;
-
-  // padding-inline: 29px;
   width: 34%;
   text-align: center;
   cursor: pointer;
@@ -1299,23 +1294,6 @@ body {
   font-weight: 700;
 }
 
-// .is-tab__menu {
-//   border-right: 1px solid #2392db;
-//   padding-left: 44px;
-//   padding-right: 45px;
-
-//   @include mq(md) {
-//     padding-left: 85px;
-//     padding-right: 57px;
-//   }
-
-//   &::before {
-//     @include mq(md) {
-//       left: 73px;
-//     }
-//   }
-// }
-
 .js-tab-current {
   background: #2392db;
   color: #fff;
@@ -1341,10 +1319,6 @@ body {
   }
 }
 
-// .company-group__content {
-//   // display: none;
-// }
-
 .company-group__heading {
   font-size: 22px;
   font-weight: 700;
@@ -1368,12 +1342,8 @@ body {
 .company-group__dl {
   margin-top: 20px;
   margin-bottom: 47px;
-
-  // margin-inline: auto;
   display: flex;
   flex-direction: column;
-
-  // justify-content: center;
   align-items: center;
 
   @include mq(md) {
@@ -1622,6 +1592,11 @@ body {
 .blog__heading {
   @include mq(md) {
     gap: 25px;
+    padding-left: 33px;
+  }
+
+  @include mq(xl) {
+    padding-left: 0;
   }
 }
 
@@ -1641,21 +1616,20 @@ body {
   gap: 14px;
   margin-top: 46px;
 
-  @include mq(md) {
+  @include mq(sm) {
     grid-template-columns: repeat(2, 1fr);
     gap: 32px 20px;
     margin-top: 60px;
     margin-inline: auto;
   }
 
-  @include mq(xl) {
+  @include mq(lg) {
     grid-template-columns: repeat(3, 1fr);
     margin-top: 40px;
   }
 }
 
 .blog-card {
-  // margin-inline: auto;
 
   @include mq(xl) {
     max-width: 360px;
@@ -1703,7 +1677,7 @@ body {
   margin-top: 44px;
   text-align: center;
 
-  @include mq(md) {
+  @include mq(sm) {
     margin-top: 59px;
   }
 
