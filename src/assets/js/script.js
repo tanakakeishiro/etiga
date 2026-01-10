@@ -900,12 +900,95 @@ $(function () {
   });
 });
 
-// $(function () {
-//   $(".js-content:first-of-type").css("display", "block");
-//   $(".js-tab").on("click", function () {
-//     $(".current").removeClass("current");
-//     $(this).addClass("current");
-//     const index = $(this).index();
-//     $(".js-content").hide().eq(index).fadeIn(300);
-//   });
-// });
+// アコーディオン
+document.addEventListener("DOMContentLoaded", () => {
+  setUpAccordion();
+});
+
+const setUpAccordion = () => {
+  const details = document.querySelectorAll(".faq__item");
+  const IS_OPENED_CLASS = "is-opened";
+  const IS_OPEN_CLASS = "is-open";
+
+  details.forEach((element) => {
+    const summary = element.querySelector(".faq__question");
+    const content = element.querySelector(".faq__answer");
+    const questionText = element.querySelector(".faq__question-text");
+
+    if (!summary || !content || !questionText) return;
+
+    summary.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      // 既存のイベントリスナーをクリーンアップ（重複を防ぐ）
+      const existingHandler = content._transitionHandler;
+      if (existingHandler) {
+        content.removeEventListener("transitionend", existingHandler);
+      }
+
+      if (element.classList.contains(IS_OPENED_CLASS)) {
+        // アコーディオンを閉じる
+        element.classList.remove(IS_OPENED_CLASS);
+        questionText.classList.remove(IS_OPEN_CLASS);
+        const contentHeight = content.scrollHeight;
+
+        // 強制的に現在の高さを設定
+        content.style.height = contentHeight + "px";
+
+        // 強制的にリフローを発生させてからアニメーション開始
+        void content.offsetHeight;
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            content.style.height = "0";
+            content.style.opacity = "0";
+          });
+        });
+
+        // transitionendイベントハンドラー
+        const handler = (e) => {
+          if (e.target === content && e.propertyName === "height") {
+            element.removeAttribute("open");
+            content.style.height = "";
+            content.style.opacity = "";
+            content.removeEventListener("transitionend", handler);
+            content._transitionHandler = null;
+          }
+        };
+        content.addEventListener("transitionend", handler);
+        content._transitionHandler = handler;
+      } else {
+        // アコーディオンを開く
+        element.classList.add(IS_OPENED_CLASS);
+        questionText.classList.add(IS_OPEN_CLASS);
+        element.setAttribute("open", "true");
+
+        // 一旦0にしてから実際の高さを取得
+        content.style.height = "0";
+        content.style.opacity = "1";
+
+        // 強制的にリフローを発生させてから高さを取得
+        void content.offsetHeight;
+
+        const contentHeight = content.scrollHeight;
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            content.style.height = contentHeight + "px";
+          });
+        });
+
+        // transitionendイベントハンドラー
+        const handler = (e) => {
+          if (e.target === content && e.propertyName === "height") {
+            content.style.height = "auto";
+            content.removeEventListener("transitionend", handler);
+            content._transitionHandler = null;
+          }
+        };
+        content.addEventListener("transitionend", handler);
+        content._transitionHandler = handler;
+      }
+    });
+  });
+};

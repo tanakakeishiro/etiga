@@ -1630,7 +1630,6 @@ body {
 }
 
 .blog-card {
-
   @include mq(xl) {
     max-width: 360px;
   }
@@ -1876,7 +1875,7 @@ body {
   gap: 2px;
 }
 
-.faq__container {
+.faq__items {
   margin-inline: auto;
   margin-top: 46px;
   display: flex;
@@ -1890,47 +1889,53 @@ body {
   }
 }
 
-// .faq-box {
+// .faq__item {
 // }
 
-.faq-box__head {
+.faq__question {
   display: flex;
   border-radius: 10px;
   border: 0 solid #707070;
   background: var(--rgb-255255255, #fff);
   position: relative;
-}
 
-.faq-box__head-icon {
-  color: #fff;
-  font-size: 26px;
-  font-weight: 700;
-  line-height: 100%;
-  padding: 7px 15px 13px 14px;
-  border-radius: 10px 0 0 10px;
-  background: #238fdc;
-  position: absolute;
-  left: 0;
-  height: 100%;
+  &::before {
+    content: "Q";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 100%;
+    padding: 7px 15px 13px 14px;
+    border-radius: 10px 0 0 10px;
+    background: #238fdc;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  @include mq(md) {
-    width: 71px;
-    height: 51px;
-    padding: 10px 25px 15px;
+    @include mq(md) {
+      width: 71px;
+      height: 51px;
+      padding: 10px 25px 15px;
+    }
   }
 }
 
-.is-type-2 {
-  display: grid;
-  place-items: center;
-  height: 100%;
+// .is-type-2 {
+//   display: grid;
+//   place-items: center;
+//   height: 100%;
 
-  @include mq(md) {
-    margin-top: 1px;
-  }
-}
+//   @include mq(md) {
+//     margin-top: 1px;
+//   }
+// }
 
-.faq-box__head-text {
+.faq__question-text {
   font-size: 15px;
   padding-top: 10px;
   padding-bottom: 9px;
@@ -1954,7 +1959,7 @@ body {
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
-    transition: opacity 1s;
+    transition: transform 0.3s ease;
 
     @include mq(md) {
       right: 14px;
@@ -1966,45 +1971,56 @@ body {
   }
 }
 
-.is-head-text-2 {
-  padding-right: 42px;
+// .is-head-text-2 {
+//   padding-right: 42px;
 
-  @include mq(md) {
-    padding-top: 12px;
-  }
-}
+//   @include mq(md) {
+//     padding-top: 12px;
+//   }
+// }
 
-.faq-box__head-text.open::after {
+.faq__question-text.is-open::after {
   transform: translateY(-50%) rotate(0);
 }
 
-.faq-text-1 {
-  margin-top: 1px;
-}
+// .faq-text-1 {
+//   margin-top: 1px;
+// }
 
-.faq-box__body {
-  margin-top: 12px;
-  margin-left: 20px;
-  border-radius: 10px;
-  background: #fff;
-  padding-top: 11px;
-  padding-bottom: 10px;
-  padding-inline: 10px;
-  display: none;
+.faq__answer {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    height 0.4s ease,
+    opacity 0.4s ease;
 
   @include mq(md) {
     margin-top: 6px;
     margin-left: 41px;
     margin-bottom: 0;
-    padding: 13px 14px 11px;
   }
 }
 
-.faq-box__body-text {
+.faq__item.is-opened .faq__answer {
+  opacity: 1;
+}
+
+.faq__answer-text {
   display: block;
+  padding-top: 11px;
+  padding-bottom: 10px;
+  padding-inline: 10px;
+  margin-top: 12px;
+  margin-left: 20px;
+  border-radius: 10px;
+  background: #fff;
   font-size: 14px;
 
+  // 上下のpaddingを設定すると角ついてしまいますので、内部の要素にpaddingを入れます。
+
   @include mq(md) {
+    padding: 13px 14px 11px;
     font-size: 16px;
   }
 }
