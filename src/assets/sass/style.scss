@@ -179,17 +179,11 @@ body {
 
 .header {
   height: $header-height;
-
-  // position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: layer(header);
   background: #eaf4f7;
-
-  @include mq(md) {
-    position: sticky;
-  }
 }
 
 .header__inner {
@@ -1891,6 +1885,12 @@ body {
 
 // .faq__item {
 // }
+
+summary {
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
 
 .faq__question {
   display: flex;

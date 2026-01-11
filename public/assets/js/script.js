@@ -900,94 +900,375 @@ $(function () {
   });
 });
 
-// アコーディオン
+// ============================================
+// アコーディオン機能
+// ============================================
+// FAQセクションのアコーディオン（開閉可能な質問と回答）を実装します。
+// クリックでスムーズに開閉するアニメーションを提供します。
+
+// DOMContentLoadedイベント: HTMLの読み込みが完了したときに発生するイベント
+// このタイミングで実行することで、HTML要素が確実に存在する状態で処理を開始できます
+// addEventListenerメソッド: 要素やドキュメントにイベントリスナーを登録する
+// - 第1引数: イベント名（"DOMContentLoaded"）
+// - 第2引数: イベント発生時に実行する関数（アロー関数）
 document.addEventListener("DOMContentLoaded", () => {
   setUpAccordion();
 });
 
+/**
+ * 既存のtransitionendイベントリスナーをクリーンアップする関数
+ *
+ * なぜ必要か: 連続でクリックされた場合、前回のtransitionendイベントリスナーが
+ * 残っている可能性があります。これを削除して、イベントリスナーの重複登録を防ぎます。
+ *
+ * @param {HTMLElement} content - コンテンツ要素（開閉される回答部分の要素）
+ *
+ * @paramについて:
+ * - @param: JSDocのタグ（関数のパラメータを説明するための記号）
+ *   関数の引数（パラメータ）について説明する際に使用します
+ *
+ * - {HTMLElement}: 型注釈（このパラメータがどんな型のデータかを示す）
+ *   HTML要素を表すオブジェクトの型です
+ *   JavaScriptでは型が明示されませんが、このコメントで型を示すことで、
+ *   コードの可読性が向上し、開発ツール（IDE）での補完やエラーチェックに役立ちます
+ *   - HTMLElement: HTML要素全般を表す型
+ *   - 例: <div>、<span>、<p>などの要素がこれに該当します
+ *
+ * - content: パラメータ名（関数の引数の名前）
+ *   この関数を呼び出すときに渡す引数の名前です
+ *   関数内では「content」という名前でこの引数にアクセスできます
+ *
+ * 具体例:
+ *   cleanupTransitionHandler(contentElement);
+ *   ↑この「contentElement」が「content」パラメータとして渡されます
+ *
+ * 処理の流れ:
+ * 1. content._transitionHandler: 独自のプロパティとして保存したハンドラー関数への参照を取得
+ *    （このプロパティはsetupTransitionHandler関数で設定されます）
+ * 2. 既存のハンドラーがあれば、removeEventListenerメソッドで削除
+ * 3. _transitionHandlerプロパティをnullに設定してクリア
+ */
+const cleanupTransitionHandler = (content) => {
+  // _transitionHandler: 要素に独自に追加したプロパティ（後で削除するために保存しておく参照）
+  const existingHandler = content._transitionHandler;
+  if (existingHandler) {
+    // removeEventListenerメソッド: 登録したイベントリスナーを削除する
+    // - 第1引数: イベント名（"transitionend"）
+    // - 第2引数: 削除するハンドラー関数（登録した時と同じ関数を指定する必要がある）
+    content.removeEventListener("transitionend", existingHandler);
+    // プロパティをnullに設定してクリア
+    content._transitionHandler = null;
+  }
+};
+
+/**
+ * アニメーションを開始する関数（リフローとrequestAnimationFrameの処理）
+ *
+ * この関数は、CSSのtransitionアニメーションを確実に動作させるために必要な処理を行います。
+ *
+ * @param {HTMLElement} content - コンテンツ要素（アニメーション対象の要素）
+ *
+ * @paramについて:
+ * - @param: JSDocのタグ（関数のパラメータを説明するための記号）
+ * - {HTMLElement}: 型注釈（このパラメータがHTMLElement型のオブジェクトであることを示す）
+ *   HTML要素（<div>、<span>など）を表す型です
+ * - content: パラメータ名（この関数内で使用する引数の名前）
+ *
+ * @param {Function} callback - アニメーション開始時に実行するコールバック関数
+ *                              （この中でstyle.heightなどを変更してアニメーションを開始します）
+ *
+ * @paramについて（2つ目のパラメータ）:
+ * - @param: JSDocのタグ
+ * - {Function}: 型注釈（このパラメータがFunction型、つまり関数であることを示す）
+ *   実行可能な関数を渡すことを意味します
+ * - callback: パラメータ名（コールバック関数を表す一般的な名前）
+ *   この関数内で呼び出される関数です
+ *
+ * 具体例:
+ *   startAnimation(contentElement, () => {
+ *     contentElement.style.height = "100px";
+ *   });
+ *   ↑「contentElement」が「content」パラメータ、「() => {...}」が「callback」パラメータとして渡されます
+ *
+ * 処理の流れ:
+ * 1. リフロー（再レンダリング）を強制的に発生させる
+ * 2. requestAnimationFrameを二重ネストで実行して、ブラウザの描画タイミングを待つ
+ * 3. コールバック関数を実行してアニメーションを開始
+ *
+ * なぜリフローが必要か:
+ * - ブラウザは複数のスタイル変更をまとめて処理するため、
+ *   直前のstyle.heightの変更が認識されない場合があります
+ * - offsetHeightプロパティにアクセスすると、ブラウザが要素のレイアウトを再計算します
+ * - これにより、直前のスタイル変更が確実にブラウザに認識されます
+ *
+ * なぜrequestAnimationFrameを二重ネストするか:
+ * - 1回だけでは、スタイル変更とアニメーション開始が同じフレームで処理される可能性があります
+ * - 二重ネストすることで、ブラウザの描画サイクルを確実に待ちます
+ * - これにより、アニメーションが正常に動作します
+ */
+const startAnimation = (content, callback) => {
+  // offsetHeightプロパティ: 要素の高さ（padding、borderを含む）を取得するプロパティ
+  // void演算子: 戻り値を無視する（ここでは意図的にリフローを発生させるため）
+  // このプロパティにアクセスすることで、ブラウザが要素のレイアウトを再計算します
+  void content.offsetHeight; // リフロー（再レンダリング）を強制的に発生させる
+
+  // requestAnimationFrameメソッド: ブラウザの次の描画タイミングで関数を実行する
+  // アニメーションを滑らかに実行するために使用されます
+  requestAnimationFrame(() => {
+    // 二重ネストすることで、ブラウザの描画サイクルを確実に待つ
+    requestAnimationFrame(() => {
+      // コールバック関数を実行（この中でstyle.heightなどを変更してアニメーション開始）
+      callback();
+    });
+  });
+};
+
+/**
+ * transitionendイベントハンドラーを設定する関数
+ *
+ * CSSのtransitionアニメーションが完了したときに実行される処理を設定します。
+ * アニメーション完了後の後処理（クリーンアップ）を行うために使用されます。
+ *
+ * @param {HTMLElement} content - コンテンツ要素（アニメーション対象の要素）
+ *
+ * @paramについて:
+ * - @param: JSDocのタグ（関数のパラメータを説明するための記号）
+ * - {HTMLElement}: 型注釈（このパラメータがHTMLElement型のオブジェクトであることを示す）
+ *   HTML要素を表す型です
+ * - content: パラメータ名（この関数内で使用する引数の名前）
+ *
+ * @param {Function} onComplete - アニメーション完了時に実行するコールバック関数
+ *                                （インラインスタイルの削除などを行う）
+ *
+ * @paramについて（2つ目のパラメータ）:
+ * - @param: JSDocのタグ
+ * - {Function}: 型注釈（このパラメータがFunction型、つまり関数であることを示す）
+ * - onComplete: パラメータ名（完了時に実行される関数であることを示す名前）
+ *   "on"は「〜のときに」、"Complete"は「完了」を意味し、「完了時に実行される関数」という意味になります
+ *
+ * 具体例:
+ *   setupTransitionHandler(contentElement, () => {
+ *     contentElement.style.height = "auto";
+ *   });
+ *   ↑「contentElement」が「content」パラメータ、「() => {...}」が「onComplete」パラメータとして渡されます
+ *
+ * 処理の流れ:
+ * 1. transitionendイベントが発生したときに実行されるハンドラー関数を作成
+ * 2. イベントがcontent要素のheightプロパティの変化によるものか確認
+ * 3. 条件が一致したら、onCompleteコールバックを実行
+ * 4. イベントリスナーを削除してメモリリークを防止
+ * 5. ハンドラー関数への参照をcontent._transitionHandlerに保存（後で削除できるように）
+ */
+const setupTransitionHandler = (content, onComplete) => {
+  // transitionendイベントハンドラー: CSSトランジション（アニメーション）が完了したときに実行される関数
+  const handler = (e) => {
+    // e.target: イベントが発生した要素
+    // e.propertyName: アニメーションが完了したプロパティ名（"height"、"opacity"など）
+    // 複数のプロパティがアニメーションしている場合、すべてのtransitionendイベントが発生するため、
+    // 対象の要素とプロパティをチェックして、適切なタイミングでのみ処理を実行します
+    if (e.target === content && e.propertyName === "height") {
+      // アニメーション完了後の処理を実行（コールバック関数）
+      onComplete();
+
+      // イベントリスナーを削除（メモリリーク防止）
+      content.removeEventListener("transitionend", handler);
+      // 独自プロパティをクリア
+      content._transitionHandler = null;
+    }
+  };
+
+  // addEventListenerメソッド: 要素にイベントリスナーを登録
+  // - 第1引数: イベント名（"transitionend"）
+  // - 第2引数: イベント発生時に実行する関数（handler）
+  content.addEventListener("transitionend", handler);
+
+  // 後で削除できるように、ハンドラー関数への参照を保存
+  // _transitionHandler: 独自のプロパティとして保存（cleanupTransitionHandler関数で使用）
+  content._transitionHandler = handler;
+};
+
+/**
+ * アコーディオン機能の初期設定を行う関数
+ *
+ * 処理の流れ:
+ * 1. ページ内のすべてのFAQアイテムを取得
+ * 2. 各アイテムにクリックイベントを設定
+ * 3. 最初のアイテムを初期状態で開いた状態にする（HTMLのopen属性がある場合）
+ * 4. クリック時に開閉を切り替え、スムーズなアニメーションを実現
+ */
 const setUpAccordion = () => {
+  // querySelectorAllメソッド: 指定したCSSセレクタに一致するすべての要素を取得する
+  // - document: HTMLドキュメント全体を表すオブジェクト
+  // - ".faq__item": CSSクラス名faq__itemを持つすべての要素
+  // - 戻り値: NodeList（配列のようなオブジェクト）で、見つかったすべての要素が含まれる
   const details = document.querySelectorAll(".faq__item");
-  const IS_OPENED_CLASS = "is-opened";
-  const IS_OPEN_CLASS = "is-open";
 
-  details.forEach((element) => {
-    const summary = element.querySelector(".faq__question");
-    const content = element.querySelector(".faq__answer");
-    const questionText = element.querySelector(".faq__question-text");
+  // CSSクラス名の定数定義
+  // 定数として定義することで、クラス名を変更する際に1箇所修正するだけで済みます
+  const IS_OPENED_CLASS = "is-opened"; // アコーディオンが開いている状態を示すクラス（親要素に適用）
+  const IS_OPEN_CLASS = "is-open"; // 質問テキストが開いている状態を示すクラス（質問テキストに適用）
 
+  // forEachメソッド: 配列やNodeListの各要素に対して順番に処理を実行する
+  // - element: 現在処理中の要素（この場合は1つ1つの.faq__item要素）
+  //   配列やNodeListの中の各要素が順番に代入されます
+  //   例: 1回目のループでは1つ目の.faq__item、2回目では2つ目の.faq__item...
+  // - index: 現在処理中の要素のインデックス（番号）
+  //   配列やNodeListの中での位置を示す数値（0から始まる）
+  //   例: 1つ目の要素なら0、2つ目の要素なら1、3つ目の要素なら2...
+  //   用途: 最初の要素（index === 0）だけを初期表示で開く処理などに使用
+  details.forEach((element, index) => {
+    // querySelectorメソッド: 指定した要素の子孫要素の中から、CSSセレクタに一致する最初の1つの要素を取得する
+    // - element: 親要素（現在処理中の.faq__item要素）
+    // - ".faq__question": CSSクラス名faq__questionを持つ要素を検索
+    // - 戻り値: 見つかった要素（見つからない場合はnull）
+    // - 重要: 複数存在する場合は、最初の1つだけを返す
+    const summary = element.querySelector(".faq__question"); // クリック可能な質問部分
+    const content = element.querySelector(".faq__answer"); // 開閉される回答部分
+    const questionText = element.querySelector(".faq__question-text"); // 質問のテキスト部分（スタイル変更用）
+
+    // 必要な要素が存在しない場合は処理をスキップ（エラー防止）
+    // return文: 関数の実行を途中で終了する
+    // この場合、forEeachのループから抜けて次の要素の処理に進みます
     if (!summary || !content || !questionText) return;
 
+    // ============================================
+    // 初期状態の設定
+    // ============================================
+    // 最初のアコーディオン（index === 0）で、HTMLにopen属性がある場合のみ
+    // 初期表示時に開いた状態にします
+    //
+    // hasAttributeメソッド: HTML要素が指定した属性を持っているか確認する
+    // - 第1引数: 属性名（"open"）
+    // - 戻り値: 属性があればtrue、なければfalse
+    if (index === 0 && element.hasAttribute("open")) {
+      // classListプロパティ: HTML要素のclass属性（CSSクラス）を操作するためのオブジェクト
+      // - どこから来たのか: element（HTML要素オブジェクト）の標準プロパティ
+      //   JavaScriptでHTML要素を操作する際に自動的に使える機能です
+      //   elementはdetails.forEach()の第1パラメータで、.faq__item要素です
+      //
+      // classList.add()メソッド: 指定したクラス名を要素に追加する
+      // - 第1引数: 追加するクラス名（文字列）
+      // - 既に同じクラスが付いている場合は何も起こらない（重複はしない）
+      //
+      // 具体例:
+      // HTML: <div class="faq__item">...</div>
+      // element.classList.add("is-opened")
+      // 結果: <div class="faq__item is-opened">...</div>
+      //
+      // これにより、CSSで.is-openedクラスが付いた要素に対するスタイルを適用できます
+      element.classList.add(IS_OPENED_CLASS);
+      questionText.classList.add(IS_OPEN_CLASS);
+
+      // styleプロパティ: 要素のインラインスタイル（HTMLのstyle属性）を操作するオブジェクト
+      // - style.height: 要素の高さを設定
+      //   "auto" → 内容に応じた高さで表示（コンテンツの高さに合わせて自動調整）
+      // - style.opacity: 要素の透明度を設定
+      //   "1" → 完全に不透明（見える状態）、"0" → 完全に透明（見えない状態）
+      content.style.height = "auto";
+      content.style.opacity = "1";
+    }
+
+    // ============================================
+    // クリックイベントの設定
+    // ============================================
+    // addEventListenerメソッド: 要素にイベントリスナー（イベントが発生したときに実行する関数）を追加する
+    // - 第1引数: イベント名（"click" → マウスクリックまたはタッチ時のイベント）
+    // - 第2引数: イベント発生時に実行する関数（アロー関数）
+    //   event: イベントオブジェクト（イベントに関する情報が含まれる）
     summary.addEventListener("click", (event) => {
+      // preventDefaultメソッド: デフォルトの動作をキャンセルする
+      // <details>要素の場合、デフォルトで開閉動作があるため、それを無効化して
+      // 独自のアニメーション処理を実行できるようにします
       event.preventDefault();
 
-      // 既存のイベントリスナーをクリーンアップ（重複を防ぐ）
-      const existingHandler = content._transitionHandler;
-      if (existingHandler) {
-        content.removeEventListener("transitionend", existingHandler);
-      }
+      // 既存のtransitionendイベントリスナーをクリーンアップ（重複防止）
+      cleanupTransitionHandler(content);
 
-      if (element.classList.contains(IS_OPENED_CLASS)) {
-        // アコーディオンを閉じる
+      // classList.containsメソッド: 要素が指定したクラスを持っているか確認する
+      // - 第1引数: 確認するクラス名
+      // - 戻り値: クラスがあればtrue、なければfalse
+      // isOpen: アコーディオンが開いているかどうかの状態
+      const isOpen = element.classList.contains(IS_OPENED_CLASS);
+
+      if (isOpen) {
+        // ============================================
+        // 閉じる処理
+        // ============================================
+        // classList.removeメソッド: 指定したクラス名を要素から削除する
+        // - 第1引数: 削除するクラス名
         element.classList.remove(IS_OPENED_CLASS);
         questionText.classList.remove(IS_OPEN_CLASS);
+
+        // scrollHeightプロパティ: 要素の実際の高さ（スクロール可能な部分も含む）を取得する
+        // これにより、現在のコンテンツの高さを正確に取得できます
+        // 例: コンテンツの高さが200pxの場合、scrollHeightは200を返します
         const contentHeight = content.scrollHeight;
 
-        // 強制的に現在の高さを設定
+        // アニメーション開始前の準備
+        // 現在の高さを明示的に設定することで、高さの初期値として確実に認識させます
+        // これにより、「現在の高さ → 0」というアニメーションが可能になります
         content.style.height = contentHeight + "px";
 
-        // 強制的にリフローを発生させてからアニメーション開始
-        void content.offsetHeight;
-
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            content.style.height = "0";
-            content.style.opacity = "0";
-          });
+        // startAnimation関数: リフローとrequestAnimationFrameの処理を行い、アニメーションを開始する
+        // コールバック関数内で、高さを0に、透明度を0に変更して閉じるアニメーションを実行
+        startAnimation(content, () => {
+          content.style.height = "0"; // 高さを0に変更（CSSのtransitionでスムーズに変化）
+          content.style.opacity = "0"; // 透明度を0に変更（フェードアウト効果）
         });
 
-        // transitionendイベントハンドラー
-        const handler = (e) => {
-          if (e.target === content && e.propertyName === "height") {
-            element.removeAttribute("open");
-            content.style.height = "";
-            content.style.opacity = "";
-            content.removeEventListener("transitionend", handler);
-            content._transitionHandler = null;
-          }
-        };
-        content.addEventListener("transitionend", handler);
-        content._transitionHandler = handler;
+        // setupTransitionHandler関数: transitionendイベントハンドラーを設定する
+        // アニメーション完了後（閉じる処理が完了した後）に実行される処理
+        setupTransitionHandler(content, () => {
+          // removeAttributeメソッド: HTML要素から指定した属性を削除する
+          // - 第1引数: 削除する属性名（"open"）
+          element.removeAttribute("open");
+
+          // インラインスタイルを削除（CSSの初期値に戻す）
+          // 空文字を代入することで、インラインスタイルを削除できます
+          // これにより、CSSのスタイルが適用されるようになります
+          content.style.height = "";
+          content.style.opacity = "";
+        });
       } else {
-        // アコーディオンを開く
+        // ============================================
+        // 開く処理
+        // ============================================
+        // 開いている状態のクラスを追加
         element.classList.add(IS_OPENED_CLASS);
         questionText.classList.add(IS_OPEN_CLASS);
+
+        // setAttributeメソッド: HTML要素に指定した属性を追加または変更する
+        // - 第1引数: 属性名（"open"）
+        // - 第2引数: 属性値（"true"）
         element.setAttribute("open", "true");
 
-        // 一旦0にしてから実際の高さを取得
+        // アニメーション開始前の準備
+        // 高さを0に設定してから、実際の高さを取得します
+        // これにより、「0から実際の高さへ」という明確なアニメーションが可能になります
         content.style.height = "0";
+        // 透明度は先に1（不透明）に設定（高さのアニメーションと同時にフェードイン）
         content.style.opacity = "1";
 
-        // 強制的にリフローを発生させてから高さを取得
-        void content.offsetHeight;
-
+        // 現在のコンテンツの実際の高さを取得
+        // この時点でheightが0なので、scrollHeightは要素の本来の高さを返します
         const contentHeight = content.scrollHeight;
 
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            content.style.height = contentHeight + "px";
-          });
+        // startAnimation関数: リフローとrequestAnimationFrameの処理を行い、アニメーションを開始する
+        // コールバック関数内で、高さを実際の高さに変更して開くアニメーションを実行
+        startAnimation(content, () => {
+          // 高さを実際の高さに変更（CSSのtransitionでスムーズに展開）
+          // これにより、0からcontentHeightまでスムーズに展開するアニメーションが実行されます
+          content.style.height = contentHeight + "px";
         });
 
-        // transitionendイベントハンドラー
-        const handler = (e) => {
-          if (e.target === content && e.propertyName === "height") {
-            content.style.height = "auto";
-            content.removeEventListener("transitionend", handler);
-            content._transitionHandler = null;
-          }
-        };
-        content.addEventListener("transitionend", handler);
-        content._transitionHandler = handler;
+        // setupTransitionHandler関数: transitionendイベントハンドラーを設定する
+        // アニメーション完了後（開く処理が完了した後）に実行される処理
+        setupTransitionHandler(content, () => {
+          // 高さを"auto"に変更
+          // 理由: 固定のpx値だと、ウィンドウサイズ変更やコンテンツ追加に対応できないため
+          // "auto"にすることで、内容に応じた柔軟な高さになります
+          content.style.height = "auto";
+        });
       }
     });
   });
