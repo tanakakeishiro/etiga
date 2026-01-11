@@ -864,15 +864,60 @@ const swiper = new Swiper("#js-work-swiper", {
   },
 });
 
-$(function () {
-  $(".js-content:not(:first-of-type)").hide();
+// ============================================
+// タブ機能（ARIA属性ベース）
+// ============================================
+document.addEventListener("DOMContentLoaded", function () {
+  const tabs = document.querySelectorAll(".js-tab");
+  const tabPanels = document.querySelectorAll(".js-content");
+  const tabMenus = document.querySelectorAll(".js-tab-menu");
 
-  $(".js-tab").on("click", function () {
-    $(".js-content").hide();
-    $("#" + $(this).attr("aria-controls")).fadeIn(300);
-    $(".js-tab-menu,.js-tab").removeClass("js-tab-current");
-    $(this).parent().addClass("js-tab-current");
-    $(this).addClass("js-tab-current");
+  // 初期状態の設定：最初のタブが選択されている場合、親要素にもaria-selectedを設定
+  tabs.forEach(function (tab) {
+    if (tab.getAttribute("aria-selected") === "true") {
+      const parentMenu = tab.closest(".js-tab-menu");
+      if (parentMenu) {
+        parentMenu.setAttribute("aria-selected", "true");
+      }
+    }
+  });
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      const targetID = "#" + this.getAttribute("aria-controls");
+
+      // いったんすべてのタブの選択を解除
+      tabs.forEach(function (t) {
+        t.setAttribute("aria-selected", "false");
+        t.setAttribute("aria-expanded", "false");
+      });
+
+      // いったんすべてのタブメニュー（親要素）の選択を解除
+      tabMenus.forEach(function (menu) {
+        menu.setAttribute("aria-selected", "false");
+      });
+
+      // いったんすべてのタブパネルを非表示
+      tabPanels.forEach(function (panel) {
+        panel.setAttribute("aria-hidden", "true");
+      });
+
+      // 現在のタブを選択中に変更
+      this.setAttribute("aria-selected", "true");
+      this.setAttribute("aria-expanded", "true");
+
+      // 現在のタブメニュー（親要素）を選択中に変更
+      const parentMenu = this.closest(".js-tab-menu");
+      if (parentMenu) {
+        parentMenu.setAttribute("aria-selected", "true");
+      }
+
+      // 現在のタブパネルを表示
+      const targetPanel = document.querySelector(targetID);
+      if (targetPanel) {
+        targetPanel.setAttribute("aria-hidden", "false");
+      }
+    });
   });
 });
 

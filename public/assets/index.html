@@ -800,36 +800,42 @@
             <p class="company__heading-subtitle heading__subtitle">会社概要</p>
           </div>
 
-          <ul class="company__tab company-tab">
-            <li class="company-tab__menu js-tab-menu js-tab-current">
+          <ul class="company__tab company-tab" role="tablist">
+            <li class="company-tab__menu js-tab-menu" role="presentation">
               <button
-                class="company-tab__button js-tab js-tab-current"
-                role="tab"
-                aria-selected="true"
-                aria-controls="panel1"
                 id="tab1"
+                class="company-tab__button js-tab"
+                type="button"
+                role="tab"
+                aria-expanded="true"
+                aria-selected="true"
+                aria-controls="tabpanel01"
               >
                 会社概要
               </button>
             </li>
-            <li class="company-tab__menu js-tab-menu">
+            <li class="company-tab__menu js-tab-menu" role="presentation">
               <button
-                class="company-tab__button js-tab"
-                role="tab"
-                aria-selected="false"
-                aria-controls="panel2"
                 id="tab2"
+                class="company-tab__button js-tab"
+                type="button"
+                role="tab"
+                aria-expanded="false"
+                aria-selected="false"
+                aria-controls="tabpanel02"
               >
                 沿革
               </button>
             </li>
-            <li class="company-tab__menu js-tab-menu">
+            <li class="company-tab__menu js-tab-menu" role="presentation">
               <button
-                class="company-tab__button js-tab"
-                role="tab"
-                aria-selected="false"
-                aria-controls="panel3"
                 id="tab3"
+                class="company-tab__button js-tab"
+                type="button"
+                role="tab"
+                aria-expanded="false"
+                aria-selected="false"
+                aria-controls="tabpanel03"
               >
                 認証所得
               </button>
@@ -838,11 +844,12 @@
 
           <div class="company__group">
             <div
+              id="tabpanel01"
               class="company-group__content js-content"
-              id="panel1"
               role="tabpanel"
               tabindex="0"
-              aria-labelledby="tab1"
+              aria-labelledby="tab01"
+              aria-hidden="false"
             >
               <h3 class="company-group__heading">会社概要</h3>
               <p class="company-group__text">ここに会社概要が入ります。</p>
@@ -877,11 +884,12 @@
             </div>
 
             <div
+              id="tabpanel02"
               class="company-group__content js-content"
-              id="panel2"
               role="tabpanel"
               tabindex="0"
-              aria-labelledby="tab2"
+              aria-labelledby="tab02"
+              aria-hidden="true"
             >
               <dl class="company-group__timeline">
                 <div class="company-timeline__item">
@@ -908,11 +916,12 @@
             </div>
 
             <div
+              id="tabpanel03"
               class="company-group__content js-content"
-              id="panel3"
               role="tabpanel"
               tabindex="0"
-              aria-labelledby="tab3"
+              aria-labelledby="tab03"
+              aria-hidden="true"
             >
               <dl class="company-group__information">
                 <div class="company-group__info-row">

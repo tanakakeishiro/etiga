@@ -1284,11 +1284,17 @@ body {
 .company-tab__button {
   color: #2392db;
   font-weight: 700;
+
+  /* 選択中のタブボタン */
+  &[aria-selected="true"] {
+    background: #2392db;
+    color: #fff;
+  }
 }
 
-.js-tab-current {
+/* 選択中のタブメニュー（親要素）のスタイル */
+.company-tab__menu[aria-selected="true"] {
   background: #2392db;
-  color: #fff;
 
   &::before {
     border-top: 2px solid #fff;
@@ -1308,6 +1314,15 @@ body {
     margin-top: 0;
     max-width: 900px;
     width: 84vw;
+  }
+}
+
+.company-group__content {
+  display: none;
+
+  /* 選択中のタブパネル */
+  &[aria-hidden="false"] {
+    display: block;
   }
 }
 

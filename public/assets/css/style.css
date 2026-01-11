@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
   background: #fff;
   color: #333;
@@ -1222,13 +1223,18 @@ body.is-menu-open {
 .company-tab__button {
   color: #2392db;
   font-weight: 700;
+  /* 選択中のタブボタン */
 }
-
-.js-tab-current {
+.company-tab__button[aria-selected=true] {
   background: #2392db;
   color: #fff;
 }
-.js-tab-current::before {
+
+/* 選択中のタブメニュー（親要素）のスタイル */
+.company-tab__menu[aria-selected=true] {
+  background: #2392db;
+}
+.company-tab__menu[aria-selected=true]::before {
   border-top: 2px solid #fff;
   border-right: 2px solid #fff;
 }
@@ -1248,6 +1254,14 @@ body.is-menu-open {
     width: 84vw;
     max-width: 900px;
   }
+}
+
+.company-group__content {
+  display: none;
+  /* 選択中のタブパネル */
+}
+.company-group__content[aria-hidden=false] {
+  display: block;
 }
 
 .company-group__heading {
