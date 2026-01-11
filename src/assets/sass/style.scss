@@ -2044,6 +2044,10 @@ summary {
   }
 
   @include mq(lg) {
+    padding-inline: 60px;
+  }
+
+  @include mq(xl) {
     padding-inline: 80px;
   }
 }
@@ -2053,16 +2057,22 @@ summary {
   flex-direction: column;
   gap: 34px;
 
-  @include mq(md) {
+  @include mq(lg) {
     flex-direction: row;
     gap: 0;
+    justify-content: center;
   }
+
+  @include mq(xl) {
+    justify-content: flex-start;
+  }
+
 }
 
 .footer__content {
   margin-top: 46px;
 
-  @include mq(md) {
+  @include mq(lg) {
     text-align: left;
     margin-top: 66px;
   }
@@ -2084,7 +2094,7 @@ summary {
   flex-direction: column;
   gap: 2px;
 
-  @include mq(md) {
+  @include mq(lg) {
     margin-top: 16px;
   }
 }
@@ -2096,7 +2106,7 @@ summary {
   font-style: normal;
 }
 
-.footer__text-2 {
+.footer__text--light {
   font-weight: 400;
 }
 
@@ -2105,11 +2115,15 @@ summary {
   flex-direction: column;
   gap: 10px;
 
-  @include mq(md) {
+  @include mq(lg) {
     margin-top: 62px;
-    margin-left: min(78px, 7vw);
     flex-direction: row;
     gap: 25px;
+    margin-left: 40px;
+  }
+
+  @include mq(xl) {
+    margin-left: 78px;
   }
 }
 
@@ -2117,7 +2131,7 @@ summary {
 // }
 
 .is-line {
-  @include mq(md) {
+  @include mq(lg) {
     padding-inline: 25px;
     position: relative;
 
@@ -2153,11 +2167,17 @@ summary {
   gap: 16px;
   margin-bottom: 36px;
 
-  @include mq(md) {
+  @include mq(lg) {
     margin-top: 60px;
     margin-bottom: 0;
-    margin-left: min(87px, 8vw);
+    margin-left: 40px;
   }
+
+  @include mq(xl) {
+    margin-left: 87px;
+  }
+
+
 }
 
 // .footer-sns-item {
@@ -2169,7 +2189,7 @@ summary {
 .footer__wrapper {
   padding-block: 6px;
 
-  @include mq(md) {
+  @include mq(lg) {
     margin-top: 56px;
   }
 }

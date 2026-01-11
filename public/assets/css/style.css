@@ -1991,6 +1991,12 @@ summary::-webkit-details-marker {
 }
 @media screen and (min-width: 992px) {
   .footer__inner {
+    padding-right: 60px;
+    padding-left: 60px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .footer__inner {
     padding-right: 80px;
     padding-left: 80px;
   }
@@ -2001,17 +2007,23 @@ summary::-webkit-details-marker {
   flex-direction: column;
   gap: 34px;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   .footer__container {
     flex-direction: row;
+    justify-content: center;
     gap: 0;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .footer__container {
+    justify-content: flex-start;
   }
 }
 
 .footer__content {
   margin-top: 46px;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   .footer__content {
     margin-top: 66px;
     text-align: left;
@@ -2033,7 +2045,7 @@ summary::-webkit-details-marker {
   gap: 2px;
   margin-top: 25px;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   .footer__address {
     margin-top: 16px;
   }
@@ -2046,7 +2058,7 @@ summary::-webkit-details-marker {
   font-size: 14px;
 }
 
-.footer__text-2 {
+.footer__text--light {
   font-weight: 400;
 }
 
@@ -2055,16 +2067,21 @@ summary::-webkit-details-marker {
   flex-direction: column;
   gap: 10px;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   .footer__list {
     flex-direction: row;
     gap: 25px;
     margin-top: 62px;
-    margin-left: min(78px, 7vw);
+    margin-left: 40px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .footer__list {
+    margin-left: 78px;
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   .is-line {
     position: relative;
     padding-right: 25px;
@@ -2100,11 +2117,16 @@ summary::-webkit-details-marker {
   gap: 16px;
   margin-bottom: 36px;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   .footer-sns-list {
     margin-top: 60px;
     margin-bottom: 0;
-    margin-left: min(87px, 8vw);
+    margin-left: 40px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .footer-sns-list {
+    margin-left: 87px;
   }
 }
 
@@ -2112,7 +2134,7 @@ summary::-webkit-details-marker {
   padding-top: 6px;
   padding-bottom: 6px;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   .footer__wrapper {
     margin-top: 56px;
   }
