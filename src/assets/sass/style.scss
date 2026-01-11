@@ -1243,10 +1243,6 @@ body {
   cursor: pointer;
   position: relative;
 
-  &:nth-of-type(2) {
-    border-right: 1px solid #2392db;
-  }
-
   @include mq(md) {
     width: 200px;
     max-width: none;
@@ -1275,6 +1271,8 @@ body {
   }
 
   &:nth-of-type(2) {
+    border-right: 1px solid #2392db;
+
     @include mq(md) {
       &::before {
         left: 73px;
@@ -1878,8 +1876,17 @@ body {
 
   @include mq(md) {
     margin-top: 44px;
-    gap: 23px;
+    gap: 20px;
     max-width: 800px;
+  }
+
+  .faq__item:nth-of-type(3) .faq__question-text {
+    padding-right: 42px;
+
+    @include mq(md) {
+      padding-top: 12px;
+      padding-right: 50px;
+    }
   }
 }
 
@@ -1919,24 +1926,15 @@ summary {
 
     @include mq(md) {
       width: 71px;
-      height: 51px;
+      height: 100%;
       padding: 10px 25px 15px;
     }
   }
 }
 
-// .is-type-2 {
-//   display: grid;
-//   place-items: center;
-//   height: 100%;
-
-//   @include mq(md) {
-//     margin-top: 1px;
-//   }
-// }
-
 .faq__question-text {
   font-size: 15px;
+  font-weight: 400;
   padding-top: 10px;
   padding-bottom: 9px;
   display: block;
@@ -1946,6 +1944,7 @@ summary {
   @include mq(md) {
     margin-left: 85px;
     font-size: 16px;
+    padding-block: 12px;
   }
 
   &::before,
@@ -1971,21 +1970,9 @@ summary {
   }
 }
 
-// .is-head-text-2 {
-//   padding-right: 42px;
-
-//   @include mq(md) {
-//     padding-top: 12px;
-//   }
-// }
-
 .faq__question-text.is-open::after {
   transform: translateY(-50%) rotate(0);
 }
-
-// .faq-text-1 {
-//   margin-top: 1px;
-// }
 
 .faq__answer {
   height: 0;
@@ -1996,7 +1983,6 @@ summary {
     opacity 0.4s ease;
 
   @include mq(md) {
-    margin-top: 6px;
     margin-left: 41px;
     margin-bottom: 0;
   }
@@ -2020,7 +2006,10 @@ summary {
   // 上下のpaddingを設定すると角ついてしまいますので、内部の要素にpaddingを入れます。
 
   @include mq(md) {
-    padding: 13px 14px 11px;
+    margin-top: 6px;
+    padding-block: 11px;
+    padding-inline: 14px;
+    margin-left: -1px;
     font-size: 16px;
   }
 }
