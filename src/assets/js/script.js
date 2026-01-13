@@ -839,25 +839,15 @@ $(function () {
 });
 
 const swiper = new Swiper("#js-work-swiper", {
-  // Optional parameters
   loop: true,
   // slidesPerView: "auto"に上書きされるから消した。
   // slidesPerView: 1.25,
   spaceBetween: 18,
-  speed: 4000, // ループの時間
+  speed: 1000, // ループの時間
   allowTouchMove: false, // スワイプ無効
   //画面幅を変えることができる。
   slidesPerView: "auto",
-  autoplay: {
-    delay: 0, // 途切れなくループ
-  },
 
-  // If we need pagination
-  pagination: {
-    el: "#js-work-pagination",
-  },
-
-  // Navigation arrows
   navigation: {
     nextEl: "#js-work-next",
     prevEl: "#js-work-prev",
