@@ -22,6 +22,60 @@ $breakpoints: (
   }
 }
 
+// ----------------------------------------
+// アクセシビリティ対応インタラクション用の共通ミックスイン
+// ----------------------------------------
+
+// フォーカスリング（キーボード操作向け）
+@mixin a11y-focus-ring($color: $color-base, $offset: 2px, $radius: auto) {
+  outline: 2px solid $color;
+  outline-offset: $offset;
+
+  @if $radius != auto {
+    border-radius: $radius;
+  }
+}
+
+// カード系ホバー（ふわっと浮き上がるアニメーション）
+@mixin interactive-card-hover(
+  $bg: null,
+  $translate-y: -2px,
+  $shadow: 0 4px 10px rgba(0, 0, 0, 0.12),
+  $duration: 0.2s
+) {
+  transition:
+    transform $duration ease-out,
+    box-shadow $duration ease-out,
+    background-color $duration ease-out;
+
+  &:hover,
+  &:focus-within {
+    transform: translateY($translate-y);
+    box-shadow: $shadow;
+
+    @if $bg != auto {
+      background: $bg;
+    }
+  }
+}
+
+// モーションを好まないユーザー向けにアニメーションを抑制
+@mixin reduce-motion-interactive($reset-shadow: true, $reset-transform: true) {
+  @media (prefers-reduced-motion: reduce) {
+    & {
+      transition: none;
+
+      @if $reset-transform {
+        transform: none !important;
+      }
+
+      @if $reset-shadow {
+        box-shadow: none !important;
+      }
+    }
+  }
+}
+
 // 重なり順の定義
 $layer: (
   // ローディング
@@ -84,7 +138,7 @@ body {
 .section__head {
   color: #238fdc;
   font-family: $font-family-base-2;
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 700;
   letter-spacing: 3px;
   display: flex;
@@ -93,7 +147,7 @@ body {
   align-items: center;
 
   @include mq(md) {
-    font-size: 36px;
+    font-size: 2.25rem;
     letter-spacing: 3.6px;
   }
 
@@ -123,14 +177,14 @@ body {
 .heading__title {
   color: #228ddd;
   font-family: $font-family-base-2;
-  font-size: 36px;
+  font-size: 2.25rem;
   font-weight: 700;
   letter-spacing: 3.6px;
 }
 
 .heading__subtitle {
   color: #228bde;
-  font-size: 14px;
+  font-size: 0.875rem;
   letter-spacing: 2.66px;
 }
 
@@ -179,6 +233,12 @@ body {
     transform: scale(0.98);
     box-shadow: 2px 1px 18px 0 rgb(0 0 0 / 12%);
   }
+
+  &:focus-visible {
+    @include a11y-focus-ring(#fff, 3px, 48px);
+  }
+
+  @include reduce-motion-interactive;
 }
 
 .buttons {
@@ -230,6 +290,12 @@ body {
     transform: scale(0.98);
     box-shadow: 2px 1px 18px 0 rgb(0 0 0 / 12%);
   }
+
+  &:focus-visible {
+    @include a11y-focus-ring(#2392db, 3px, 2px);
+  }
+
+  @include reduce-motion-interactive;
 }
 
 .md-hidden {
@@ -651,7 +717,7 @@ body {
 
 .header__link {
   color: #fff;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
   display: inline-block;
 
@@ -788,16 +854,16 @@ body {
 .fv__title {
   margin-top: 20px;
   color: #2b2b2b;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
 
   @include mq(md) {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   @include mq(lg) {
     margin-top: 24px;
-    font-size: 26px;
+    font-size: 1.625rem;
   }
 }
 
@@ -958,7 +1024,7 @@ body {
 }
 
 .news__date {
-  font-size: 14px;
+  font-size: 0.875rem;
   white-space: nowrap;
 
   @include mq(md) {
@@ -969,7 +1035,7 @@ body {
 .news__title {
   margin-top: 7px;
   color: #111;
-  font-size: 15px;
+  font-size: 0.9375rem;
 
   @include mq(md) {
     margin-top: 0;
@@ -1020,7 +1086,7 @@ body {
   border: 1px solid #828282;
   color: #707070;
   font-family: $font-family-base-2;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 500;
   line-height: 100%;
   letter-spacing: 1.44px;
@@ -1327,16 +1393,16 @@ body {
 
 .concept__title {
   color: #228ddd;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 700;
 
   @include mq(md) {
-    font-size: 26px;
+    font-size: 1.625rem;
   }
 }
 
 .concept__text {
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 200%;
   margin-top: 30px;
 }
@@ -1431,21 +1497,13 @@ body {
   // フォーカスビジブル時のインジケーター（アクセシビリティ向上）
   &:focus-visible {
     // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
-    outline: 2px solid $color-base;
-    outline-offset: 2px;
-    border-radius: 2px;
+    @include a11y-focus-ring($color-base, 2px, 2px);
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .work__slide {
-    transition: none;
-    transform: none !important;
-    filter: drop-shadow(5px 7px 34px #f1f1f1);
-  }
+  @include reduce-motion-interactive;
 }
 
 // .work__card {
@@ -1466,7 +1524,7 @@ body {
 
 .work-card__title {
   color: #228ddd;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: 700;
 }
 
@@ -1476,7 +1534,7 @@ body {
 }
 
 .work-card__text {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   display: flex;
   margin-top: 13px;
@@ -1484,7 +1542,7 @@ body {
 
 .work-card__label {
   color: #9d9d9d;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-top: 9px;
 }
 
@@ -1535,8 +1593,8 @@ body {
 
   // フォーカスリング（キーボード操作向け）
   &:focus-visible {
-    outline: 2px solid $color-base;
-    outline-offset: 2px;
+    @include a11y-focus-ring($color-base, 2px, 50%);
+
     border-radius: 50%;
   }
 
@@ -1551,15 +1609,8 @@ body {
     width: 0 !important;
     height: 0 !important;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .work__prev,
-  .work__next {
-    transition: none;
-    transform: none !important;
-    box-shadow: none !important;
-  }
+  @include reduce-motion-interactive;
 }
 
 .work__prev {
@@ -1710,7 +1761,7 @@ body {
 
 .service-box__title {
   color: #2392db;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
   padding-top: 28px;
 }
@@ -1718,7 +1769,7 @@ body {
 .service-box__price {
   margin-top: 7px;
   color: #2392db;
-  font-size: 36px;
+  font-size: 2.25rem;
   font-weight: 700;
   line-height: 48px;
   letter-spacing: 3.6px;
@@ -1837,10 +1888,7 @@ body {
   text-align: center;
   cursor: pointer;
   position: relative;
-  transition:
-    background-color 0.2s ease-out,
-    box-shadow 0.2s ease-out,
-    transform 0.2s ease-out;
+  @include interactive-card-hover(#f5faff, -2px, 0 4px 10px rgb(0 0 0 / 12%));
 
   @include mq(md) {
     width: 200px;
@@ -1879,19 +1927,12 @@ body {
     }
   }
 
-  // ホバー・フォーカス時のカード的な浮き上がり
-  &:hover,
-  &:focus-within {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgb(0 0 0 / 12%);
-    background: #f5faff;
-  }
-
   // キーボード操作向けのフォーカスリング
   &:focus-visible {
-    outline: 2px solid $color-base;
-    outline-offset: 2px;
+    @include a11y-focus-ring($color-base, 2px);
   }
+
+  @include reduce-motion-interactive;
 }
 
 .company-tab__button {
@@ -1906,18 +1947,12 @@ body {
     background: #2392db;
     color: #fff;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .company-tab__menu {
-    transition: none;
-    transform: none !important;
-    box-shadow: none !important;
+  &:focus-visible {
+    @include a11y-focus-ring($color-base, 2px);
   }
 
-  .company-tab__button {
-    transition: none;
-  }
+  @include reduce-motion-interactive(false, false);
 }
 
 /* 選択中のタブメニュー（親要素）のスタイル */
@@ -1963,7 +1998,7 @@ body {
 }
 
 .company-group__heading {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 700;
   margin-top: 57px;
   text-align: center;
@@ -2186,7 +2221,7 @@ body {
 
 .cta__title {
   color: #fff;
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: 700;
   letter-spacing: 2.6px;
 }
@@ -2195,7 +2230,7 @@ body {
   margin-top: 8px;
   color: #fff;
   letter-spacing: 1.6px;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .cta__button {
@@ -2274,34 +2309,17 @@ body {
 
 .blog-card {
   // カード全体をインタラクティブに見せるアニメーション
-  transition:
-    transform 0.2s ease-out,
-    box-shadow 0.2s ease-out;
-
-  &:hover,
-  &:focus-within {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgb(0 0 0 / 12%);
-  }
+  @include interactive-card-hover(null, -3px, 0 6px 18px rgb(0 0 0 / 12%));
 
   // キーボード操作向けのフォーカスリング
   &:focus-visible {
-    outline: 2px solid $color-base;
-    outline-offset: 3px;
-    border-radius: 4px;
+    @include a11y-focus-ring($color-base, 3px, 4px);
   }
 
   @include mq(xl) {
     max-width: 360px;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .blog-card {
-    transition: none;
-    transform: none !important;
-    box-shadow: none !important;
-  }
+  @include reduce-motion-interactive;
 }
 
 .blog-card__post {
@@ -2325,20 +2343,20 @@ body {
   padding: 3px 32px;
   color: #fff;
   text-align: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
 }
 
 .blog-card__title {
   margin-top: 6px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: 700;
 }
 
 .blog-card__text {
   margin-top: 4px;
   padding-bottom: 16px;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .blog__button {
@@ -2466,7 +2484,7 @@ body {
   border-radius: 2px;
   background: #2392db;
   color: #fff;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   line-height: 100%;
 }
@@ -2477,7 +2495,7 @@ body {
 
 .event-card__title {
   margin-top: 10px;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
 
   @include mq(md) {
@@ -2487,7 +2505,7 @@ body {
 
 .event-card__text {
   margin-top: 14px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
 
   @include mq(md) {
@@ -2513,7 +2531,7 @@ body {
   padding-block: calc(8px - 1px);
   padding-inline: 0;
   width: 158px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   text-align: center;
 }
@@ -2539,7 +2557,7 @@ body {
 }
 
 .faq__heading {
-  font-size: 36px;
+  font-size: 2.25rem;
   letter-spacing: 3.6px;
   gap: 2px;
 }
@@ -2582,23 +2600,11 @@ summary {
   border: 0 solid #707070;
   background: var(--rgb-255255255, #fff);
   position: relative;
-  transition:
-    transform 0.2s ease-out,
-    box-shadow 0.2s ease-out,
-    background-color 0.2s ease-out;
-
-  // ホバー・フォーカス時のカード的な浮き上がり
-  &:hover,
-  &:focus-within {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgb(0 0 0 / 12%);
-    background: #f5faff;
-  }
+  @include interactive-card-hover(#f5faff, -2px, 0 6px 18px rgb(0 0 0 / 12%));
 
   // キーボード操作向けのフォーカスリング
   &:focus-visible {
-    outline: 2px solid $color-base;
-    outline-offset: 3px;
+    @include a11y-focus-ring($color-base, 3px);
   }
 
   &::before {
@@ -2608,7 +2614,7 @@ summary {
     left: 0;
     transform: translateY(-50%);
     color: #fff;
-    font-size: 26px;
+    font-size: 1.625rem;
     font-weight: 700;
     line-height: 100%;
     padding: 7px 15px 13px 14px;
@@ -2625,18 +2631,11 @@ summary {
       padding: 10px 25px 15px;
     }
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .faq__question {
-    transition: none;
-    transform: none !important;
-    box-shadow: none !important;
-  }
+  @include reduce-motion-interactive;
 }
 
 .faq__question-text {
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: 400;
   padding-top: 10px;
   padding-bottom: 9px;
@@ -2646,7 +2645,7 @@ summary {
 
   @include mq(md) {
     margin-left: 85px;
-    font-size: 16px;
+    font-size: 1rem;
     padding-block: 12px;
   }
 
@@ -2704,7 +2703,7 @@ summary {
   margin-left: 20px;
   border-radius: 10px;
   background: #fff;
-  font-size: 14px;
+  font-size: 0.875rem;
 
   // 上下のpaddingを設定すると角ついてしまいますので、内部の要素にpaddingを入れます。
 
@@ -2713,7 +2712,7 @@ summary {
     padding-block: 11px;
     padding-inline: 14px;
     margin-left: -1px;
-    font-size: 16px;
+    font-size: 1rem;
   }
 }
 
@@ -2784,22 +2783,13 @@ summary {
 
   // キーボード操作向けのフォーカスリング
   &:focus-visible {
-    outline: 2px solid $color-base;
-    outline-offset: 3px;
-    border-radius: 4px;
+    @include a11y-focus-ring($color-base, 3px, 4px);
   }
 
   img {
     width: 160px;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .footer__logo {
-    transition: none;
-    transform: none !important;
-    filter: none !important;
-  }
+  @include reduce-motion-interactive(false, true);
 }
 
 .footer__address {
@@ -2815,7 +2805,7 @@ summary {
 
 .footer__text {
   color: #fff;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   font-style: normal;
   transition: color 0.2s ease-out;
@@ -2884,17 +2874,10 @@ summary {
 
     // キーボード操作向けのフォーカスリング
     &:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 3px;
-      border-radius: 2px;
+      @include a11y-focus-ring(#fff, 3px, 2px);
     }
-  }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .footer__item a {
-    transition: none;
-    transform: none !important;
+    @include reduce-motion-interactive(false, true);
   }
 }
 
@@ -2974,17 +2957,10 @@ summary {
 
   // キーボード操作向けフォーカスリング
   &:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 3px;
+    @include a11y-focus-ring(#fff, 3px, 50%);
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .footer-sns-link {
-    transition: none;
-    transform: none !important;
-    box-shadow: none !important;
-  }
+  @include reduce-motion-interactive;
 }
 
 .footer__wrapper {
@@ -2997,6 +2973,6 @@ summary {
 
 .footer__copyright {
   color: #fff;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
 }
