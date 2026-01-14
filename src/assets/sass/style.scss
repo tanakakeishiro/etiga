@@ -279,9 +279,84 @@ body {
 
 .header__logo {
   a {
+    display: inline-block;
+
+    // フォーカスインジケーター用のトランジション
+    transition:
+      outline 0.2s ease-out,
+      box-shadow 0.2s ease-out;
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+
     img {
       display: block;
       width: 160px;
+
+      // アニメーション用のトランジション設定
+      transition:
+        transform 0.3s ease-out,
+        opacity 0.3s ease-out;
+
+      // アクセシビリティ: アニメーションを減らす設定に対応
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+
+    // ホバー時のアニメーション
+    &:hover {
+      img {
+        transform: scale(1.05);
+        opacity: 0.8;
+
+        // アクセシビリティ: アニメーションを減らす設定に対応
+        @media (prefers-reduced-motion: reduce) {
+          transform: none;
+          opacity: 1;
+        }
+      }
+    }
+
+    // フォーカスビジブル時のインジケーターとアニメーション
+    &:focus-visible {
+      // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
+      outline: 2px solid $color-base;
+      outline-offset: 4px;
+      border-radius: 4px;
+
+      // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+      box-shadow: 0 0 0 2px #ffd43d;
+
+      img {
+        transform: scale(1.05);
+        opacity: 0.8;
+
+        // アクセシビリティ: アニメーションを減らす設定に対応
+        @media (prefers-reduced-motion: reduce) {
+          transform: none;
+          opacity: 1;
+        }
+      }
+
+      // アクセシビリティ: アニメーションを減らす設定に対応
+      @media (prefers-reduced-motion: reduce) {
+        outline-offset: 2px;
+      }
+    }
+
+    // クリック（アクティブ）時のフィードバック
+    &:active {
+      img {
+        transform: scale(0.98);
+
+        // アクセシビリティ: アニメーションを減らす設定に対応
+        @media (prefers-reduced-motion: reduce) {
+          transform: none;
+        }
+      }
     }
   }
 }
@@ -297,7 +372,59 @@ body {
   height: 20px;
   margin-top: -2px;
   position: relative;
-  z-index: layer(header);
+  z-index: layer(drawer);
+
+  // フォーカスインジケーターとアクティブ用のトランジション
+  transition:
+    outline 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    transform 0.15s ease-out;
+
+  // アクセシビリティ: アニメーションを減らす設定に対応
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  // ホバー時のアニメーション
+  &:hover {
+    .drawer-icon__bar {
+      opacity: 0.7;
+    }
+  }
+
+  // フォーカスビジブル時のインジケーターとアニメーション
+  &:focus-visible {
+    // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上
+    box-shadow: 0 0 0 2px #ffd43d;
+
+    .drawer-icon__bar {
+      opacity: 0.7;
+    }
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      outline-offset: 2px;
+    }
+  }
+
+  // クリック（アクティブ）時のフィードバック
+  &:active {
+    transform: scale(0.95);
+
+    .drawer-icon__bar {
+      opacity: 0.5;
+    }
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+    }
+  }
 
   &.is-checked {
     .drawer-icon__bar {
@@ -328,12 +455,21 @@ body {
   height: 3px;
   background: #2082e0;
   border-radius: 10px;
+  z-index: layer(drawer);
+
+  // アニメーション用のトランジション設定
   transition:
     transform 0.4s ease,
-    top 0.4s ease;
+    top 0.4s ease,
+    background 0.3s ease,
+    opacity 0.3s ease;
 
-  // &:nth-of-type(1) {
-  // }
+  // アクセシビリティ: アニメーションを減らす設定に対応
+  @media (prefers-reduced-motion: reduce) {
+    transition:
+      background 0.2s ease,
+      opacity 0.2s ease;
+  }
 
   &:nth-of-type(2) {
     top: 10px;
@@ -358,6 +494,7 @@ body {
   transform: translateX(100%);
   transition: transform 0.4s linear;
   visibility: hidden;
+  z-index: layer(header);
 
   &.is-checked {
     transform: translateX(0);
@@ -380,8 +517,83 @@ body {
   margin-top: 130px;
 
   a {
+    display: inline-block;
+
+    // フォーカスインジケーター用のトランジション
+    transition:
+      outline 0.2s ease-out,
+      box-shadow 0.2s ease-out;
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+
     img {
       width: 180px;
+
+      // アニメーション用のトランジション設定
+      transition:
+        transform 0.3s ease-out,
+        opacity 0.3s ease-out;
+
+      // アクセシビリティ: アニメーションを減らす設定に対応
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+
+    // ホバー時のアニメーション
+    &:hover {
+      img {
+        transform: scale(1.05);
+        opacity: 0.8;
+
+        // アクセシビリティ: アニメーションを減らす設定に対応
+        @media (prefers-reduced-motion: reduce) {
+          transform: none;
+          opacity: 1;
+        }
+      }
+    }
+
+    // フォーカスビジブル時のインジケーターとアニメーション
+    &:focus-visible {
+      // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
+      outline: 2px solid $color-base;
+      outline-offset: 4px;
+      border-radius: 4px;
+
+      // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+      box-shadow: 0 0 0 2px #ffd43d;
+
+      img {
+        transform: scale(1.05);
+        opacity: 0.8;
+
+        // アクセシビリティ: アニメーションを減らす設定に対応
+        @media (prefers-reduced-motion: reduce) {
+          transform: none;
+          opacity: 1;
+        }
+      }
+
+      // アクセシビリティ: アニメーションを減らす設定に対応
+      @media (prefers-reduced-motion: reduce) {
+        outline-offset: 2px;
+      }
+    }
+
+    // クリック（アクティブ）時のフィードバック
+    &:active {
+      img {
+        transform: scale(0.98);
+
+        // アクセシビリティ: アニメーションを減らす設定に対応
+        @media (prefers-reduced-motion: reduce) {
+          transform: none;
+        }
+      }
     }
   }
 
@@ -441,6 +653,52 @@ body {
   color: #fff;
   font-size: 20px;
   font-weight: 700;
+  display: inline-block;
+
+  // アニメーション用のトランジション設定
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.2s ease-out,
+    outline 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+
+  // アクセシビリティ: アニメーションを減らす設定に対応
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  // ホバー時のアニメーション
+  &:hover {
+    opacity: 0.7;
+  }
+
+  // フォーカスビジブル時のインジケーターとアニメーション
+  &:focus-visible {
+    // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
+    opacity: 0.7;
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      outline-offset: 2px;
+      opacity: 1;
+    }
+  }
+
+  // クリック（アクティブ）時のフィードバック
+  &:active {
+    transform: scale(0.95);
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+    }
+  }
 
   @include mq(md) {
     font-weight: 500;
@@ -593,6 +851,12 @@ body {
   // .onクラスが付いている要素だけ表示（参考ページの方式）
   &.is-on {
     display: flex;
+    animation: fade-in-up 0.4s ease-out;
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
   }
 
   @include mq(md) {
@@ -610,13 +874,86 @@ body {
   }
 }
 
+// フェードイン＋上方向スライドアニメーション
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .news__link {
-  padding-bottom: 10px;
+  border-radius: 4px;
+  padding: 8px 8px 10px;
+  margin: -8px -8px -10px;
+
+  // アニメーション用のトランジション設定
+  transition:
+    background-color 0.3s ease-out,
+    border-left-color 0.3s ease-out,
+    border-left-width 0.3s ease-out,
+    transform 0.2s ease-out,
+    outline 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+
+  // 左側に透明なボーダーを追加（ホバー時に表示される）
+  border-left: 0 solid transparent;
+
+  // アクセシビリティ: アニメーションを減らす設定に対応
+  @media (prefers-reduced-motion: reduce) {
+    transition:
+      outline 0.2s ease-out,
+      box-shadow 0.2s ease-out;
+  }
+
+  // ホバー時のアニメーション（弱視の方にもわかりやすい明確な変化）
+  &:hover {
+    // より濃い背景色でコントラストを確保
+    background-color: #d4e8f0;
+  }
+
+  // フォーカスビジブル時のインジケーターとアニメーション
+  &:focus-visible {
+    // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
+
+    // ホバー時と同じ背景色で統一
+    background-color: #d4e8f0;
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      outline-offset: 2px;
+    }
+  }
+
+  // クリック（アクティブ）時のフィードバック
+  &:active {
+    transform: scale(0.98);
+
+    // より濃い背景色でクリック時のフィードバックを明確化
+    background-color: #b8dae8;
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+    }
+  }
 
   @include mq(md) {
     gap: 49px;
-    padding-bottom: 0;
     display: flex;
+    padding: 8px 12px;
+    margin: -8px -12px;
   }
 }
 
@@ -681,7 +1018,6 @@ body {
   width: clamp(30px, 9vw, 36px);
   height: clamp(30px, 9vw, 36px);
   border: 1px solid #828282;
-  transition: all 0.2s ease;
   color: #707070;
   font-family: $font-family-base-2;
   font-size: 18px;
@@ -689,6 +1025,65 @@ body {
   line-height: 100%;
   letter-spacing: 1.44px;
   position: relative;
+
+  // アニメーション用のトランジション設定
+  transition:
+    background-color 0.3s ease-out,
+    border-color 0.3s ease-out,
+    border-width 0.3s ease-out,
+    color 0.3s ease-out,
+    transform 0.2s ease-out,
+    outline 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+
+  // アクセシビリティ: アニメーションを減らす設定に対応
+  @media (prefers-reduced-motion: reduce) {
+    transition:
+      outline 0.2s ease-out,
+      box-shadow 0.2s ease-out;
+  }
+
+  // ホバー時のアニメーション（アクティブ状態以外）
+  &:hover:not(.is-pagination--active) {
+    background-color: #f0f5f7;
+    border-color: #228ddd;
+    border-width: 2px;
+    transform: scale(1.05);
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+    }
+  }
+
+  // フォーカスビジブル時のインジケーターとアニメーション（アクティブ状態以外）
+  &:focus-within:not(.is-pagination--active) {
+    // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
+    border-width: 2px;
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      outline-offset: 2px;
+    }
+  }
+
+  // クリック（アクティブ）時のフィードバック（アクティブ状態以外）
+  &:active:not(.is-pagination--active) {
+    transform: scale(0.95);
+    background-color: #e0ecf0;
+    border-color: #1a7bc4;
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+    }
+  }
 
   @include mq(md) {
     width: 36px;
@@ -698,11 +1093,23 @@ body {
   &.is-pagination--active {
     background: #228ddd;
     color: #fff;
+    border-color: #228ddd;
+    border-width: 2px;
 
     // 現在のページのリンクはクリック不可
     .pagination__number {
       cursor: default;
       pointer-events: none;
+    }
+
+    // アクティブ状態ではホバー・フォーカス・アクティブのアニメーションを無効化
+    &:hover,
+    &:focus-within,
+    &:active {
+      background: #228ddd;
+      transform: none;
+      outline: none;
+      box-shadow: none;
     }
   }
 
@@ -732,6 +1139,16 @@ body {
 .pagination__link {
   cursor: pointer;
 
+  // アニメーション用のトランジション設定
+  transition:
+    opacity 0.2s ease-out,
+    transform 0.2s ease-out;
+
+  // アクセシビリティ: アニメーションを減らす設定に対応
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   svg {
     display: block;
     width: 16px;
@@ -740,14 +1157,24 @@ body {
 
     path {
       stroke: #828282;
-      transition: stroke 0.2s ease;
+      transition: stroke 0.3s ease-out;
+
+      // アクセシビリティ: アニメーションを減らす設定に対応
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
     }
   }
 
-  // フォーカス状態のスタイル（AUIGガイドラインに準拠）
+  // フォーカスビジブル時のインジケーター（アクセシビリティ向上）
   &:focus-visible {
-    outline: 2px solid #228ddd;
+    // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
+    outline: 2px solid $color-base;
     outline-offset: 2px;
+    border-radius: 2px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
   }
 
   // 無効状態のスタイル
@@ -764,6 +1191,20 @@ body {
   // ホバー状態（無効でない場合のみ）
   &:not([aria-disabled="true"]):hover {
     opacity: 0.8;
+
+    svg path {
+      stroke: #228ddd;
+    }
+  }
+
+  // クリック（アクティブ）時のフィードバック
+  &:not([aria-disabled="true"]):active {
+    transform: scale(0.95);
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+    }
   }
 }
 
@@ -771,6 +1212,30 @@ body {
 .pagination__number[aria-current="page"] {
   cursor: default;
   pointer-events: none;
+
+  // アクティブ状態ではホバー・フォーカス・アクティブのアニメーションを無効化
+  &:hover,
+  &:focus-visible,
+  &:active {
+    opacity: 1;
+    transform: none;
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+// 親要素がアクティブ状態の場合、子要素のホバー・フォーカスも無効化
+.pagination__item.is-pagination--active {
+  .pagination__number {
+    &:hover,
+    &:focus-visible,
+    &:active {
+      opacity: 1;
+      transform: none;
+      outline: none;
+      box-shadow: none;
+    }
+  }
 }
 
 .pagination__icon {
@@ -953,6 +1418,34 @@ body {
   border-radius: 4px;
   background: var(--ffffff, #fff);
   width: 320px;
+  transition:
+    transform 0.25s ease-out,
+    filter 0.25s ease-out;
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-4px);
+    filter: drop-shadow(8px 12px 40px #e5e5e5);
+  }
+
+  // フォーカスビジブル時のインジケーター（アクセシビリティ向上）
+  &:focus-visible {
+    // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
+    outline: 2px solid $color-base;
+    outline-offset: 2px;
+    border-radius: 2px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work__slide {
+    transition: none;
+    transform: none !important;
+    filter: drop-shadow(5px 7px 34px #f1f1f1);
+  }
 }
 
 // .work__card {
@@ -1028,6 +1521,24 @@ body {
   top: auto !important;
   margin-top: -19px !important;
   position: absolute;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+
+  // ホバー・フォーカス時のアニメーション（アクセシビリティとUX向上）
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 10px rgb(0 0 0 / 16%);
+  }
+
+  // フォーカスリング（キーボード操作向け）
+  &:focus-visible {
+    outline: 2px solid $color-base;
+    outline-offset: 2px;
+    border-radius: 50%;
+  }
 
   @include mq(md) {
     margin-top: -18px !important;
@@ -1039,6 +1550,15 @@ body {
     opacity: 0 !important;
     width: 0 !important;
     height: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work__prev,
+  .work__next {
+    transition: none;
+    transform: none !important;
+    box-shadow: none !important;
   }
 }
 
@@ -1317,6 +1837,10 @@ body {
   text-align: center;
   cursor: pointer;
   position: relative;
+  transition:
+    background-color 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    transform 0.2s ease-out;
 
   @include mq(md) {
     width: 200px;
@@ -1354,16 +1878,45 @@ body {
       }
     }
   }
+
+  // ホバー・フォーカス時のカード的な浮き上がり
+  &:hover,
+  &:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgb(0 0 0 / 12%);
+    background: #f5faff;
+  }
+
+  // キーボード操作向けのフォーカスリング
+  &:focus-visible {
+    outline: 2px solid $color-base;
+    outline-offset: 2px;
+  }
 }
 
 .company-tab__button {
   color: #2392db;
   font-weight: 700;
+  transition:
+    color 0.2s ease-out,
+    background-color 0.2s ease-out;
 
   /* 選択中のタブボタン */
   &[aria-selected="true"] {
     background: #2392db;
     color: #fff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .company-tab__menu {
+    transition: none;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .company-tab__button {
+    transition: none;
   }
 }
 
@@ -1374,6 +1927,14 @@ body {
   &::before {
     border-top: 2px solid #fff;
     border-right: 2px solid #fff;
+  }
+
+  // 既に選択されているタブはホバー時も状態を変えない
+  &:hover,
+  &:focus-within {
+    background: #2392db;
+    transform: none;
+    box-shadow: none;
   }
 }
 
@@ -1712,8 +2273,34 @@ body {
 }
 
 .blog-card {
+  // カード全体をインタラクティブに見せるアニメーション
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgb(0 0 0 / 12%);
+  }
+
+  // キーボード操作向けのフォーカスリング
+  &:focus-visible {
+    outline: 2px solid $color-base;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
   @include mq(xl) {
     max-width: 360px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-card {
+    transition: none;
+    transform: none !important;
+    box-shadow: none !important;
   }
 }
 
@@ -1995,6 +2582,24 @@ summary {
   border: 0 solid #707070;
   background: var(--rgb-255255255, #fff);
   position: relative;
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    background-color 0.2s ease-out;
+
+  // ホバー・フォーカス時のカード的な浮き上がり
+  &:hover,
+  &:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgb(0 0 0 / 12%);
+    background: #f5faff;
+  }
+
+  // キーボード操作向けのフォーカスリング
+  &:focus-visible {
+    outline: 2px solid $color-base;
+    outline-offset: 3px;
+  }
 
   &::before {
     content: "Q";
@@ -2019,6 +2624,14 @@ summary {
       height: 100%;
       padding: 10px 25px 15px;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__question {
+    transition: none;
+    transform: none !important;
+    box-shadow: none !important;
   }
 }
 
@@ -2157,8 +2770,35 @@ summary {
 }
 
 .footer__logo {
+  display: inline-block;
+  transition:
+    transform 0.2s ease-out,
+    filter 0.2s ease-out;
+
+  // ホバー・フォーカス時にロゴをわずかに拡大して注目度を上げる
+  &:hover,
+  &:focus-within {
+    transform: translateY(-1px) scale(1.03);
+    filter: drop-shadow(0 4px 8px rgb(0 0 0 / 20%));
+  }
+
+  // キーボード操作向けのフォーカスリング
+  &:focus-visible {
+    outline: 2px solid $color-base;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
   img {
     width: 160px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__logo {
+    transition: none;
+    transform: none !important;
+    filter: none !important;
   }
 }
 
@@ -2178,6 +2818,31 @@ summary {
   font-size: 14px;
   font-weight: 500;
   font-style: normal;
+  transition: color 0.2s ease-out;
+  position: relative;
+
+  // ホバー時の下線アニメーション
+  .footer__item a:hover &,
+  .footer__item a:focus-visible & {
+    color: #e0f2ff;
+  }
+
+  // 下線のアニメーション（ホバー時）
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #e0f2ff;
+    transition: width 0.3s ease-out;
+  }
+
+  .footer__item a:hover &::after,
+  .footer__item a:focus-visible &::after {
+    width: 100%;
+  }
 }
 
 .footer__text--light {
@@ -2201,8 +2866,37 @@ summary {
   }
 }
 
-// .footer__item {
-// }
+.footer__item {
+  a {
+    display: inline-block;
+    text-decoration: none;
+    transition:
+      color 0.2s ease-out,
+      transform 0.2s ease-out,
+      opacity 0.2s ease-out;
+
+    // ホバー・フォーカス時のアニメーション
+    &:hover,
+    &:focus-visible {
+      transform: translateX(2px);
+      opacity: 0.9;
+    }
+
+    // キーボード操作向けのフォーカスリング
+    &:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__item a {
+    transition: none;
+    transform: none !important;
+  }
+}
 
 .is-line {
   @include mq(lg) {
@@ -2252,11 +2946,46 @@ summary {
   }
 }
 
-// .footer-sns-item {
-// }
+.footer-sns-item {
+  list-style: none;
+}
 
-// .footer-sns-link {
-// }
+.footer-sns-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    background-color 0.2s ease-out;
+
+  img {
+    display: block;
+  }
+
+  // ホバー・フォーカス時のアイコンアニメーション
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 10px rgb(0 0 0 / 25%);
+    background-color: rgb(255 255 255 / 8%);
+  }
+
+  // キーボード操作向けフォーカスリング
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-sns-link {
+    transition: none;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
 
 .footer__wrapper {
   padding-block: 6px;
