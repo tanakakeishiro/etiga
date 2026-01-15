@@ -2817,8 +2817,8 @@ summary {
     filter: drop-shadow(0 4px 8px rgb(0 0 0 / 20%));
   }
 
-  // キーボード操作向けのフォーカスリング
-  &:focus-visible {
+  // キーボード操作向けのフォーカスリング（ロゴリンクに適用）
+  a:focus-visible {
     outline: 2px solid $color-base;
     outline-offset: 4px;
     border-radius: 4px;
@@ -3003,7 +3003,12 @@ summary {
 
   // キーボード操作向けフォーカスリング
   &:focus-visible {
-    @include a11y-focus-ring(#fff, 3px, 50%);
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 50%;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
   }
 
   @include reduce-motion-interactive;

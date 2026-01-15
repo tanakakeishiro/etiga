@@ -2565,7 +2565,7 @@ summary::-webkit-details-marker {
   transform: translateY(-1px) scale(1.03);
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
-.footer__logo:focus-visible {
+.footer__logo a:focus-visible {
   outline: 2px solid #333;
   outline-offset: 4px;
   box-shadow: 0 0 0 2px #ffd43d;
@@ -2733,8 +2733,9 @@ summary::-webkit-details-marker {
   background-color: rgba(255, 255, 255, 0.08);
 }
 .footer-sns-link:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 3px;
+  outline: 2px solid #333;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
   border-radius: 50%;
 }
 @media (prefers-reduced-motion: reduce) {
