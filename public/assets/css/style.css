@@ -133,9 +133,10 @@ body.is-menu-open {
   box-shadow: 2px 1px 18px 0 rgba(0, 0, 0, 0.12);
 }
 .button:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 3px;
-  border-radius: 48px;
+  outline: 2px solid #333;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
+  border-radius: 4px;
 }
 @media (prefers-reduced-motion: reduce) {
   .button {
@@ -190,9 +191,10 @@ body.is-menu-open {
   box-shadow: 2px 1px 18px 0 rgba(0, 0, 0, 0.12);
 }
 .buttons:focus-visible {
-  outline: 2px solid #2392db;
-  outline-offset: 3px;
-  border-radius: 2px;
+  outline: 2px solid #333;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
+  border-radius: 4px;
 }
 @media (prefers-reduced-motion: reduce) {
   .buttons {
@@ -1229,18 +1231,22 @@ body.is-menu-open {
   transform: translateY(-4px);
   filter: drop-shadow(8px 12px 40px #e5e5e5);
 }
-.work__slide:focus-visible {
-  outline: 2px solid #333;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 2px #ffd43d;
-  border-radius: 2px;
-}
 @media (prefers-reduced-motion: reduce) {
   .work__slide {
     transform: none !important;
     transition: none;
     box-shadow: none !important;
   }
+}
+
+.work-card__link {
+  display: block;
+}
+.work-card__link:focus-visible {
+  outline: 2px solid #333;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
+  border-radius: 4px;
 }
 
 .work-card__content {
@@ -1320,8 +1326,9 @@ body.is-menu-open {
 .work__prev:focus-visible,
 .work__next:focus-visible {
   outline: 2px solid #333;
-  outline-offset: 2px;
-  border-radius: 50%;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
+  border-radius: 4px;
 }
 @media screen and (min-width: 768px) {
   .work__prev,
@@ -1663,7 +1670,9 @@ body.is-menu-open {
 }
 .company-tab__menu:focus-visible {
   outline: 2px solid #333;
-  outline-offset: 2px;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
+  border-radius: 4px;
 }
 @media (prefers-reduced-motion: reduce) {
   .company-tab__menu {
@@ -1685,7 +1694,9 @@ body.is-menu-open {
 }
 .company-tab__button:focus-visible {
   outline: 2px solid #333;
-  outline-offset: 2px;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
+  border-radius: 4px;
 }
 @media (prefers-reduced-motion: reduce) {
   .company-tab__button {
@@ -2052,11 +2063,6 @@ body.is-menu-open {
   transform: translateY(-3px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
-.blog-card:focus-visible {
-  outline: 2px solid #333;
-  outline-offset: 3px;
-  border-radius: 4px;
-}
 @media screen and (min-width: 1200px) {
   .blog-card {
     max-width: 360px;
@@ -2068,6 +2074,16 @@ body.is-menu-open {
     transition: none;
     box-shadow: none !important;
   }
+}
+
+.blog-card__link {
+  display: block;
+}
+.blog-card__link:focus-visible {
+  outline: 2px solid #333;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
+  border-radius: 4px;
 }
 
 .blog-card__post {
@@ -2361,7 +2377,9 @@ summary::-webkit-details-marker {
 }
 .faq__question:focus-visible {
   outline: 2px solid #333;
-  outline-offset: 3px;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
+  border-radius: 4px;
 }
 .faq__question::before {
   display: flex;
@@ -2549,7 +2567,8 @@ summary::-webkit-details-marker {
 }
 .footer__logo:focus-visible {
   outline: 2px solid #333;
-  outline-offset: 3px;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
   border-radius: 4px;
 }
 .footer__logo img {
@@ -2633,9 +2652,10 @@ summary::-webkit-details-marker {
   opacity: 0.9;
 }
 .footer__item a:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 3px;
-  border-radius: 2px;
+  outline: 2px solid #333;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
+  border-radius: 4px;
 }
 @media (prefers-reduced-motion: reduce) {
   .footer__item a {

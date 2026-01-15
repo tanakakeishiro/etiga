@@ -235,7 +235,12 @@ body {
   }
 
   &:focus-visible {
-    @include a11y-focus-ring(#fff, 3px, 48px);
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
   }
 
   @include reduce-motion-interactive;
@@ -292,7 +297,12 @@ body {
   }
 
   &:focus-visible {
-    @include a11y-focus-ring(#2392db, 3px, 2px);
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
   }
 
   @include reduce-motion-interactive;
@@ -1494,23 +1504,22 @@ body {
     filter: drop-shadow(8px 12px 40px #e5e5e5);
   }
 
-  // フォーカスビジブル時のインジケーター（アクセシビリティ向上）
+  @include reduce-motion-interactive;
+}
+
+.work-card__link {
+  display: block;
+
+  // キーボード操作向けのフォーカスリング
   &:focus-visible {
-    // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
-    @include a11y-focus-ring($color-base, 2px, 2px);
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
   }
-
-  @include reduce-motion-interactive;
 }
-
-// .work__card {
-// }
-
-// .work-card {
-// }
 
 // .work-card__image {
 // }
@@ -1593,9 +1602,12 @@ body {
 
   // フォーカスリング（キーボード操作向け）
   &:focus-visible {
-    @include a11y-focus-ring($color-base, 2px, 50%);
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
 
-    border-radius: 50%;
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
   }
 
   @include mq(md) {
@@ -1929,7 +1941,12 @@ body {
 
   // キーボード操作向けのフォーカスリング
   &:focus-visible {
-    @include a11y-focus-ring($color-base, 2px);
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
   }
 
   @include reduce-motion-interactive;
@@ -1949,7 +1966,12 @@ body {
   }
 
   &:focus-visible {
-    @include a11y-focus-ring($color-base, 2px);
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
   }
 
   @include reduce-motion-interactive(false, false);
@@ -2311,15 +2333,24 @@ body {
   // カード全体をインタラクティブに見せるアニメーション
   @include interactive-card-hover(null, -3px, 0 6px 18px rgb(0 0 0 / 12%));
 
-  // キーボード操作向けのフォーカスリング
-  &:focus-visible {
-    @include a11y-focus-ring($color-base, 3px, 4px);
-  }
-
   @include mq(xl) {
     max-width: 360px;
   }
   @include reduce-motion-interactive;
+}
+
+.blog-card__link {
+  display: block;
+
+  // キーボード操作向けのフォーカスリング
+  &:focus-visible {
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
+  }
 }
 
 .blog-card__post {
@@ -2604,7 +2635,12 @@ summary {
 
   // キーボード操作向けのフォーカスリング
   &:focus-visible {
-    @include a11y-focus-ring($color-base, 3px);
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
   }
 
   &::before {
@@ -2783,7 +2819,12 @@ summary {
 
   // キーボード操作向けのフォーカスリング
   &:focus-visible {
-    @include a11y-focus-ring($color-base, 3px, 4px);
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
   }
 
   img {
@@ -2874,7 +2915,12 @@ summary {
 
     // キーボード操作向けのフォーカスリング
     &:focus-visible {
-      @include a11y-focus-ring(#fff, 3px, 2px);
+      outline: 2px solid $color-base;
+      outline-offset: 4px;
+      border-radius: 4px;
+
+      // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+      box-shadow: 0 0 0 2px #ffd43d;
     }
 
     @include reduce-motion-interactive(false, true);
