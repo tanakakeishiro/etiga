@@ -48,13 +48,15 @@ $breakpoints: (
     box-shadow $duration ease-out,
     background-color $duration ease-out;
 
-  &:hover,
-  &:focus-within {
-    transform: translateY($translate-y);
-    box-shadow: $shadow;
+  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY($translate-y);
+      box-shadow: $shadow;
 
-    @if $bg != auto {
-      background: $bg;
+      @if $bg != auto {
+        background: $bg;
+      }
     }
   }
 }
@@ -71,6 +73,44 @@ $breakpoints: (
 
       @if $reset-shadow {
         box-shadow: none !important;
+      }
+    }
+  }
+}
+
+// スマホ向けタップフィードバック（アクセシビリティとUX向上）
+@mixin mobile-tap-feedback($scale: 0.97, $opacity: 0.8) {
+  // タッチデバイス向けのアクティブ状態
+  @media (hover: none) and (pointer: coarse) {
+    &:active {
+      transform: scale($scale);
+      opacity: $opacity;
+      transition:
+        transform 0.1s ease-out,
+        opacity 0.1s ease-out;
+
+      // アクセシビリティ: アニメーションを減らす設定に対応
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+        opacity: 1;
+        transition: none;
+      }
+    }
+  }
+}
+
+// スマホ向け軽量アニメーション（PCのhoverを控えめに）
+@mixin mobile-light-animation($translate-y: -1px, $duration: 0.15s) {
+  @media (hover: none) and (pointer: coarse) {
+    // スマホでは hover が効かないので、active と focus のみ
+    &:active,
+    &:focus-visible {
+      transform: translateY($translate-y);
+      transition: transform $duration ease-out;
+
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+        transition: none;
       }
     }
   }
@@ -220,12 +260,15 @@ body {
     border-radius: 48px;
   }
 
-  &:hover {
-    transform: scale(1.02);
-    box-shadow: 6px 5px 32px 0 rgb(0 0 0 / 20%);
+  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 6px 5px 32px 0 rgb(0 0 0 / 20%);
 
-    &::before {
-      left: 0;
+      &::before {
+        left: 0;
+      }
     }
   }
 
@@ -237,11 +280,13 @@ body {
   &:focus-visible {
     outline: 2px solid $color-base;
     outline-offset: 4px;
-    border-radius: 4px;
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
   }
+
+  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.96, 0.9);
 
   @include reduce-motion-interactive;
 }
@@ -280,14 +325,17 @@ body {
     border-radius: 2px;
   }
 
-  &:hover {
-    transform: scale(1.02);
-    border-color: #2188de;
-    color: #f6f7f7;
-    box-shadow: 6px 5px 32px 0 rgb(0 0 0 / 20%);
+  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.02);
+      border-color: #2188de;
+      color: #f6f7f7;
+      box-shadow: 6px 5px 32px 0 rgb(0 0 0 / 20%);
 
-    &::before {
-      width: 100%;
+      &::before {
+        width: 100%;
+      }
     }
   }
 
@@ -299,11 +347,13 @@ body {
   &:focus-visible {
     outline: 2px solid $color-base;
     outline-offset: 4px;
-    border-radius: 4px;
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
   }
+
+  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.96, 0.9);
 
   @include reduce-motion-interactive;
 }
@@ -406,17 +456,6 @@ body {
       // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
       box-shadow: 0 0 0 2px #ffd43d;
 
-      img {
-        transform: scale(1.05);
-        opacity: 0.8;
-
-        // アクセシビリティ: アニメーションを減らす設定に対応
-        @media (prefers-reduced-motion: reduce) {
-          transform: none;
-          opacity: 1;
-        }
-      }
-
       // アクセシビリティ: アニメーションを減らす設定に対応
       @media (prefers-reduced-motion: reduce) {
         outline-offset: 2px;
@@ -461,13 +500,6 @@ body {
     transition: none;
   }
 
-  // ホバー時のアニメーション
-  &:hover {
-    .drawer-icon__bar {
-      opacity: 0.7;
-    }
-  }
-
   // フォーカスビジブル時のインジケーターとアニメーション
   &:focus-visible {
     // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
@@ -478,27 +510,27 @@ body {
     // 内側の黄色のリングで視認性を向上
     box-shadow: 0 0 0 2px #ffd43d;
 
-    .drawer-icon__bar {
-      opacity: 0.7;
-    }
-
     // アクセシビリティ: アニメーションを減らす設定に対応
     @media (prefers-reduced-motion: reduce) {
       outline-offset: 2px;
     }
   }
 
-  // クリック（アクティブ）時のフィードバック
-  &:active {
-    transform: scale(0.95);
+  // スマホ向けタップフィードバック強化（アクセシビリティとUX向上）
+  @media (hover: none) and (pointer: coarse) {
+    &:active {
+      transform: scale(0.92);
+      transition: transform 0.1s ease-out;
 
-    .drawer-icon__bar {
-      opacity: 0.5;
-    }
+      // .drawer-icon__bar {
+      //   opacity: 0.4;
+      //   transition: opacity 0.1s ease-out;
+      // }
 
-    // アクセシビリティ: アニメーションを減らす設定に対応
-    @media (prefers-reduced-motion: reduce) {
-      transform: none;
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+        transition: none;
+      }
     }
   }
 
@@ -540,7 +572,6 @@ body {
     background 0.3s ease,
     opacity 0.3s ease;
 
-  // アクセシビリティ: アニメーションを減らす設定に対応
   @media (prefers-reduced-motion: reduce) {
     transition:
       background 0.2s ease,
@@ -643,17 +674,6 @@ body {
       // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
       box-shadow: 0 0 0 2px #ffd43d;
 
-      img {
-        transform: scale(1.05);
-        opacity: 0.8;
-
-        // アクセシビリティ: アニメーションを減らす設定に対応
-        @media (prefers-reduced-motion: reduce) {
-          transform: none;
-          opacity: 1;
-        }
-      }
-
       // アクセシビリティ: アニメーションを減らす設定に対応
       @media (prefers-reduced-motion: reduce) {
         outline-offset: 2px;
@@ -719,8 +739,11 @@ body {
       transition: transform 0.4s ease;
     }
 
-    &:hover::after {
-      visibility: visible;
+    // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
+    @media (hover: hover) {
+      &:hover::after {
+        visibility: visible;
+      }
     }
   }
 }
@@ -743,11 +766,6 @@ body {
     transition: none;
   }
 
-  // ホバー時のアニメーション
-  &:hover {
-    opacity: 0.7;
-  }
-
   // フォーカスビジブル時のインジケーターとアニメーション
   &:focus-visible {
     // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
@@ -757,12 +775,10 @@ body {
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
-    opacity: 0.7;
 
     // アクセシビリティ: アニメーションを減らす設定に対応
     @media (prefers-reduced-motion: reduce) {
       outline-offset: 2px;
-      opacity: 1;
     }
   }
 
@@ -773,6 +789,23 @@ body {
     // アクセシビリティ: アニメーションを減らす設定に対応
     @media (prefers-reduced-motion: reduce) {
       transform: none;
+    }
+  }
+
+  // スマホ向けタップフィードバック強化（アクセシビリティとUX向上）
+  @media (hover: none) and (pointer: coarse) {
+    &:active {
+      transform: scale(0.93);
+      opacity: 0.85;
+      transition:
+        transform 0.1s ease-out,
+        opacity 0.1s ease-out;
+
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+        opacity: 1;
+        transition: none;
+      }
     }
   }
 
@@ -977,9 +1010,6 @@ body {
     outline 0.2s ease-out,
     box-shadow 0.2s ease-out;
 
-  // 左側に透明なボーダーを追加（ホバー時に表示される）
-  border-left: 0 solid transparent;
-
   // アクセシビリティ: アニメーションを減らす設定に対応
   @media (prefers-reduced-motion: reduce) {
     transition:
@@ -987,10 +1017,12 @@ body {
       box-shadow 0.2s ease-out;
   }
 
-  // ホバー時のアニメーション（弱視の方にもわかりやすい明確な変化）
-  &:hover {
-    // より濃い背景色でコントラストを確保
-    background-color: #d4e8f0;
+  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
+  @media (hover: hover) {
+    &:hover {
+      // より濃い背景色でコントラストを確保
+      background-color: #d4e8f0;
+    }
   }
 
   // フォーカスビジブル時のインジケーターとアニメーション
@@ -998,13 +1030,9 @@ body {
     // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
     outline: 2px solid $color-base;
     outline-offset: 4px;
-    border-radius: 4px;
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
-
-    // ホバー時と同じ背景色で統一
-    background-color: #d4e8f0;
 
     // アクセシビリティ: アニメーションを減らす設定に対応
     @media (prefers-reduced-motion: reduce) {
@@ -1024,6 +1052,9 @@ body {
       transform: none;
     }
   }
+
+  // スマホ向けタップフィードバック強化（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.96, 0.9);
 
   @include mq(md) {
     gap: 49px;
@@ -1119,16 +1150,18 @@ body {
       box-shadow 0.2s ease-out;
   }
 
-  // ホバー時のアニメーション（アクティブ状態以外）
-  &:hover:not(.is-pagination--active) {
-    background-color: #f0f5f7;
-    border-color: #228ddd;
-    border-width: 2px;
-    transform: scale(1.05);
+  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用（アクティブ状態以外）
+  @media (hover: hover) {
+    &:hover:not(.is-pagination--active) {
+      background-color: #f0f5f7;
+      border-color: #228ddd;
+      border-width: 2px;
+      transform: scale(1.05);
 
-    // アクセシビリティ: アニメーションを減らす設定に対応
-    @media (prefers-reduced-motion: reduce) {
-      transform: none;
+      // アクセシビリティ: アニメーションを減らす設定に対応
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+      }
     }
   }
 
@@ -1141,7 +1174,6 @@ body {
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
-    border-width: 2px;
 
     // アクセシビリティ: アニメーションを減らす設定に対応
     @media (prefers-reduced-motion: reduce) {
@@ -1179,13 +1211,30 @@ body {
     }
 
     // アクティブ状態ではホバー・フォーカス・アクティブのアニメーションを無効化
-    &:hover,
-    &:focus-within,
+    @media (hover: hover) {
+      &:hover {
+        background: #228ddd;
+        transform: none;
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
     &:active {
       background: #228ddd;
       transform: none;
       outline: none;
       box-shadow: none;
+    }
+
+    // キーボード操作向けのフォーカスリング（アクセシビリティのため）
+    &:focus-within {
+      outline: 2px solid $color-base;
+      outline-offset: 4px;
+      border-radius: 4px;
+
+      // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+      box-shadow: 0 0 0 2px #ffd43d;
     }
   }
 
@@ -1264,12 +1313,14 @@ body {
     }
   }
 
-  // ホバー状態（無効でない場合のみ）
-  &:not([aria-disabled="true"]):hover {
-    opacity: 0.8;
+  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用（無効でない場合のみ）
+  @media (hover: hover) {
+    &:not([aria-disabled="true"]):hover {
+      opacity: 0.8;
 
-    svg path {
-      stroke: #228ddd;
+      svg path {
+        stroke: #228ddd;
+      }
     }
   }
 
@@ -1282,6 +1333,9 @@ body {
       transform: none;
     }
   }
+
+  // スマホ向けタップフィードバック強化（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.93, 0.85);
 }
 
 // 現在のページのリンク（クリック不可）
@@ -1290,26 +1344,60 @@ body {
   pointer-events: none;
 
   // アクティブ状態ではホバー・フォーカス・アクティブのアニメーションを無効化
-  &:hover,
-  &:focus-visible,
+  @media (hover: hover) {
+    &:hover {
+      opacity: 1;
+      transform: none;
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
   &:active {
     opacity: 1;
     transform: none;
     outline: none;
     box-shadow: none;
   }
+
+  // キーボード操作向けのフォーカスリング（アクセシビリティのため）
+  &:focus-visible {
+    outline: 2px solid $color-base;
+    outline-offset: 2px;
+    border-radius: 2px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
+  }
 }
 
 // 親要素がアクティブ状態の場合、子要素のホバー・フォーカスも無効化
 .pagination__item.is-pagination--active {
   .pagination__number {
-    &:hover,
-    &:focus-visible,
+    @media (hover: hover) {
+      &:hover {
+        opacity: 1;
+        transform: none;
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
     &:active {
       opacity: 1;
       transform: none;
       outline: none;
       box-shadow: none;
+    }
+
+    // キーボード操作向けのフォーカスリング（アクセシビリティのため）
+    &:focus-visible {
+      outline: 2px solid $color-base;
+      outline-offset: 2px;
+      border-radius: 2px;
+
+      // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+      box-shadow: 0 0 0 2px #ffd43d;
     }
   }
 }
@@ -1498,10 +1586,12 @@ body {
     transform 0.25s ease-out,
     filter 0.25s ease-out;
 
-  &:hover,
-  &:focus-within {
-    transform: translateY(-4px);
-    filter: drop-shadow(8px 12px 40px #e5e5e5);
+  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-4px);
+      filter: drop-shadow(8px 12px 40px #e5e5e5);
+    }
   }
 
   @include reduce-motion-interactive;
@@ -1519,6 +1609,9 @@ body {
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
   }
+
+  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.98, 0.95);
 }
 
 // .work-card__image {
@@ -1593,11 +1686,12 @@ body {
     transform 0.2s ease-out,
     box-shadow 0.2s ease-out;
 
-  // ホバー・フォーカス時のアニメーション（アクセシビリティとUX向上）
-  &:hover,
-  &:focus-visible {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 4px 10px rgb(0 0 0 / 16%);
+  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 4px 10px rgb(0 0 0 / 16%);
+    }
   }
 
   // フォーカスリング（キーボード操作向け）
@@ -1987,7 +2081,14 @@ body {
   }
 
   // 既に選択されているタブはホバー時も状態を変えない
-  &:hover,
+  @media (hover: hover) {
+    &:hover {
+      background: #2392db;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
   &:focus-within {
     background: #2392db;
     transform: none;
@@ -2351,6 +2452,9 @@ body {
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
   }
+
+  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.98, 0.95);
 }
 
 .blog-card__post {
@@ -2631,13 +2735,42 @@ summary {
   border: 0 solid #707070;
   background: var(--rgb-255255255, #fff);
   position: relative;
-  @include interactive-card-hover(#f5faff, -2px, 0 6px 18px rgb(0 0 0 / 12%));
+  @include interactive-card-hover(null, -2px, 0 3px 10px rgb(0 0 0 / 8%));
+
+  // クリック（アクティブ）時にホバー効果をリセット
+  &:active {
+    transform: none;
+    box-shadow: none;
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      transform: none;
+    }
+  }
+
+  // 親要素が開いた状態の時はホバー効果を完全に無効化（ホバー状態が残り続けるのを防ぐ）
+  .faq__item.is-opened &,
+  details[open] & {
+    transform: none !important;
+
+    // フォーカスリングのbox-shadowは許可（アクセシビリティのため）
+    &:not(:focus-visible) {
+      box-shadow: none !important;
+    }
+
+    // 開いた状態の時はホバー効果も無効化
+    @media (hover: hover) {
+      &:hover {
+        transform: none !important;
+        box-shadow: none !important;
+      }
+    }
+  }
 
   // キーボード操作向けのフォーカスリング
   &:focus-visible {
     outline: 2px solid $color-base;
     outline-offset: 4px;
-    border-radius: 4px;
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
@@ -2810,11 +2943,12 @@ summary {
     transform 0.2s ease-out,
     filter 0.2s ease-out;
 
-  // ホバー・フォーカス時にロゴをわずかに拡大して注目度を上げる
-  &:hover,
-  &:focus-within {
-    transform: translateY(-1px) scale(1.03);
-    filter: drop-shadow(0 4px 8px rgb(0 0 0 / 20%));
+  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-1px) scale(1.03);
+      filter: drop-shadow(0 4px 8px rgb(0 0 0 / 20%));
+    }
   }
 
   // キーボード操作向けのフォーカスリング（ロゴリンクに適用）
@@ -2853,8 +2987,7 @@ summary {
   position: relative;
 
   // ホバー時の下線アニメーション
-  .footer__item a:hover &,
-  .footer__item a:focus-visible & {
+  .footer__item a:hover & {
     color: #e0f2ff;
   }
 
@@ -2870,8 +3003,7 @@ summary {
     transition: width 0.3s ease-out;
   }
 
-  .footer__item a:hover &::after,
-  .footer__item a:focus-visible &::after {
+  .footer__item a:hover &::after {
     width: 100%;
   }
 }
@@ -2906,11 +3038,12 @@ summary {
       transform 0.2s ease-out,
       opacity 0.2s ease-out;
 
-    // ホバー・フォーカス時のアニメーション
-    &:hover,
-    &:focus-visible {
-      transform: translateX(2px);
-      opacity: 0.9;
+    // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
+    @media (hover: hover) {
+      &:hover {
+        transform: translateX(2px);
+        opacity: 0.9;
+      }
     }
 
     // キーボード操作向けのフォーカスリング
@@ -2993,23 +3126,30 @@ summary {
     display: block;
   }
 
-  // ホバー・フォーカス時のアイコンアニメーション
-  &:hover,
-  &:focus-visible {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 4px 10px rgb(0 0 0 / 25%);
-    background-color: rgb(255 255 255 / 8%);
+  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 4px 10px rgb(0 0 0 / 25%);
+      background-color: rgb(255 255 255 / 8%);
+    }
   }
 
-  // キーボード操作向けフォーカスリング
+  // フォーカス時は常に適用（キーボード操作向け）
   &:focus-visible {
+    background-color: rgb(255 255 255 / 8%);
     outline: 2px solid $color-base;
     outline-offset: 4px;
     border-radius: 50%;
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
-    box-shadow: 0 0 0 2px #ffd43d;
+    box-shadow:
+      0 4px 10px rgb(0 0 0 / 25%),
+      0 0 0 2px #ffd43d;
   }
+
+  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.95, 0.9);
 
   @include reduce-motion-interactive;
 }

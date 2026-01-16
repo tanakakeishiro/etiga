@@ -1192,6 +1192,13 @@ const setUpAccordion = () => {
       // 独自のアニメーション処理を実行できるようにします
       event.preventDefault();
 
+      // クリック後にフォーカスを解除してホバースタイルが残り続けるのを防ぐ
+      // blurメソッド: 要素からフォーカスを外す
+      // setTimeoutで少し遅延させることで、クリック処理が完了してからフォーカスを解除
+      setTimeout(() => {
+        summary.blur();
+      }, 0);
+
       // 既存のtransitionendイベントリスナーをクリーンアップ（重複防止）
       cleanupTransitionHandler(content);
 
