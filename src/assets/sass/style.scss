@@ -1003,12 +1003,12 @@ body {
 
   // アニメーション用のトランジション設定
   transition:
-    background-color 0.3s ease-out,
     border-left-color 0.3s ease-out,
     border-left-width 0.3s ease-out,
     transform 0.2s ease-out,
     outline 0.2s ease-out,
-    box-shadow 0.2s ease-out;
+    box-shadow 0.2s ease-out,
+    text-decoration-color 0.3s ease-out;
 
   // アクセシビリティ: アニメーションを減らす設定に対応
   @media (prefers-reduced-motion: reduce) {
@@ -1020,8 +1020,12 @@ body {
   // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
   @media (hover: hover) {
     &:hover {
-      // より濃い背景色でコントラストを確保
-      background-color: #d4e8f0;
+      // テキストに下線を表示
+      // WCAG 2.0準拠: 下線と背景のコントラスト比4.5:1以上を確保（#333と#fffで約12.6:1）
+      // テキスト色(#111)と背景(#fff)のコントラスト比も約16.6:1で十分
+      text-decoration: underline;
+      text-decoration-color: $color-base;
+      text-underline-offset: 4px;
     }
   }
 
