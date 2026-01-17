@@ -303,12 +303,12 @@ body.is-menu-open {
     transition: none;
   }
 }
-.header__logo a:hover:not(:active) img {
+.header__logo a:hover img {
   transform: scale(1.05);
   opacity: 0.8;
 }
 @media (prefers-reduced-motion: reduce) {
-  .header__logo a:hover:not(:active) img {
+  .header__logo a:hover img {
     transform: none;
     opacity: 1;
   }
@@ -325,12 +325,13 @@ body.is-menu-open {
   }
 }
 .header__logo a:active img {
-  transform: scale(1.03);
-  opacity: 1;
+  transform: scale(1.02);
+  opacity: 0.8;
 }
 @media (prefers-reduced-motion: reduce) {
   .header__logo a:active img {
     transform: none;
+    opacity: 1;
   }
 }
 

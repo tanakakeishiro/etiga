@@ -430,7 +430,7 @@ body {
     }
 
     // ホバー時のアニメーション
-    &:hover:not(:active) {
+    &:hover {
       img {
         transform: scale(1.05);
         opacity: 0.8;
@@ -462,12 +462,13 @@ body {
     // クリック（アクティブ）時のフィードバック
     &:active {
       img {
-        transform: scale(1.03);
-        opacity: 1;
+        transform: scale(1.02);
+        opacity: 0.8;
 
         // アクセシビリティ: アニメーションを減らす設定に対応
         @media (prefers-reduced-motion: reduce) {
           transform: none;
+          opacity: 1;
         }
       }
     }
@@ -2993,27 +2994,6 @@ summary {
   font-style: normal;
   transition: color 0.2s ease-out;
   position: relative;
-
-  // // ホバー時の下線アニメーション
-  // .footer__item a:hover & {
-  //   color: #e0f2ff;
-  // }
-
-  // // 下線のアニメーション（ホバー時）
-  // &::after {
-  //   content: "";
-  //   position: absolute;
-  //   bottom: -2px;
-  //   left: 0;
-  //   width: 0;
-  //   height: 1px;
-  //   background-color: #e0f2ff;
-  //   transition: width 0.3s ease-out;
-  // }
-
-  // .footer__item a:hover &::after {
-  //   width: 100%;
-  // }
 }
 
 .footer__text--light {
