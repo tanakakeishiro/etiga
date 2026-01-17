@@ -432,7 +432,7 @@ body {
     // ホバー時のアニメーション
     &:hover {
       img {
-        transform: scale(1.05);
+        transform: translateY(-1px) scale(1.03);
         opacity: 0.8;
 
         // アクセシビリティ: アニメーションを減らす設定に対応
@@ -462,13 +462,12 @@ body {
     // クリック（アクティブ）時のフィードバック
     &:active {
       img {
-        transform: scale(1.02);
-        opacity: 0.8;
+        transform: translateY(0) scale(1);
 
         // アクセシビリティ: アニメーションを減らす設定に対応
         @media (prefers-reduced-motion: reduce) {
           transform: none;
-          opacity: 1;
+         
         }
       }
     }
