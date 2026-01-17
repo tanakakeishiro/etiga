@@ -947,6 +947,24 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+
+  // company-tab__menuをクリックした時に、その中のcompany-tab__buttonのクリックイベントをトリガー
+  tabMenus.forEach(function (menu) {
+    menu.addEventListener("click", function (e) {
+      // クリックされた要素がcompany-tab__buttonの場合は処理しない（既にイベントが設定されているため）
+      if (e.target.closest(".js-tab")) {
+        return;
+      }
+
+      // company-tab__menu内のcompany-tab__buttonを探す
+      const button = this.querySelector(".js-tab");
+
+      // ボタンが見つかった場合のみクリックイベントをトリガー
+      if (button) {
+        button.click();
+      }
+    });
+  });
 });
 
 // ============================================
