@@ -301,9 +301,10 @@ $(function () {
       // $()関数: HTML文字列からjQueryオブジェクトを生成
       // テンプレートリテラル（バッククォート）: 変数を文字列に埋め込む
       // ${}: 変数や式の値を文字列に展開
+      // tabindex="-1": キーボード操作でフォーカスが当たらないようにする（現在のページをスキップ）
       return $(`
         <li class="pagination__item ${CONFIG.ACTIVE_CLASS}" data-page="${pageNum}">
-          <a class="pagination__number" href="?page=${pageNum}" aria-current="page">${pageNum}</a>
+          <a class="pagination__number" href="?page=${pageNum}" aria-current="page" tabindex="-1">${pageNum}</a>
         </li>
       `);
     } else {
@@ -691,12 +692,14 @@ $(function () {
   // 2. ページ番号の要素を更新
   // 3. 前/次ボタンの状態を更新
   // 4. URLを更新
-  // 5. 最初に表示されたニュースアイテムにフォーカスを移動
+  // 5. 最初に表示されたニュースアイテムにフォーカスを移動（マウスクリックの場合のみ）
   //
   // 引数:
   //   - page: 表示するページ番号（数値）
+  //   - shouldFocusNewsItem: ニュースアイテムにフォーカスを移動するかどうか（真偽値、デフォルト: true）
+  //                         キーボード操作の場合はfalseを指定して、フォーカスをページネーションに維持
   // 戻り値: なし
-  const updatePagination = (page) => {
+  const updatePagination = (page, shouldFocusNewsItem = true) => {
     // 無効なページ番号、または現在のページと同じ場合は処理を終了
     // return: 関数の実行を終了する
     if (page < 1 || page > totalPages || page === currentPage) return;
@@ -716,8 +719,11 @@ $(function () {
     // URLを更新
     updateURL(page);
 
-    // 最初に表示されたニュースアイテムにフォーカスを移動
-    focusFirstVisibleItem();
+    // マウスクリックの場合のみ、最初に表示されたニュースアイテムにフォーカスを移動
+    // キーボード操作の場合は、フォーカスをページネーションに維持
+    if (shouldFocusNewsItem) {
+      focusFirstVisibleItem();
+    }
   };
 
   // =============================
@@ -728,6 +734,7 @@ $(function () {
   // ページ番号リンク、前へボタン、次へボタンのクリックを統一的に処理します。
   // 無効なボタンがクリックされた場合は処理をスキップし、
   // 有効な場合は移動先のページ番号を取得してupdatePagination()を呼び出します。
+  // キーボード操作（Enterキー）の場合は、フォーカスをページネーションに維持します。
   //
   // 引数:
   //   - e: イベントオブジェクト（クリックイベントの情報が含まれる）
@@ -750,7 +757,11 @@ $(function () {
 
     // 移動先のページ番号が有効で、かつ現在のページと異なる場合のみ更新
     if (targetPage && targetPage !== currentPage) {
-      updatePagination(targetPage);
+      // e.detailプロパティ: マウスクリックの回数を示す（シングルクリック: 1、ダブルクリック: 2）
+      // キーボード操作（Enterキー）の場合は0になる
+      // キーボード操作の場合は、フォーカスをページネーションに維持するため、shouldFocusNewsItemをfalseに設定
+      const isKeyboardOperation = e.detail === 0;
+      updatePagination(targetPage, !isKeyboardOperation);
     }
   };
 
@@ -805,6 +816,33 @@ $(function () {
   $(document).on("click", ".js-pagination-last", function (e) {
     // 現在のページが最後のページより小さい場合のみ、最後のページ番号を返す
     handlePaginationClick(e, () => currentPage < totalPages && totalPages);
+  });
+
+  // pagination__itemをクリックした時に、その中のpagination__linkのクリックイベントをトリガー
+  $(document).on("click", ".pagination__item", function (e) {
+    // クリックされた要素がpagination__linkまたはpagination__numberの場合は処理しない（既にイベントが設定されているため）
+    if ($(e.target).closest(".pagination__link, .pagination__number").length) {
+      return;
+    }
+
+    // pagination__item内のpagination__linkまたはpagination__numberを探す
+    const $link = $(this)
+      .find(".pagination__link, .pagination__number")
+      .first();
+
+    // リンクが見つかり、無効状態でない場合のみクリックイベントをトリガー
+    if ($link.length && $link.attr("aria-disabled") !== "true") {
+      // 現在のページのリンク（aria-current="page"）の場合は処理しない
+      if ($link.attr("aria-current") !== "page") {
+        // 元のイベントのdetail（キーボード操作かどうか）を保持するため、カスタムイベントを作成
+        const customEvent = new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+          detail: e.detail, // 元のイベントのdetailを保持（キーボード操作: 0、マウスクリック: 1以上）
+        });
+        $link[0].dispatchEvent(customEvent);
+      }
+    }
   });
 
   // 現在のページのリンクのクリックイベント（無効化）

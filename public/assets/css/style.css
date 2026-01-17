@@ -303,12 +303,12 @@ body.is-menu-open {
     transition: none;
   }
 }
-.header__logo a:hover img {
+.header__logo a:hover:not(:active) img {
   transform: scale(1.05);
   opacity: 0.8;
 }
 @media (prefers-reduced-motion: reduce) {
-  .header__logo a:hover img {
+  .header__logo a:hover:not(:active) img {
     transform: none;
     opacity: 1;
   }
@@ -325,7 +325,8 @@ body.is-menu-open {
   }
 }
 .header__logo a:active img {
-  transform: scale(0.98);
+  transform: scale(1.03);
+  opacity: 1;
 }
 @media (prefers-reduced-motion: reduce) {
   .header__logo a:active img {
@@ -484,7 +485,7 @@ body.is-menu-open {
   }
 }
 .header__logo-secondary a:active img {
-  transform: scale(0.98);
+  transform: scale(1.02);
 }
 @media (prefers-reduced-motion: reduce) {
   .header__logo-secondary a:active img {
@@ -918,19 +919,14 @@ body.is-menu-open {
     transform: none;
   }
 }
-.pagination__item:focus-within:not(.is-pagination--active) {
-  outline: 2px solid #333;
-  outline-offset: 4px;
-  box-shadow: 0 0 0 2px #ffd43d;
+.pagination__item:has(.pagination__link:focus-visible):not(.is-pagination--active), .pagination__item:has(.pagination__number:focus-visible):not(.is-pagination--active) {
+  border-width: 2px;
+  border-color: #333;
   border-radius: 4px;
-}
-@media (prefers-reduced-motion: reduce) {
-  .pagination__item:focus-within:not(.is-pagination--active) {
-    outline-offset: 2px;
-  }
+  background-color: #ffd43d;
 }
 .pagination__item:active:not(.is-pagination--active) {
-  transform: scale(0.95);
+  transform: scale(1);
   border-color: #1a7bc4;
   background-color: #e0ecf0;
 }
@@ -968,12 +964,6 @@ body.is-menu-open {
   outline: none;
   box-shadow: none;
   background: #228ddd;
-}
-.pagination__item.is-pagination--active:focus-within {
-  outline: 2px solid #333;
-  outline-offset: 4px;
-  box-shadow: 0 0 0 2px #ffd43d;
-  border-radius: 4px;
 }
 .pagination__item[data-page]:not(.is-pagination--active) {
   display: none;
@@ -1022,10 +1012,7 @@ body.is-menu-open {
   }
 }
 .pagination__link:focus-visible {
-  outline: 2px solid #333;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 2px #ffd43d;
-  border-radius: 2px;
+  outline: none;
 }
 .pagination__link[aria-disabled=true] {
   opacity: 0.6;
@@ -1034,14 +1021,6 @@ body.is-menu-open {
 }
 .pagination__link[aria-disabled=true] svg path {
   stroke: #c0c0c0;
-}
-@media (hover: hover) {
-  .pagination__link:not([aria-disabled=true]):hover {
-    opacity: 0.8;
-  }
-  .pagination__link:not([aria-disabled=true]):hover svg path {
-    stroke: #228ddd;
-  }
 }
 .pagination__link:not([aria-disabled=true]):active {
   transform: scale(0.95);
@@ -1085,10 +1064,8 @@ body.is-menu-open {
   box-shadow: none;
 }
 .pagination__number[aria-current=page]:focus-visible {
-  outline: 2px solid #333;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 2px #ffd43d;
-  border-radius: 2px;
+  outline: none;
+  box-shadow: none;
 }
 
 @media (hover: hover) {
@@ -1106,10 +1083,8 @@ body.is-menu-open {
   box-shadow: none;
 }
 .pagination__item.is-pagination--active .pagination__number:focus-visible {
-  outline: 2px solid #333;
-  outline-offset: 2px;
-  box-shadow: 0 0 0 2px #ffd43d;
-  border-radius: 2px;
+  outline: none;
+  box-shadow: none;
 }
 
 .pagination__icon {
@@ -2779,7 +2754,7 @@ summary::-webkit-details-marker {
 }
 @media (hover: hover) {
   .footer__logo:active {
-    transform: translateY(0) scale(0.98);
+    transform: translateY(0) scale(1);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
   }
 }
@@ -2827,22 +2802,6 @@ summary::-webkit-details-marker {
   font-weight: 500;
   font-size: 0.875rem;
 }
-.footer__item a:hover .footer__text {
-  color: #e0f2ff;
-}
-.footer__text::after {
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  transition: width 0.3s ease-out;
-  background-color: #e0f2ff;
-  width: 0;
-  height: 1px;
-  content: "";
-}
-.footer__item a:hover .footer__text::after {
-  width: 100%;
-}
 
 .footer__text--light {
   font-weight: 400;
@@ -2870,13 +2829,13 @@ summary::-webkit-details-marker {
 .footer__item a {
   display: inline-block;
   -webkit-text-decoration: none;
-  transition: color 0.2s ease-out, transform 0.2s ease-out, opacity 0.2s ease-out;
+  transition: transform 0.2s ease-out, color 0.2s ease-out;
   text-decoration: none;
 }
 @media (hover: hover) {
   .footer__item a:hover {
-    transform: translateX(2px);
-    opacity: 0.9;
+    transform: scale(1.05);
+    color: rgba(255, 255, 255, 0.9);
   }
 }
 .footer__item a:focus-visible {
@@ -2887,8 +2846,8 @@ summary::-webkit-details-marker {
 }
 @media (hover: hover) {
   .footer__item a:active {
-    transform: translateX(1px);
-    opacity: 0.85;
+    transform: scale(1.02);
+    color: rgba(255, 255, 255, 0.8);
   }
 }
 @media (hover: none) and (pointer: coarse) {

@@ -430,7 +430,7 @@ body {
     }
 
     // ホバー時のアニメーション
-    &:hover {
+    &:hover:not(:active) {
       img {
         transform: scale(1.05);
         opacity: 0.8;
@@ -462,7 +462,8 @@ body {
     // クリック（アクティブ）時のフィードバック
     &:active {
       img {
-        transform: scale(0.98);
+        transform: scale(1.03);
+        opacity: 1;
 
         // アクセシビリティ: アニメーションを減らす設定に対応
         @media (prefers-reduced-motion: reduce) {
@@ -675,7 +676,7 @@ body {
     // クリック（アクティブ）時のフィードバック
     &:active {
       img {
-        transform: scale(0.98);
+        transform: scale(1.02);
 
         // アクセシビリティ: アニメーションを減らす設定に対応
         @media (prefers-reduced-motion: reduce) {
@@ -1114,8 +1115,6 @@ body {
   line-height: 100%;
   letter-spacing: 1.44px;
   position: relative;
-
-  // アニメーション用のトランジション設定
   transition:
     background-color 0.3s ease-out,
     border-color 0.3s ease-out,
@@ -1148,24 +1147,18 @@ body {
   }
 
   // フォーカスビジブル時のインジケーターとアニメーション（アクティブ状態以外）
-  &:focus-within:not(.is-pagination--active) {
-    // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
-    outline: 2px solid $color-base;
-    outline-offset: 4px;
+  // 子要素（pagination__link）がキーボード操作でフォーカスを受け取った時のみ親要素のスタイルを変更
+  &:has(.pagination__link:focus-visible):not(.is-pagination--active),
+  &:has(.pagination__number:focus-visible):not(.is-pagination--active) {
+    background-color: #ffd43d;
+    border-color: $color-base;
+    border-width: 2px;
     border-radius: 4px;
-
-    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
-    box-shadow: 0 0 0 2px #ffd43d;
-
-    // アクセシビリティ: アニメーションを減らす設定に対応
-    @media (prefers-reduced-motion: reduce) {
-      outline-offset: 2px;
-    }
   }
 
   // クリック（アクティブ）時のフィードバック（アクティブ状態以外）
   &:active:not(.is-pagination--active) {
-    transform: scale(0.95);
+    transform: scale(1);
     background-color: #e0ecf0;
     border-color: #1a7bc4;
 
@@ -1208,23 +1201,12 @@ body {
       outline: none;
       box-shadow: none;
     }
-
-    // キーボード操作向けのフォーカスリング（アクセシビリティのため）
-    &:focus-within {
-      outline: 2px solid $color-base;
-      outline-offset: 4px;
-      border-radius: 4px;
-
-      // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
-      box-shadow: 0 0 0 2px #ffd43d;
-    }
   }
 
   // 767px以下で、現在のページ以外のページ番号を非表示
   &[data-page]:not(.is-pagination--active) {
     display: none;
 
-    // 768px以上で表示
     @include mq(md) {
       display: block;
     }
@@ -1245,13 +1227,10 @@ body {
 
 .pagination__link {
   cursor: pointer;
-
-  // アニメーション用のトランジション設定
   transition:
     opacity 0.2s ease-out,
     transform 0.2s ease-out;
 
-  // アクセシビリティ: アニメーションを減らす設定に対応
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
@@ -1274,14 +1253,9 @@ body {
   }
 
   // フォーカスビジブル時のインジケーター（アクセシビリティ向上）
+  // 親要素（pagination__item）でフォーカスリングを表示するため、子要素のoutlineは非表示
   &:focus-visible {
-    // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
-    outline: 2px solid $color-base;
-    outline-offset: 2px;
-    border-radius: 2px;
-
-    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
-    box-shadow: 0 0 0 2px #ffd43d;
+    outline: none;
   }
 
   // 無効状態のスタイル
@@ -1292,17 +1266,6 @@ body {
 
     svg path {
       stroke: #c0c0c0;
-    }
-  }
-
-  // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用（無効でない場合のみ）
-  @media (hover: hover) {
-    &:not([aria-disabled="true"]):hover {
-      opacity: 0.8;
-
-      svg path {
-        stroke: #228ddd;
-      }
     }
   }
 
@@ -1343,13 +1306,10 @@ body {
   }
 
   // キーボード操作向けのフォーカスリング（アクセシビリティのため）
+  // 現在のページではフォーカスリングを無効化
   &:focus-visible {
-    outline: 2px solid $color-base;
-    outline-offset: 2px;
-    border-radius: 2px;
-
-    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
-    box-shadow: 0 0 0 2px #ffd43d;
+    outline: none;
+    box-shadow: none;
   }
 }
 
@@ -1373,13 +1333,10 @@ body {
     }
 
     // キーボード操作向けのフォーカスリング（アクセシビリティのため）
+    // 現在のページではフォーカスリングを無効化
     &:focus-visible {
-      outline: 2px solid $color-base;
-      outline-offset: 2px;
-      border-radius: 2px;
-
-      // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
-      box-shadow: 0 0 0 2px #ffd43d;
+      outline: none;
+      box-shadow: none;
     }
   }
 }
@@ -3003,7 +2960,7 @@ summary {
   // クリック（アクティブ）時のフィードバック（PC用）
   @media (hover: hover) {
     &:active {
-      transform: translateY(0) scale(0.98);
+      transform: translateY(0) scale(1);
       filter: drop-shadow(0 2px 4px rgb(0 0 0 / 15%));
     }
   }
@@ -3037,26 +2994,26 @@ summary {
   transition: color 0.2s ease-out;
   position: relative;
 
-  // ホバー時の下線アニメーション
-  .footer__item a:hover & {
-    color: #e0f2ff;
-  }
+  // // ホバー時の下線アニメーション
+  // .footer__item a:hover & {
+  //   color: #e0f2ff;
+  // }
 
-  // 下線のアニメーション（ホバー時）
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background-color: #e0f2ff;
-    transition: width 0.3s ease-out;
-  }
+  // // 下線のアニメーション（ホバー時）
+  // &::after {
+  //   content: "";
+  //   position: absolute;
+  //   bottom: -2px;
+  //   left: 0;
+  //   width: 0;
+  //   height: 1px;
+  //   background-color: #e0f2ff;
+  //   transition: width 0.3s ease-out;
+  // }
 
-  .footer__item a:hover &::after {
-    width: 100%;
-  }
+  // .footer__item a:hover &::after {
+  //   width: 100%;
+  // }
 }
 
 .footer__text--light {
@@ -3085,15 +3042,14 @@ summary {
     display: inline-block;
     text-decoration: none;
     transition:
-      color 0.2s ease-out,
       transform 0.2s ease-out,
-      opacity 0.2s ease-out;
+      color 0.2s ease-out;
 
     // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
     @media (hover: hover) {
       &:hover {
-        transform: translateX(2px);
-        opacity: 0.9;
+        transform: scale(1.05);
+        color: rgb(255 255 255 / 90%);
       }
     }
 
@@ -3110,8 +3066,8 @@ summary {
     // クリック（アクティブ）時のフィードバック（PC用）
     @media (hover: hover) {
       &:active {
-        transform: translateX(1px);
-        opacity: 0.85;
+        transform: scale(1.02);
+        color: rgb(255 255 255 / 80%);
       }
     }
 
