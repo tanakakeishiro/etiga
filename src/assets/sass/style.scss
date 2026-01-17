@@ -200,7 +200,6 @@ body {
 }
 
 .heading {
-  // padding-inline: 30px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -209,8 +208,6 @@ body {
     flex-direction: row;
     align-items: center;
     gap: 30px;
-
-    // padding-inline: 100px;
   }
 }
 
@@ -521,11 +518,6 @@ body {
     &:active {
       transform: scale(0.92);
       transition: transform 0.1s ease-out;
-
-      // .drawer-icon__bar {
-      //   opacity: 0.4;
-      //   transition: opacity 0.1s ease-out;
-      // }
 
       @media (prefers-reduced-motion: reduce) {
         transform: none;
@@ -983,19 +975,6 @@ body {
   }
 }
 
-// フェードイン＋上方向スライドアニメーション
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .news__link {
   border-radius: 4px;
   padding: 8px 8px 10px;
@@ -1044,16 +1023,15 @@ body {
     }
   }
 
-  // クリック（アクティブ）時のフィードバック
-  &:active {
-    transform: scale(0.98);
-
-    // より濃い背景色でクリック時のフィードバックを明確化
-    background-color: #b8dae8;
-
-    // アクセシビリティ: アニメーションを減らす設定に対応
-    @media (prefers-reduced-motion: reduce) {
-      transform: none;
+  // クリック（アクティブ）時のフィードバック（PC用）
+  @media (hover: hover) {
+    &:active {
+      // テキストに下線を表示（ホバーと同じスタイル）
+      // WCAG 2.0準拠: 下線と背景のコントラスト比4.5:1以上を確保（#333と#fffで約12.6:1）
+      // テキスト色(#111)と背景(#fff)のコントラスト比も約16.6:1で十分
+      text-decoration: underline;
+      text-decoration-color: $color-base;
+      text-underline-offset: 4px;
     }
   }
 
@@ -1596,6 +1574,12 @@ body {
       transform: translateY(-4px);
       filter: drop-shadow(8px 12px 40px #e5e5e5);
     }
+
+    // クリック（アクティブ）時のフィードバック（PC用）
+    &:active {
+      transform: translateY(0) scale(0.98);
+      filter: drop-shadow(4px 6px 20px #e8e8e8);
+    }
   }
 
   @include reduce-motion-interactive;
@@ -1612,6 +1596,14 @@ body {
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
+  }
+
+  // クリック（アクティブ）時のフィードバック（PC用）
+  @media (hover: hover) {
+    &:active {
+      // 親要素の .work__slide の :active と連動して押下感を伝える
+      // リンク自体は視覚的な変化を最小限に（親要素のアニメーションに任せる）
+    }
   }
 
   // スマホ向けタップフィードバック（アクセシビリティとUX向上）
@@ -1696,6 +1688,12 @@ body {
       transform: translateY(-2px) scale(1.03);
       box-shadow: 0 4px 10px rgb(0 0 0 / 16%);
     }
+
+    // クリック（アクティブ）時のフィードバック（PC用）
+    &:active {
+      transform: translateY(0) scale(0.97);
+      box-shadow: 0 2px 6px rgb(0 0 0 / 12%);
+    }
   }
 
   // フォーカスリング（キーボード操作向け）
@@ -1707,6 +1705,9 @@ body {
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
   }
+
+  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.96, 0.9);
 
   @include mq(md) {
     margin-top: -18px !important;
@@ -2047,6 +2048,18 @@ body {
     box-shadow: 0 0 0 2px #ffd43d;
   }
 
+  // クリック（アクティブ）時のフィードバック（PC用）
+  @media (hover: hover) {
+    &:active:not([aria-selected="true"]) {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 2px 6px rgb(0 0 0 / 10%);
+      background: #f0f8ff;
+    }
+  }
+
+  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.98, 0.95);
+
   @include reduce-motion-interactive;
 }
 
@@ -2087,6 +2100,12 @@ body {
   // 既に選択されているタブはホバー時も状態を変えない
   @media (hover: hover) {
     &:hover {
+      background: #2392db;
+      transform: none;
+      box-shadow: none;
+    }
+
+    &:active {
       background: #2392db;
       transform: none;
       box-shadow: none;
@@ -2438,6 +2457,14 @@ body {
   // カード全体をインタラクティブに見せるアニメーション
   @include interactive-card-hover(null, -3px, 0 6px 18px rgb(0 0 0 / 12%));
 
+  // クリック（アクティブ）時のフィードバック（PC用）
+  @media (hover: hover) {
+    &:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 3px 10px rgb(0 0 0 / 10%);
+    }
+  }
+
   @include mq(xl) {
     max-width: 360px;
   }
@@ -2455,6 +2482,14 @@ body {
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
+  }
+
+  // クリック（アクティブ）時のフィードバック（PC用）
+  @media (hover: hover) {
+    &:active {
+      // 親要素の .blog-card の :active と連動して押下感を伝える
+      // リンク自体は視覚的な変化を最小限に（親要素のアニメーションに任せる）
+    }
   }
 
   // スマホ向けタップフィードバック（アクセシビリティとUX向上）
@@ -2965,9 +3000,21 @@ summary {
     box-shadow: 0 0 0 2px #ffd43d;
   }
 
+  // クリック（アクティブ）時のフィードバック（PC用）
+  @media (hover: hover) {
+    &:active {
+      transform: translateY(0) scale(0.98);
+      filter: drop-shadow(0 2px 4px rgb(0 0 0 / 15%));
+    }
+  }
+
   img {
     width: 160px;
   }
+
+  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.97, 0.95);
+
   @include reduce-motion-interactive(false, true);
 }
 
@@ -3060,6 +3107,17 @@ summary {
       box-shadow: 0 0 0 2px #ffd43d;
     }
 
+    // クリック（アクティブ）時のフィードバック（PC用）
+    @media (hover: hover) {
+      &:active {
+        transform: translateX(1px);
+        opacity: 0.85;
+      }
+    }
+
+    // スマホ向けタップフィードバック（アクセシビリティとUX向上）
+    @include mobile-tap-feedback(0.98, 0.9);
+
     @include reduce-motion-interactive(false, true);
   }
 }
@@ -3136,6 +3194,13 @@ summary {
       transform: translateY(-2px) scale(1.05);
       box-shadow: 0 4px 10px rgb(0 0 0 / 25%);
       background-color: rgb(255 255 255 / 8%);
+    }
+
+    // クリック（アクティブ）時のフィードバック（PC用）
+    &:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+      background-color: rgb(255 255 255 / 6%);
     }
   }
 
