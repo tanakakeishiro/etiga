@@ -170,6 +170,10 @@ body {
   width: 100%;
 
   @include mq(md) {
+    padding-inline: 40px;
+  }
+
+  @include mq(lg) {
     max-width: calc(1120px + 80px * 2);
     padding-inline: 80px;
   }
@@ -876,6 +880,7 @@ body {
     margin-inline: 0;
     margin-top: 30px;
     max-width: 650px;
+    width: 80%;
   }
 
   img {
@@ -1389,8 +1394,8 @@ body {
   padding-inline: 20px;
 
   @include mq(md) {
-    padding-inline: calc(40px + 40 * ((100% - 768px) / (899 - 768)));
     max-width: calc(899px + 40px * 2);
+    padding-inline: 40px;
   }
 
   @include mq(lg) {
@@ -1489,10 +1494,6 @@ body {
     padding-inline: 40px;
   }
 
-  @include mq(lg) {
-    padding-inline: 80px;
-    max-width: calc(1120px + 80px * 2);
-  }
 }
 
 .work__heading {
@@ -1916,15 +1917,9 @@ body {
 // .company {
 // }
 
-.company__inner {
-  @include mq(md) {
-    padding-inline: 40px;
-  }
-
-  @include mq(lg) {
-    padding-inline: 80px;
-  }
-}
+// .company__inner {
+ 
+// }
 
 .company__heading {
   padding-left: 15px;
@@ -2527,9 +2522,6 @@ body {
 // }
 
 .event__inner {
-  @include mq(md) {
-    padding-inline: 30px;
-  }
 
   @include mq(xl) {
     padding-inline: 80px;
@@ -2694,13 +2686,8 @@ body {
   }
 }
 
-.faq__inner {
-  padding-inline: 15px;
-
-  @include mq(md) {
-    padding-inline: 80px;
-  }
-}
+// .faq__inner {
+// }
 
 .faq__heading {
   font-size: 2.25rem;
@@ -2906,9 +2893,6 @@ summary {
 }
 
 .footer__inner {
-  @include mq(md) {
-    padding-inline: 40px;
-  }
 
   @include mq(lg) {
     padding-inline: 60px;

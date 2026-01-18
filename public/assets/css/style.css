@@ -37,6 +37,12 @@ body.is-menu-open {
 }
 @media screen and (min-width: 768px) {
   .inner {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+@media screen and (min-width: 992px) {
+  .inner {
     padding-right: 80px;
     padding-left: 80px;
     max-width: 1280px;
@@ -664,6 +670,7 @@ body.is-menu-open {
     margin-top: 30px;
     margin-right: 0;
     margin-left: 0;
+    width: 80%;
     max-width: 650px;
   }
 }
@@ -1136,8 +1143,8 @@ body.is-menu-open {
 }
 @media screen and (min-width: 768px) {
   .concept__inner {
-    padding-right: calc(40px + 40 * (100% - 768px) / 131);
-    padding-left: calc(40px + 40 * (100% - 768px) / 131);
+    padding-right: 40px;
+    padding-left: 40px;
     max-width: 979px;
   }
 }
@@ -1247,13 +1254,6 @@ body.is-menu-open {
   .work__inner {
     padding-right: 40px;
     padding-left: 40px;
-  }
-}
-@media screen and (min-width: 992px) {
-  .work__inner {
-    padding-right: 80px;
-    padding-left: 80px;
-    max-width: 1280px;
   }
 }
 
@@ -1681,19 +1681,6 @@ body.is-menu-open {
 /* -------------------------
      company
     ------------------------- */
-@media screen and (min-width: 768px) {
-  .company__inner {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
-@media screen and (min-width: 992px) {
-  .company__inner {
-    padding-right: 80px;
-    padding-left: 80px;
-  }
-}
-
 .company__heading {
   padding-left: 15px;
 }
@@ -2313,12 +2300,6 @@ body.is-menu-open {
 /* -------------------------
    event
   ------------------------- */
-@media screen and (min-width: 768px) {
-  .event__inner {
-    padding-right: 30px;
-    padding-left: 30px;
-  }
-}
 @media screen and (min-width: 1200px) {
   .event__inner {
     padding-right: 80px;
@@ -2482,17 +2463,6 @@ body.is-menu-open {
 @media screen and (min-width: 768px) {
   .faq {
     padding-bottom: 127px;
-  }
-}
-
-.faq__inner {
-  padding-right: 15px;
-  padding-left: 15px;
-}
-@media screen and (min-width: 768px) {
-  .faq__inner {
-    padding-right: 80px;
-    padding-left: 80px;
   }
 }
 
@@ -2696,12 +2666,6 @@ summary::-webkit-details-marker {
   text-align: center;
 }
 
-@media screen and (min-width: 768px) {
-  .footer__inner {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
 @media screen and (min-width: 992px) {
   .footer__inner {
     padding-right: 60px;
