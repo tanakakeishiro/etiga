@@ -727,6 +727,10 @@ body.is-menu-open {
     outline-offset: 2px;
   }
 }
+.news__heading.js-programmatic-focus:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
 @media screen and (min-width: 768px) {
   .news__heading {
     gap: 3px;

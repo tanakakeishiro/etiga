@@ -931,7 +931,7 @@ body {
 }
 
 .news__heading {
-   // フォーカスビジブル時のインジケーター（キーボード操作時のみ）
+  // フォーカスビジブル時のインジケーター（キーボード操作時のみ）
   // プログラム的なフォーカス（js-programmatic-focusクラス）の場合はスタイルを無効化
   &:focus-visible:not(.js-programmatic-focus) {
     // アクセシビリティ: コントラストを最優先、2px以上の太さ、二重構造で視認性向上
@@ -948,7 +948,11 @@ body {
     }
   }
 
-
+  // プログラム的なフォーカス時は、:focus-visibleのスタイルを明示的に無効化
+  &.js-programmatic-focus:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
 
   @include mq(md) {
     gap: 3px;
