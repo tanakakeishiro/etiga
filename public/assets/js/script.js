@@ -60,6 +60,7 @@ const $hamburger = jQuery("#js-drawer-button");
 const $menu = jQuery("#js-drawer-content");
 const $focusTrap = jQuery("#js-focus-trap");
 const $firstLink = jQuery(".js-header-link").first();
+const $logoSecondary = jQuery(".header__logo-secondary a");
 
 const closeMenu = () => {
   $hamburger
@@ -80,8 +81,14 @@ const openMenu = () => {
     .removeAttr("aria-haspopup");
   $menu.addClass(CLASS);
   backgroundFix(true);
-  // メニューが開いた後、最初のリンクにフォーカスを当てる
-  setTimeout(() => $firstLink.length && $firstLink.focus(), 100);
+  // メニューが開いた後、header__logo-secondaryのリンクにフォーカスを当てる
+  setTimeout(() => {
+    if ($logoSecondary.length) {
+      $logoSecondary.focus();
+    } else {
+      $hamburger.focus();
+    }
+  }, 100);
 };
 
 $hamburger.on("click", function (e) {
