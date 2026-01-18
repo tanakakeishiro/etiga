@@ -683,6 +683,65 @@ $(function () {
   };
 
   // =============================
+  // 関数: focusNewsHeading()
+  // =============================
+  // 【この関数の役割】
+  // ページ切り替え後、ニュースセクションの見出しにフォーカスを移動します。
+  // マウスクリックでページを切り替えた場合、ユーザーがページの先頭にいることを
+  // 明確にするためのアクセシビリティ機能です。
+  // プログラム的なフォーカス（マウスクリック後の自動フォーカス）では、
+  // :focus-visibleのスタイルが適用されないように一時的なクラスを追加します。
+  //
+  // 引数: なし
+  // 戻り値: なし
+  const focusNewsHeading = () => {
+    // ニュースセクションの見出し要素を取得
+    const $heading = $newsList.closest(".news").find(".news__heading");
+
+    // 見出しが存在する場合のみ、フォーカスを移動
+    // tabindex="-1"を設定して、キーボード操作ではフォーカスを受け取らないようにする
+    // これにより、プログラム的なフォーカスのみが可能になる
+    if ($heading.length) {
+      // tabindex属性がない場合は追加、既にある場合は更新
+      if (!$heading.attr("tabindex")) {
+        $heading.attr("tabindex", "-1");
+      }
+
+      // プログラム的なフォーカスであることを示す一時的なクラスを追加
+      // これにより、CSSで:focus-visibleのスタイルを無効化できる
+      $heading.addClass("js-programmatic-focus");
+
+      // リフローを強制的に発生させて、クラスの追加をブラウザに認識させる
+      void $heading[0].offsetHeight;
+
+      // フォーカスイベントリスナーを設定（一度だけ実行されるようにする）
+      const removeClassHandler = () => {
+        // フォーカスイベントが発火した後、一時的なクラスを削除
+        // requestAnimationFrameを使用して、ブラウザの描画サイクルを待つ
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            $heading.removeClass("js-programmatic-focus");
+            // イベントリスナーを削除（一度だけ実行されるようにする）
+            $heading[0].removeEventListener("focus", removeClassHandler);
+          });
+        });
+      };
+
+      // フォーカスイベントリスナーを追加
+      $heading[0].addEventListener("focus", removeClassHandler, { once: true });
+
+      // requestAnimationFrameを使用して、クラスが確実にブラウザに認識されてからフォーカスを設定
+      // 二重ネストすることで、ブラウザの描画サイクルを確実に待つ
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // フォーカスを移動
+          $heading[0].focus();
+        });
+      });
+    }
+  };
+
+  // =============================
   // 関数: updatePagination()
   // =============================
   // 【この関数の役割】
@@ -692,15 +751,15 @@ $(function () {
   // 2. ページ番号の要素を更新
   // 3. 前/次ボタンの状態を更新
   // 4. URLを更新
-  // 5. 最初に表示されたニュースアイテムにフォーカスを移動（マウスクリック・キーボード操作のどちらの場合も）
+  // 5. フォーカスを適切な位置に移動（マウスクリック: 見出し、キーボード操作: ニュースアイテム）
   //
   // 引数:
   //   - page: 表示するページ番号（数値）
-  //   - shouldFocusNewsItem: ニュースアイテムにフォーカスを移動するかどうか（真偽値、デフォルト: true）
-  //                         通常はtrueを指定して、フォーカスをニュースアイテムに移動（ページネーションから外す）
-  //                         これにより、次のTab操作で予測可能な位置にフォーカスが移動する
+  //   - focusTarget: フォーカスを移動する先（文字列、"heading" または "newsItem"、デフォルト: "newsItem"）
+  //                 "heading": ニュースセクションの見出しにフォーカス（マウスクリック時）
+  //                 "newsItem": 最初のニュースアイテムにフォーカス（キーボード操作時）
   // 戻り値: なし
-  const updatePagination = (page, shouldFocusNewsItem = true) => {
+  const updatePagination = (page, focusTarget = "newsItem") => {
     // 無効なページ番号、または現在のページと同じ場合は処理を終了
     // return: 関数の実行を終了する
     if (page < 1 || page > totalPages || page === currentPage) return;
@@ -720,10 +779,11 @@ $(function () {
     // URLを更新
     updateURL(page);
 
-    // マウスクリック・キーボード操作のどちらの場合も、最初に表示されたニュースアイテムにフォーカスを移動
-    // これにより、ページ切り替え後、次のTab操作で予測可能な位置（最初のニュースアイテム）にフォーカスが移動する
-    // また、フォーカスビジブルがページネーションのボタンに当たらなくなる
-    if (shouldFocusNewsItem) {
+    // フォーカスを適切な位置に移動
+    // マウスクリックの場合は見出しに、キーボード操作の場合は最初のニュースアイテムにフォーカスを移動
+    if (focusTarget === "heading") {
+      focusNewsHeading();
+    } else if (focusTarget === "newsItem") {
       focusFirstVisibleItem();
     }
   };
@@ -736,7 +796,7 @@ $(function () {
   // ページ番号リンク、前へボタン、次へボタンのクリックを統一的に処理します。
   // 無効なボタンがクリックされた場合は処理をスキップし、
   // 有効な場合は移動先のページ番号を取得してupdatePagination()を呼び出します。
-  // マウスクリック・キーボード操作のどちらの場合も、フォーカスをニュースアイテムに移動してページネーションから外します。
+  // マウスクリックの場合は見出しに、キーボード操作の場合は最初のニュースアイテムにフォーカスを移動します。
   //
   // 引数:
   //   - e: イベントオブジェクト（クリックイベントの情報が含まれる）
@@ -759,9 +819,13 @@ $(function () {
 
     // 移動先のページ番号が有効で、かつ現在のページと異なる場合のみ更新
     if (targetPage && targetPage !== currentPage) {
-      // マウスクリック・キーボード操作のどちらの場合も、最初のニュースアイテムにフォーカスを移動
-      // これにより、ページ切り替え後、次のTab操作で予測可能な位置（最初のニュースアイテム）にフォーカスが移動する
-      updatePagination(targetPage, true);
+      // e.detail: イベントの詳細情報
+      // e.detail === 0: キーボード操作（EnterキーやSpaceキーなど）
+      // e.detail > 0: マウスクリック（クリック回数）
+      // マウスクリックの場合は見出しに、キーボード操作の場合は最初のニュースアイテムにフォーカスを移動
+      const isKeyboardOperation = e.detail === 0;
+      const focusTarget = isKeyboardOperation ? "newsItem" : "heading";
+      updatePagination(targetPage, focusTarget);
     }
   };
 
