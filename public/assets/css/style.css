@@ -252,6 +252,19 @@ body.is-menu-open {
   }
 }
 
+.visually-hidden {
+  position: absolute;
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  -webkit-clip-path: inset(50%);
+          clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
 /* -------------------------
    header
   ------------------------- */
