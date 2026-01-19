@@ -786,7 +786,7 @@ body.is-menu-open {
   transition: border-left-color 0.3s ease-out, border-left-width 0.3s ease-out, transform 0.2s ease-out, outline 0.2s ease-out, box-shadow 0.2s ease-out, text-decoration-color 0.3s ease-out, -webkit-text-decoration-color 0.3s ease-out;
   margin: -8px -8px -10px;
   border-radius: 4px;
-  padding: 8px 8px 10px;
+  padding: 8px 8px 20px;
 }
 @media (prefers-reduced-motion: reduce) {
   .news__link {
@@ -857,6 +857,7 @@ body.is-menu-open {
 .news__title {
   margin-top: 7px;
   color: #111;
+  font-weight: 400;
   font-size: 0.9375rem;
 }
 @media screen and (min-width: 768px) {
@@ -1256,6 +1257,13 @@ body.is-menu-open {
     padding-left: 40px;
   }
 }
+@media screen and (min-width: 1200px) {
+  .work__inner {
+    padding-right: 80px;
+    padding-left: 80px;
+    max-width: 1280px;
+  }
+}
 
 .work__heading {
   gap: 3px;
@@ -1401,7 +1409,6 @@ body.is-menu-open {
 .work__prev,
 .work__next {
   position: absolute;
-  top: auto !important;
   transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
   cursor: pointer;
   margin-top: -19px !important;
@@ -1449,6 +1456,12 @@ body.is-menu-open {
     margin-top: -18px !important;
   }
 }
+@media screen and (min-width: 1200px) {
+  .work__prev,
+  .work__next {
+    margin-top: -31px !important;
+  }
+}
 .work__prev svg,
 .work__next svg {
   display: none !important;
@@ -1477,7 +1490,7 @@ body.is-menu-open {
 }
 @media screen and (min-width: 992px) {
   .work__prev {
-    left: -60px !important;
+    left: -20px !important;
   }
 }
 @media screen and (min-width: 1200px) {
@@ -1497,7 +1510,7 @@ body.is-menu-open {
 }
 @media screen and (min-width: 992px) {
   .work__next {
-    right: -60px !important;
+    right: -20px !important;
   }
 }
 @media screen and (min-width: 1200px) {
@@ -1561,7 +1574,7 @@ body.is-menu-open {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 23px;
   padding-right: 34px;
   padding-left: 34px;
 }
@@ -2348,7 +2361,7 @@ body.is-menu-open {
   box-shadow: 5px 7px 34px 0 #f1f1f1;
   border: 0 solid #707070;
   border-radius: 6px;
-  padding-bottom: 30px;
+  padding-bottom: 23px;
 }
 @media screen and (min-width: 768px) {
   .event-card__post {
@@ -2682,7 +2695,6 @@ summary::-webkit-details-marker {
 .footer__container {
   display: flex;
   flex-direction: column;
-  gap: 34px;
 }
 @media screen and (min-width: 992px) {
   .footer__container {
@@ -2786,7 +2798,8 @@ summary::-webkit-details-marker {
 .footer__list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
+  margin-top: 30px;
 }
 @media screen and (min-width: 992px) {
   .footer__list {
@@ -2881,7 +2894,7 @@ summary::-webkit-details-marker {
   display: flex;
   justify-content: center;
   gap: 16px;
-  margin-bottom: 36px;
+  margin-top: 38px;
 }
 @media screen and (min-width: 992px) {
   .footer-sns-list {
@@ -2952,7 +2965,7 @@ summary::-webkit-details-marker {
 }
 
 .footer__wrapper {
-  padding-top: 6px;
+  margin-top: 34px;
   padding-bottom: 6px;
 }
 @media screen and (min-width: 992px) {

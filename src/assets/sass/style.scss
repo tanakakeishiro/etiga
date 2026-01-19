@@ -911,6 +911,7 @@ body {
   color: #2b2b2b;
   font-size: 1.25rem;
   font-weight: 700;
+  
 
   @include mq(md) {
     font-size: 1.5rem;
@@ -998,8 +999,9 @@ body {
 
 .news__link {
   border-radius: 4px;
-  padding: 8px 8px 10px;
+  padding: 8px 8px 20px;
   margin: -8px -8px -10px;
+  
 
   // アニメーション用のトランジション設定
   transition:
@@ -1080,6 +1082,8 @@ body {
   margin-top: 7px;
   color: #111;
   font-size: 0.9375rem;
+font-weight: 400;
+  
 
   @include mq(md) {
     margin-top: 0;
@@ -1494,6 +1498,11 @@ body {
     padding-inline: 40px;
   }
 
+  @include mq(xl) {
+    max-width: calc(1120px + 80px * 2);
+    padding-inline: 80px;
+  }
+
 }
 
 .work__heading {
@@ -1647,7 +1656,6 @@ body {
 .work__next {
   width: 44px;
   height: 44px;
-  top: auto !important;
   margin-top: -19px !important;
   position: absolute;
   cursor: pointer;
@@ -1686,6 +1694,10 @@ body {
     margin-top: -18px !important;
   }
 
+  @include mq(xl) {
+    margin-top: -31px !important;
+  }
+
   svg {
     display: none !important;
     visibility: hidden !important;
@@ -1706,7 +1718,7 @@ body {
   }
 
   @include mq(lg) {
-    left: -60px !important;
+    left: -20px !important;
   }
 
   @include mq(xl) {
@@ -1723,7 +1735,7 @@ body {
   }
 
   @include mq(lg) {
-    right: -60px !important;
+    right: -20px !important;
   }
 
   @include mq(xl) {
@@ -1788,7 +1800,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 23px;
   padding-inline: 34px;
 
   @include mq(md) {
@@ -2570,7 +2582,7 @@ body {
 // }
 
 .event-card__post {
-  padding-bottom: 30px;
+  padding-bottom: 23px;
   border-radius: 6px;
   border: 0 solid #707070;
   box-shadow: 5px 7px 34px 0 #f1f1f1;
@@ -2906,7 +2918,6 @@ summary {
 .footer__container {
   display: flex;
   flex-direction: column;
-  gap: 34px;
 
   @include mq(lg) {
     flex-direction: row;
@@ -3001,7 +3012,8 @@ summary {
 .footer__list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
+  margin-top: 30px;
 
   @include mq(lg) {
     margin-top: 62px;
@@ -3091,7 +3103,9 @@ summary {
   display: flex;
   justify-content: center;
   gap: 16px;
-  margin-bottom: 36px;
+  margin-top: 38px;
+  
+
 
   @include mq(lg) {
     margin-top: 60px;
@@ -3158,7 +3172,8 @@ summary {
 }
 
 .footer__wrapper {
-  padding-block: 6px;
+  margin-top: 34px;
+ padding-bottom: 6px;
 
   @include mq(lg) {
     margin-top: 56px;

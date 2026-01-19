@@ -901,6 +901,11 @@ const swiper = new Swiper("#js-work-swiper", {
   //画面幅を変えることができる。
   slidesPerView: "auto",
 
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+
   navigation: {
     nextEl: "#js-work-next",
     prevEl: "#js-work-prev",
