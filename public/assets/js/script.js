@@ -892,7 +892,7 @@ $(function () {
 });
 
 const swiper = new Swiper("#js-work-swiper", {
-  loop: true,
+  loop: false,
   // slidesPerView: "auto"に上書きされるから消した。
   // slidesPerView: 1.25,
   spaceBetween: 18,
