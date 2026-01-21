@@ -302,8 +302,8 @@ body {
   box-shadow: 4px 3px 26px 0 rgb(0 0 0 / 16%);
   color: #2392db;
   font-weight: 700;
-  letter-spacing: 3px;
   background: transparent;
+  letter-spacing: 3px;
   transition:
     transform 0.3s ease-out,
     box-shadow 0.3s ease-out,
@@ -2582,31 +2582,39 @@ font-weight: 400;
 // }
 
 .event-card__post {
-  padding-bottom: 23px;
+  padding: 24px 12px 23px;
+  gap: 21px;
   border-radius: 6px;
   border: 0 solid #707070;
   box-shadow: 5px 7px 34px 0 #f1f1f1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  
 
   @include mq(md) {
     flex-direction: row;
-    padding-bottom: 0;
+    justify-content: flex-start;
+    padding: 25px 25px 16px 23px;
+    gap: 30px;
   }
 }
 
 .event-card__image {
-  padding: 23px 37px 21px;
-
+ margin-inline: 25px;
   @include mq(md) {
-    padding: 24px 0 24px 24px;
+    flex: 1;
+    margin-inline: 0;
+  }
+
+  @include mq(xl) {
+    flex: none;
   }
 
   img {
     @include mq(md) {
-      max-width: 324px;
-      width: 30vw;
+      width: min(324px, 30vw);
+      max-height: 240px;
       height: 100%;
       object-fit: cover;
     }
@@ -2614,12 +2622,12 @@ font-weight: 400;
 }
 
 .event-card__content {
-  margin-inline: 12px;
 
   @include mq(md) {
-    margin: 26px 24px 24px 30px;
-    max-width: 678px;
+    margin-top: 2px;
+    flex: 2;
   }
+  
 }
 
 .event-card__head {
@@ -2684,6 +2692,7 @@ font-weight: 400;
   font-size: 0.875rem;
   font-weight: 500;
   text-align: center;
+  letter-spacing: 0;
 }
 
 /* -------------------------
@@ -3016,7 +3025,7 @@ summary {
   margin-top: 30px;
 
   @include mq(lg) {
-    margin-top: 62px;
+    margin-top: 60px;
     flex-direction: row;
     gap: 25px;
     margin-left: 40px;
@@ -3108,7 +3117,7 @@ summary {
 
 
   @include mq(lg) {
-    margin-top: 60px;
+    margin-top: 62px;
     margin-bottom: 0;
     margin-left: 40px;
   }
@@ -3176,7 +3185,7 @@ summary {
  padding-bottom: 6px;
 
   @include mq(lg) {
-    margin-top: 56px;
+    margin-top: 62px;
   }
 }
 
