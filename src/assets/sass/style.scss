@@ -1,7 +1,8 @@
 @use "sass:map";
 
-$font-family-base: "Noto Sans JP", sans-serif;
-$font-family-base-2: "Montserrat", sans-serif;
+// フォント読み込み最適化: フォールバックフォントを指定してレイアウトシフトを最小化
+$font-family-base: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", meiryo, sans-serif;
+$font-family-base-2: "Montserrat", "Arial", sans-serif;
 $color-base: #333;
 $background-base: #fff;
 $font-size-base: 16px;
@@ -43,20 +44,31 @@ $breakpoints: (
   $shadow: 0 4px 10px rgba(0, 0, 0, 0.12),
   $duration: 0.2s
 ) {
-  transition:
-    transform $duration ease-out,
-    box-shadow $duration ease-out,
-    background-color $duration ease-out;
+  // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
+  transition: transform $duration ease-out;
+
+  // box-shadowのアニメーションを削除（合成されないため）
+  // background-colorのアニメーションを削除（合成されないため）
 
   // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
   @media (hover: hover) {
     &:hover {
+      // GPU合成を促進（アニメーション前にwill-changeを設定）
+      will-change: transform;
       transform: translateY($translate-y);
+
+      // box-shadowはアニメーションせず、即座に変更
       box-shadow: $shadow;
 
-      @if $bg != auto {
+      @if $bg != null {
+        // background-colorはアニメーションせず、即座に変更
         background: $bg;
       }
+    }
+    
+    // ホバー解除時にwill-changeを削除（メモリ使用量を最適化）
+    &:not(:hover) {
+      will-change: auto;
     }
   }
 }
@@ -239,11 +251,13 @@ body {
   color: #f6f7f7;
   font-weight: 700;
   letter-spacing: 3px;
-  transition:
-    transform 0.3s ease-out,
-    box-shadow 0.3s ease-out,
-    background 0.3s ease-out,
-    color 0.3s ease-out;
+
+  // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
+  transition: transform 0.3s ease-out;
+
+  // box-shadowのアニメーションを削除（合成されないため）
+
+  // GPU合成を促進（will-changeはアニメーション時のみ有効化）
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -265,12 +279,21 @@ body {
   // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
   @media (hover: hover) {
     &:hover {
+      // GPU合成を促進（アニメーション前にwill-changeを設定）
+      will-change: transform;
       transform: scale(1.02);
+
+      // box-shadowはアニメーションせず、即座に変更（合成されないため）
       box-shadow: 6px 5px 32px 0 rgb(0 0 0 / 20%);
 
       &::before {
         left: 0;
       }
+    }
+    
+    // ホバー解除時にwill-changeを削除（メモリ使用量を最適化）
+    &:not(:hover) {
+      will-change: auto;
     }
   }
 
@@ -304,11 +327,11 @@ body {
   font-weight: 700;
   background: transparent;
   letter-spacing: 3px;
-  transition:
-    transform 0.3s ease-out,
-    box-shadow 0.3s ease-out,
-    border-color 0.3s ease-out,
-    color 0.3s ease-out;
+
+  // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
+  transition: transform 0.3s ease-out;
+
+  // box-shadowのアニメーションを削除（合成されないため）
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -330,14 +353,23 @@ body {
   // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
   @media (hover: hover) {
     &:hover {
+      // GPU合成を促進（アニメーション前にwill-changeを設定）
+      will-change: transform;
       transform: scale(1.02);
-      border-color: #2188de;
-      color: #f6f7f7;
+
+      // box-shadowはアニメーションせず、即座に変更（合成されないため）
       box-shadow: 6px 5px 32px 0 rgb(0 0 0 / 20%);
+
+      // colorとborder-colorはアニメーションしない（合成されないため）
 
       &::before {
         width: 100%;
       }
+    }
+    
+    // ホバー解除時にwill-changeを削除（メモリ使用量を最適化）
+    &:not(:hover) {
+      will-change: auto;
     }
   }
 
@@ -959,8 +991,12 @@ body {
 .news__list {
   margin-top: 48px;
 
+  // レイアウトシフト防止: 最小高さを設定（最初の5件分の高さを確保）
+  min-height: 400px;
+
   @include mq(md) {
     margin-top: 60px;
+    min-height: 300px;
   }
 }
 
@@ -1139,14 +1175,14 @@ font-weight: 400;
   line-height: 100%;
   letter-spacing: 1.44px;
   position: relative;
+
+  // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
   transition:
-    background-color 0.3s ease-out,
-    border-color 0.3s ease-out,
-    border-width 0.3s ease-out,
-    color 0.3s ease-out,
     transform 0.2s ease-out,
     outline 0.2s ease-out,
     box-shadow 0.2s ease-out;
+
+  // background-color, border-color, border-width, colorのアニメーションを削除（合成されないため）
 
   // アクセシビリティ: アニメーションを減らす設定に対応
   @media (prefers-reduced-motion: reduce) {
@@ -1158,6 +1194,10 @@ font-weight: 400;
   // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用（アクティブ状態以外）
   @media (hover: hover) {
     &:hover:not(.is-pagination--active) {
+      // GPU合成を促進（アニメーション前にwill-changeを設定）
+      will-change: transform;
+
+      // background-color, border-color, border-width, colorはアニメーションせず、即座に変更
       background-color: #f0f5f7;
       border-color: #228ddd;
       border-width: 2px;
@@ -1167,6 +1207,11 @@ font-weight: 400;
       @media (prefers-reduced-motion: reduce) {
         transform: none;
       }
+    }
+    
+    // ホバー解除時にwill-changeを削除（メモリ使用量を最適化）
+    &:not(:hover) {
+      will-change: auto;
     }
   }
 
@@ -1267,7 +1312,9 @@ font-weight: 400;
 
     path {
       stroke: #828282;
-      transition: stroke 0.3s ease-out;
+
+      // strokeのアニメーションを削除（合成されないため）
+      // 状態変更は即座に反映される
 
       // アクセシビリティ: アニメーションを減らす設定に対応
       @media (prefers-reduced-motion: reduce) {
@@ -1546,21 +1593,31 @@ font-weight: 400;
   border-radius: 4px;
   background: var(--ffffff, #fff);
   width: 320px;
-  transition:
-    transform 0.25s ease-out,
-    filter 0.25s ease-out;
+
+  // filterのアニメーションを削除（合成されないため）
+  // transformのみをアニメーション（GPU合成可能）
+  transition: transform 0.25s ease-out;
 
   // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
   @media (hover: hover) {
     &:hover {
+      // GPU合成を促進（アニメーション前にwill-changeを設定）
+      will-change: transform;
       transform: translateY(-4px);
-      filter: drop-shadow(8px 12px 40px #e5e5e5);
+
+      // filterのアニメーションを削除（合成されないため）
+    }
+    
+    // ホバー解除時にwill-changeを削除（メモリ使用量を最適化）
+    &:not(:hover) {
+      will-change: auto;
     }
 
     // クリック（アクティブ）時のフィードバック（PC用）
     &:active {
       transform: translateY(0) scale(0.98);
-      filter: drop-shadow(4px 6px 20px #e8e8e8);
+
+      // filterのアニメーションを削除（合成されないため）
     }
   }
 
@@ -1970,7 +2027,7 @@ font-weight: 400;
   display: flex;
 }
 
-.company-tab__menu {
+.company-tab__button {
   background: #fff;
   padding-block: 10px;
   max-width: 122px;
@@ -1978,6 +2035,9 @@ font-weight: 400;
   text-align: center;
   cursor: pointer;
   position: relative;
+  color: #2392db;
+  font-weight: 700;
+  border: none;
   @include interactive-card-hover(#f5faff, -2px, 0 4px 10px rgb(0 0 0 / 12%));
 
   @include mq(md) {
@@ -2017,14 +2077,33 @@ font-weight: 400;
     }
   }
 
-  // キーボード操作向けのフォーカスリング
-  &:focus-visible {
-    outline: 2px solid $color-base;
-    outline-offset: 4px;
-    border-radius: 4px;
+  // colorとbackground-colorのアニメーションを削除（合成されないため）
+  // 状態変更は即座に反映される
 
-    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
-    box-shadow: 0 0 0 2px #ffd43d;
+  /* 選択中のタブボタン */
+  &[aria-selected="true"] {
+    background: #2392db;
+    color: #fff;
+
+    &::before {
+      border-top: 2px solid #fff;
+      border-right: 2px solid #fff;
+    }
+
+    // 既に選択されているタブはホバー時も状態を変えない
+    @media (hover: hover) {
+      &:hover {
+        background: #2392db;
+        transform: none;
+        box-shadow: none;
+      }
+
+      &:active {
+        background: #2392db;
+        transform: none;
+        box-shadow: none;
+      }
+    }
   }
 
   // クリック（アクティブ）時のフィードバック（PC用）
@@ -2036,66 +2115,18 @@ font-weight: 400;
     }
   }
 
-  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.98, 0.95);
-
-  @include reduce-motion-interactive;
-}
-
-.company-tab__button {
-  color: #2392db;
-  font-weight: 700;
-  transition:
-    color 0.2s ease-out,
-    background-color 0.2s ease-out;
-
-  /* 選択中のタブボタン */
-  &[aria-selected="true"] {
-    background: #2392db;
-    color: #fff;
-  }
-
   &:focus-visible {
     outline: 2px solid $color-base;
     outline-offset: 4px;
-    border-radius: 4px;
 
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
   }
 
-  @include reduce-motion-interactive(false, false);
-}
+  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
+  @include mobile-tap-feedback(0.98, 0.95);
 
-/* 選択中のタブメニュー（親要素）のスタイル */
-.company-tab__menu[aria-selected="true"] {
-  background: #2392db;
-
-  &::before {
-    border-top: 2px solid #fff;
-    border-right: 2px solid #fff;
-  }
-
-  // 既に選択されているタブはホバー時も状態を変えない
-  @media (hover: hover) {
-    &:hover {
-      background: #2392db;
-      transform: none;
-      box-shadow: none;
-    }
-
-    &:active {
-      background: #2392db;
-      transform: none;
-      box-shadow: none;
-    }
-  }
-
-  &:focus-within {
-    background: #2392db;
-    transform: none;
-    box-shadow: none;
-  }
+  @include reduce-motion-interactive;
 }
 
 .company__group {
@@ -2116,8 +2147,8 @@ font-weight: 400;
 .company-group__content {
   display: none;
 
-  /* 選択中のタブパネル */
-  &[aria-hidden="false"] {
+  /* is-hiddenクラスがない場合は表示（aria-hidden属性と併用） */
+  &:not(.is-hidden) {
     display: block;
   }
 }
@@ -3010,7 +3041,8 @@ summary {
   font-size: 0.875rem;
   font-weight: 500;
   font-style: normal;
-  transition: color 0.2s ease-out;
+
+  // colorのアニメーションを削除（合成されないため）
   position: relative;
 }
 

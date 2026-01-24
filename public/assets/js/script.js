@@ -6,22 +6,33 @@
 
   // 画面幅に応じて viewport の content 属性を切り替える関数
   function switchViewport() {
-    // 画面の外枠の幅（ブラウザのスクロールバーなどを含む）をチェック
-    const value =
-      window.outerWidth > 375
-        ? // 375px より広い場合は、通常のレスポンシブ表示（端末幅に合わせる）
-          "width=device-width,initial-scale=1"
-        : // 375px 以下の狭い画面では、幅を固定（375px に強制）
-          "width=375";
+    // 読み取り操作を先に実行（リフローを最小化）
+    // window.innerWidthを使用（outerWidthよりリフローを引き起こしにくい）
+    const innerWidth = window.innerWidth;
+    
+    // requestAnimationFrameで書き込み操作をバッチ化
+    requestAnimationFrame(() => {
+      const value =
+        innerWidth > 375
+          ? // 375px より広い場合は、通常のレスポンシブ表示（端末幅に合わせる）
+            "width=device-width,initial-scale=1"
+          : // 375px 以下の狭い画面では、幅を固定（375px に強制）
+            "width=375";
 
-    // すでに設定されている content と異なる場合のみ変更を加える
-    if (viewport.getAttribute("content") !== value) {
-      viewport.setAttribute("content", value);
-    }
+      // すでに設定されている content と異なる場合のみ変更を加える
+      if (viewport.getAttribute("content") !== value) {
+        viewport.setAttribute("content", value);
+      }
+    });
   }
 
   // ウィンドウサイズが変更されたときに switchViewport を実行する
-  addEventListener("resize", switchViewport, false);
+  // リサイズイベントは頻繁に発生するため、throttleを適用
+  let resizeTimer;
+  addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(switchViewport, 100);
+  }, false);
 
   // 初回読み込み時にも現在の幅に応じて viewport を設定する
   switchViewport();
@@ -63,41 +74,71 @@ const $firstLink = jQuery(".js-header-link").first();
 const $logoSecondary = jQuery(".header__logo-secondary a");
 
 const closeMenu = () => {
-  $hamburger
-    .removeClass(CLASS)
-    .attr({
-      "aria-expanded": "false",
-      "aria-haspopup": "menu",
-    })
-    .focus();
-  $menu.removeClass(CLASS);
-  backgroundFix(false);
+  // 読み取り操作を先に実行（リフローを最小化）
+  const hamburgerEl = $hamburger[0];
+  
+  // 書き込み操作をrequestAnimationFrameでバッチ化
+  requestAnimationFrame(() => {
+    $hamburger
+      .removeClass(CLASS)
+      .attr({
+        "aria-expanded": "false",
+        "aria-haspopup": "menu",
+      });
+    $menu.removeClass(CLASS);
+    backgroundFix(false);
+    
+    // フォーカス操作は最後に実行
+    requestAnimationFrame(() => {
+      hamburgerEl.focus();
+    });
+  });
 };
 
 const openMenu = () => {
-  $hamburger
-    .addClass(CLASS)
-    .attr("aria-expanded", "true")
-    .removeAttr("aria-haspopup");
-  $menu.addClass(CLASS);
-  backgroundFix(true);
-  // メニューが開いた後、header__logo-secondaryのリンクにフォーカスを当てる
-  setTimeout(() => {
-    if ($logoSecondary.length) {
-      $logoSecondary.focus();
-    } else {
-      $hamburger.focus();
-    }
-  }, 100);
+  // 読み取り操作を先に実行
+  const logoSecondaryEl = $logoSecondary.length ? $logoSecondary[0] : null;
+  const hamburgerEl = $hamburger[0];
+  
+  // 書き込み操作をrequestAnimationFrameでバッチ化
+  requestAnimationFrame(() => {
+    $hamburger
+      .addClass(CLASS)
+      .attr("aria-expanded", "true")
+      .removeAttr("aria-haspopup");
+    $menu.addClass(CLASS);
+    backgroundFix(true);
+    
+    // フォーカス操作は最後に実行
+    requestAnimationFrame(() => {
+      if (logoSecondaryEl) {
+        logoSecondaryEl.focus();
+      } else {
+        hamburgerEl.focus();
+      }
+    });
+  });
 };
 
 $hamburger.on("click", function (e) {
   e.preventDefault();
-  $hamburger.hasClass(CLASS) ? closeMenu() : openMenu();
+  // 読み取り操作を先に実行
+  const isOpen = $hamburger.hasClass(CLASS);
+  // 書き込み操作はrequestAnimationFrameで実行
+  requestAnimationFrame(() => {
+    isOpen ? closeMenu() : openMenu();
+  });
 });
 
 jQuery(window).on("keydown", (e) => {
-  if (e.key === "Escape" && $hamburger.hasClass(CLASS)) closeMenu();
+  // 読み取り操作を先に実行
+  const isOpen = $hamburger.hasClass(CLASS);
+  if (e.key === "Escape" && isOpen) {
+    // 書き込み操作はrequestAnimationFrameで実行
+    requestAnimationFrame(() => {
+      closeMenu();
+    });
+  }
 });
 
 // フォーカストラップ：メニュー内でキーボード操作を閉じ込める
@@ -157,6 +198,39 @@ $(function () {
   };
 
   // =============================
+  // ニュースデータ（遅延レンダリング用）
+  // =============================
+  // HTMLには最初の5件だけ含まれ、残りはJavaScriptで動的に生成
+  // 全25件のニュースデータを定義
+  const newsData = [
+    { date: "2022-12-15", title: "年末年始について" },
+    { date: "2022-12-10", title: "チームマーケティングプランでフル活用。マーケティング部長に聞いた e-toraの活用方法とは。チームマーケティングプランでフル活用。マーケティング部長に聞いたe-toraの活用方法とは。" },
+    { date: "2022-09-01", title: "商談効率アップ！セミナーを開催します。" },
+    { date: "2022-08-01", title: "営業時間の変更について" },
+    { date: "2022-06-01", title: "e-tiga出張無料体験会を実施致します。" },
+    { date: "2022-12-15", title: "年末年始について" },
+    { date: "2022-12-15", title: "年末年始について" },
+    { date: "2022-12-15", title: "年末年始について" },
+    { date: "2022-12-15", title: "年末年始について" },
+    { date: "2022-12-15", title: "年末年始について" },
+    { date: "2022-08-01", title: "営業時間の変更について" },
+    { date: "2022-08-01", title: "営業時間の変更について" },
+    { date: "2022-08-01", title: "営業時間の変更について" },
+    { date: "2022-08-01", title: "営業時間の変更について" },
+    { date: "2022-08-01", title: "営業時間の変更について" },
+    { date: "2022-09-01", title: "商談効率アップ！セミナーを開催します。" },
+    { date: "2022-09-01", title: "商談効率アップ！セミナーを開催します。" },
+    { date: "2022-09-01", title: "商談効率アップ！セミナーを開催します。" },
+    { date: "2022-09-01", title: "商談効率アップ！セミナーを開催します。" },
+    { date: "2022-09-01", title: "商談効率アップ！セミナーを開催します。" },
+    { date: "2022-06-01", title: "e-tiga出張無料体験会を実施致します。" },
+    { date: "2022-06-01", title: "e-tiga出張無料体験会を実施致します。" },
+    { date: "2022-06-01", title: "e-tiga出張無料体験会を実施致します。" },
+    { date: "2022-06-01", title: "e-tiga出張無料体験会を実施致します。" },
+    { date: "2022-06-01", title: "e-tiga出張無料体験会を実施致します。" },
+  ];
+
+  // =============================
   // 状態管理（変数の定義）
   // =============================
   // let: 再代入可能な変数宣言
@@ -164,16 +238,8 @@ $(function () {
   // 初期値は1（最初のページ）
   let currentPage = 1;
 
-  // セレクタ: "[data-item-index]" - data-item-index属性を持つ要素をすべて取得
-  // .find()メソッド: 指定した要素の「中にある」すべての子孫要素（子要素・孫要素・その下の要素）から、
-  //                  指定したセレクタに一致する要素を検索する
-  // 例: $newsList.find("[data-item-index]") は、$newsList要素の内部にある
-  //     data-item-index属性を持つすべての要素を探し出す
-  // $newsItems: すべてのニュースアイテム（li要素）のjQueryオブジェクト
-  const $newsItems = $newsList.find("[data-item-index]");
-
-  // .lengthプロパティ: ニュースアイテムの総数を取得（数値）
-  const totalItems = $newsItems.length;
+  // ニュースアイテムの総数（データ配列の長さ）
+  const totalItems = newsData.length;
 
   // Math.ceil()メソッド: 数値を切り上げる（例: 24件 ÷ 5件 = 4.8 → 5ページ）
   // 総ページ数 = ニュースアイテムの総数 ÷ 1ページあたりの表示件数（切り上げ）
@@ -420,6 +486,10 @@ $(function () {
     // 既存のページ番号要素を削除（前/次ボタン以外）
     $pagination.find("li[data-page]").remove();
 
+    // DocumentFragmentを使用して複数の要素を一度に追加（リフローを最小化）
+    const fragment = document.createDocumentFragment();
+    const pageNumbers = [];
+
     // forループ: 1から総ページ数まで繰り返し処理
     // let i = 1: ループ変数iを1で初期化
     // i <= totalPages: iが総ページ数以下の間、ループを継続
@@ -444,48 +514,17 @@ $(function () {
       //   - 4回目: createPageNumber(4, false) → 4ページ目のli要素を生成
       //   - 5回目: createPageNumber(5, false) → 5ページ目のli要素を生成
       const $pageNum = createPageNumber(i, i === currentPage);
+      
+      // 配列に追加（後で一括追加）
+      pageNumbers.push($pageNum[0]); // jQueryオブジェクトからDOM要素を取得
+    }
 
-      // .before()メソッド: 指定した要素の「直前に」新しい要素を挿入する
-      // $nextButton.before($pageNum): 次へボタン（$nextButton）の直前にページ番号（$pageNum）を挿入
-      //
-      // 【.before()メソッドの動作】
-      // 指定した要素（$nextButton）の「直前（前）」に新しい要素（$pageNum）を挿入します
-      //
-      // 【HTMLの構造変化の例】
-      //
-      // 挿入前:
-      // <ul>
-      //   <li>前へボタン</li>
-      //   <li>次へボタン</li>  ← $nextButton
-      // </ul>
-      //
-      // 1回目のループ（i=1）: $nextButton.before($pageNum) を実行
-      // <ul>
-      //   <li>前へボタン</li>
-      //   <li>1ページ目</li>    ← 新しく挿入された要素
-      //   <li>次へボタン</li>  ← $nextButton
-      // </ul>
-      //
-      // 2回目のループ（i=2）: $nextButton.before($pageNum) を実行
-      // <ul>
-      //   <li>前へボタン</li>
-      //   <li>1ページ目</li>
-      //   <li>2ページ目</li>    ← 新しく挿入された要素
-      //   <li>次へボタン</li>  ← $nextButton
-      // </ul>
-      //
-      // 3回目のループ（i=3）: $nextButton.before($pageNum) を実行
-      // <ul>
-      //   <li>前へボタン</li>
-      //   <li>1ページ目</li>
-      //   <li>2ページ目</li>
-      //   <li>3ページ目</li>    ← 新しく挿入された要素
-      //   <li>次へボタン</li>  ← $nextButton
-      // </ul>
-      //
-      // このように、ループが進むたびに「次へボタンの直前」に新しいページ番号が挿入されるため、
-      // 結果として「1, 2, 3...」の順番で並ぶ
-      $nextButton.before($pageNum);
+    // すべての要素をDocumentFragmentに追加
+    pageNumbers.forEach(pageNum => fragment.appendChild(pageNum));
+
+    // 次へボタンの直前に一度に挿入（リフローを最小化）
+    if ($nextButton.length) {
+      $nextButton[0].parentNode.insertBefore(fragment, $nextButton[0]);
     }
   };
 
@@ -580,10 +619,75 @@ $(function () {
   };
 
   // =============================
+  // 関数: createNewsItem()
+  // =============================
+  // 【この関数の役割】
+  // ニュースアイテムのHTML要素を生成します（遅延レンダリング用）
+  //
+  // 引数:
+  //   - index: アイテムのインデックス（数値）
+  //   - data: ニュースデータオブジェクト（date, title）
+  // 戻り値: 生成されたjQueryオブジェクト（li要素）
+  const createNewsItem = (index, data) => {
+    // 日付を日本語形式に変換（YYYY-MM-DD → YYYY年MM月DD日）
+    const dateStr = data.date.replace(/(\d{4})-(\d{2})-(\d{2})/, "$1年$2月$3日");
+    
+    return $(`
+      <li class="news__item" data-item-index="${index}">
+        <a href="#" class="news__link">
+          <time class="news__date" datetime="${data.date}">
+            ${dateStr}
+          </time>
+          <h3 class="news__title">${data.title}</h3>
+        </a>
+      </li>
+    `);
+  };
+
+  // =============================
+  // 関数: ensureNewsItems()
+  // =============================
+  // 【この関数の役割】
+  // 指定した範囲のニュースアイテムが存在することを保証します。
+  // 存在しない場合は動的に生成してDOMに追加します（遅延レンダリング）
+  //
+  // 引数:
+  //   - startIndex: 開始インデックス（数値）
+  //   - endIndex: 終了インデックス（数値）
+  // 戻り値: なし
+  const ensureNewsItems = (startIndex, endIndex) => {
+    // 現在存在するニュースアイテムを取得
+    const $existingItems = $newsList.find("[data-item-index]");
+    
+    // 追加する要素をまとめて生成（DocumentFragmentを使用してリフローを最小化）
+    const fragment = document.createDocumentFragment();
+    const itemsToAdd = [];
+    
+    // 必要な範囲のアイテムを生成
+    for (let i = startIndex; i < endIndex && i < totalItems; i++) {
+      // 既に存在するかチェック
+      const $existingItem = $existingItems.filter(`[data-item-index="${i}"]`);
+      
+      if ($existingItem.length === 0) {
+        // アイテムが存在しない場合は生成して配列に追加
+        const $newItem = createNewsItem(i, newsData[i]);
+        itemsToAdd.push($newItem[0]); // jQueryオブジェクトからDOM要素を取得
+      }
+    }
+    
+    // すべての要素を一度に追加（リフローを最小化）
+    if (itemsToAdd.length > 0) {
+      itemsToAdd.forEach(item => fragment.appendChild(item));
+      $newsList[0].appendChild(fragment); // jQueryオブジェクトからDOM要素を取得
+    }
+  };
+
+  // =============================
   // 関数: updateNewsItems()
   // =============================
   // 【この関数の役割】
   // 指定したページに表示するニュースアイテムを制御します。
+  // 必要なアイテムが存在しない場合は動的に生成し、
   // ページ番号に応じて、表示するアイテムにVISIBLE_CLASS（"on"）を追加し、
   // 表示しないアイテムからはVISIBLE_CLASSを削除します。
   // CSSでVISIBLE_CLASSが付いた要素だけが表示されるようになっています。
@@ -600,10 +704,18 @@ $(function () {
     // 例: 2ページ目の場合、5 + 5 = 10（10番目のアイテムまで表示）
     const endIndex = startIndex + CONFIG.ITEMS_PER_PAGE;
 
+    // 必要なアイテムが存在することを保証（遅延レンダリング）
+    ensureNewsItems(startIndex, endIndex);
+
+    // すべてのニュースアイテムを再取得（新しく追加されたアイテムも含む）
+    const $allNewsItems = $newsList.find("[data-item-index]");
+
+    // DOM変更をバッチ化するため、まずすべての変更を準備
+    const itemsToShow = [];
+    const itemsToHide = [];
+
     // .each()メソッド: 各要素に対して繰り返し処理を実行
-    // function() {}: 各要素に対して実行されるコールバック関数
-    // $(this): 現在処理中の要素のjQueryオブジェクト
-    $newsItems.each(function () {
+    $allNewsItems.each(function () {
       // 現在処理中のニュースアイテム要素をjQueryオブジェクトとして取得
       const $item = $(this);
 
@@ -617,10 +729,23 @@ $(function () {
       // 例: itemIndexが5, 6, 7, 8, 9の場合、2ページ目として表示される
       const shouldShow = itemIndex >= startIndex && itemIndex < endIndex;
 
-      // .toggleClass()メソッド: クラスを追加/削除する
-      // shouldShowがtrueの場合、VISIBLE_CLASS（"on"）を追加（表示）
-      // shouldShowがfalseの場合、VISIBLE_CLASSを削除（非表示）
-      $item.toggleClass(CONFIG.VISIBLE_CLASS, shouldShow);
+      // DOM変更を配列に分類（後で一括実行）
+      if (shouldShow) {
+        itemsToShow.push($item[0]); // jQueryオブジェクトからDOM要素を取得
+      } else {
+        itemsToHide.push($item[0]); // jQueryオブジェクトからDOM要素を取得
+      }
+    });
+
+    // DOM変更を一括実行（リフローを最小化）
+    // 表示する要素にクラスを追加
+    itemsToShow.forEach(item => {
+      item.classList.add(CONFIG.VISIBLE_CLASS);
+    });
+    
+    // 非表示にする要素からクラスを削除
+    itemsToHide.forEach(item => {
+      item.classList.remove(CONFIG.VISIBLE_CLASS);
     });
   };
 
@@ -671,10 +796,13 @@ $(function () {
   // 引数: なし
   // 戻り値: なし
   const focusFirstVisibleItem = () => {
+    // 現在存在するすべてのニュースアイテムを取得（動的に追加されたアイテムも含む）
+    const $allNewsItems = $newsList.find("[data-item-index]");
+    
     // .filter()メソッド: 条件に一致する要素だけを抽出
     // `.${CONFIG.VISIBLE_CLASS}`: VISIBLE_CLASS（"on"）が付与された要素を抽出
     // .first()メソッド: 最初の要素を取得
-    const $firstVisible = $newsItems.filter(`.${CONFIG.VISIBLE_CLASS}`).first();
+    const $firstVisible = $allNewsItems.filter(`.${CONFIG.VISIBLE_CLASS}`).first();
 
     // .find()メソッド: 指定した要素の「中にある」すべての子孫要素（子要素・孫要素・その下の要素）から、
     //                  指定したセレクタに一致する要素を検索する
@@ -715,28 +843,32 @@ $(function () {
     // 現在のページ番号を更新
     currentPage = page;
 
-    // ニュースアイテムの表示/非表示を更新
-    updateNewsItems(page);
+    // DOM操作をrequestAnimationFrameでバッチ化してリフローを最小化
+    requestAnimationFrame(() => {
+      // ニュースアイテムの表示/非表示を更新
+      updateNewsItems(page);
 
-    // ページ番号の要素を更新
-    updatePageNumbers();
+      // ページ番号の要素を更新
+      updatePageNumbers();
 
-    // 前/次ボタンの状態を更新
-    updateNavButtons();
+      // 前/次ボタンの状態を更新
+      updateNavButtons();
 
-    // URLを更新
-    updateURL(page);
+      // URLを更新
+      updateURL(page);
 
-    // フォーカスを適切に処理
-    // マウスクリックの場合はフォーカスを外す、キーボード操作の場合は最初のニュースアイテムにフォーカスを移動
-    if (focusTarget === "blur") {
-      // 現在フォーカスされている要素からフォーカスを外す
-      if (document.activeElement && document.activeElement.blur) {
-        document.activeElement.blur();
-      }
-    } else if (focusTarget === "newsItem") {
-      focusFirstVisibleItem();
-    }
+      // フォーカスを適切に処理（次のフレームで実行）
+      requestAnimationFrame(() => {
+        if (focusTarget === "blur") {
+          // 現在フォーカスされている要素からフォーカスを外す
+          if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+          }
+        } else if (focusTarget === "newsItem") {
+          focusFirstVisibleItem();
+        }
+      });
+    });
   };
 
   // =============================
@@ -758,11 +890,12 @@ $(function () {
     // aタグの場合は、ページ遷移を防ぐ
     e.preventDefault();
 
-    // $(e.currentTarget): イベントが発生した要素（クリックされた要素）を取得
-    const $target = $(e.currentTarget);
-
+    // 読み取り操作を先に実行（リフローを最小化）
+    const target = e.currentTarget;
+    const isDisabled = target.getAttribute("aria-disabled") === "true";
+    
     // aria-disabled属性が"true"の場合（無効状態）、処理を終了
-    if ($target.attr("aria-disabled") === "true") return;
+    if (isDisabled) return;
 
     // getTargetPage()関数を実行して、移動先のページ番号を取得
     // この関数は、クリックされた要素の種類（ページ番号/前/次）によって異なる
@@ -796,15 +929,12 @@ $(function () {
 
   // ページ番号リンクのクリックイベント
   $(document).on("click", ".js-pagination-link", function (e) {
+    // 読み取り操作を先に実行（リフローを最小化）
+    const dataPage = this.getAttribute("data-page");
+    const pageNumber = dataPage ? parseInt(dataPage, 10) : null;
+    
     // handlePaginationClick()関数を呼び出し
-    // 第2引数: 無名関数（アロー関数）を渡す
-    // () => {}: アロー関数の構文
-    // $(this): クリックされた要素（ページ番号リンク）
-    // .attr("data-page"): data-page属性の値を取得
-    // parseInt(): 文字列を数値に変換
-    handlePaginationClick(e, () => {
-      return parseInt($(this).attr("data-page"), 10);
-    });
+    handlePaginationClick(e, () => pageNumber);
   });
 
   // 前のページボタンのクリックイベント
@@ -880,111 +1010,249 @@ $(function () {
   // 1. ページ番号の要素を生成
   // 2. 前/次ボタンの状態を更新
   // 3. 現在のページのニュースアイテムを表示
+  // setTimeoutで分割して長時間タスクを回避（50ms以下に分割）
 
-  // ページ番号の要素を生成
-  updatePageNumbers();
-
-  // 前/次ボタンの状態を更新
-  updateNavButtons();
-
-  // 現在のページのニュースアイテムを表示
-  updateNewsItems(currentPage);
+  // 最初のタスク: ページ番号の要素を生成
+  requestAnimationFrame(() => {
+    updatePageNumbers();
+    
+    // 2番目のタスク: 前/次ボタンの状態を更新（次のフレームで実行）
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        updateNavButtons();
+        
+        // 3番目のタスク: 現在のページのニュースアイテムを表示（次のフレームで実行）
+        setTimeout(() => {
+          requestAnimationFrame(() => {
+            updateNewsItems(currentPage);
+          });
+        }, 0);
+      });
+    }, 0);
+  });
 });
 
-const swiper = new Swiper("#js-work-swiper", {
-  loop: false,
-  // slidesPerView: "auto"に上書きされるから消した。
-  // slidesPerView: 1.25,
-  spaceBetween: 18,
-  speed: 1000, // ループの時間
-  allowTouchMove: false, // スワイプ無効
-  //画面幅を変えることができる。
-  slidesPerView: "auto",
+// =============================
+// Swiper遅延読み込み（使用していないJavaScript削減対策）
+// =============================
+// WORKセクションがビューポートに入るまでSwiperを読み込まない
+// これにより、初期ページ読み込み時のJavaScriptサイズを約28 KiB削減
+let swiperLoaded = false;
+let swiperInstance = null;
 
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
+// Swiperスクリプトを動的に読み込む関数
+const loadSwiperScript = () => {
+  return new Promise((resolve, reject) => {
+    // 既に読み込まれている場合は即座に解決
+    if (typeof Swiper !== 'undefined') {
+      resolve();
+      return;
+    }
 
-  navigation: {
-    nextEl: "#js-work-next",
-    prevEl: "#js-work-prev",
-  },
+    // スクリプトタグを作成
+    const script = document.createElement('script');
+    script.src = './js/lib/swiper-bundle.min.min.js';
+    script.async = true;
+    
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Swiper script failed to load'));
+    
+    // スクリプトを追加
+    document.head.appendChild(script);
+  });
+};
+
+// Swiperを初期化する関数
+const initSwiper = () => {
+  // 既に初期化されている場合はスキップ
+  if (swiperInstance) return;
+
+  // requestAnimationFrameでラップして強制リフローを最小化
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      swiperInstance = new Swiper("#js-work-swiper", {
+        loop: false,
+        spaceBetween: 18,
+        speed: 1000,
+        allowTouchMove: false, // スワイプ無効
+        slidesPerView: "auto",
+
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+
+        navigation: {
+          nextEl: "#js-work-next",
+          prevEl: "#js-work-prev",
+        },
+      });
+    });
+  });
+};
+
+// Intersection ObserverでWORKセクションを監視
+$(function () {
+  const workSection = document.getElementById('work');
+  if (!workSection) return;
+
+  // Intersection Observerのオプション
+  const observerOptions = {
+    root: null, // ビューポートを基準にする
+    rootMargin: '50px', // 50px手前で読み込み開始（ユーザー体験向上）
+    threshold: 0.1, // 10%が見えたら発火
+  };
+
+  // Intersection Observerのコールバック
+  const observerCallback = (entries) => {
+    entries.forEach((entry) => {
+      // WORKセクションがビューポートに入ったら
+      if (entry.isIntersecting && !swiperLoaded) {
+        swiperLoaded = true;
+        
+        // Swiperスクリプトを読み込んでから初期化
+        loadSwiperScript()
+          .then(() => {
+            initSwiper();
+          })
+          .catch((error) => {
+            console.error('Failed to load Swiper:', error);
+          });
+
+        // 一度読み込んだら監視を停止
+        observer.unobserve(workSection);
+      }
+    });
+  };
+
+  // Intersection Observerを作成
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
+  
+  // WORKセクションを監視開始
+  observer.observe(workSection);
 });
 
 // ============================================
-// タブ機能（ARIA属性ベース）
+// タブ機能（ARIA属性ベース・アクセシビリティ対応）
 // ============================================
 document.addEventListener("DOMContentLoaded", function () {
-  const tabs = document.querySelectorAll(".js-tab");
-  const tabPanels = document.querySelectorAll(".js-content");
-  const tabMenus = document.querySelectorAll(".js-tab-menu");
+  const tabList = document.querySelector(".company-tab[role='tablist']");
+  if (!tabList) return;
 
-  // 初期状態の設定：最初のタブが選択されている場合、親要素にもaria-selectedを設定
-  tabs.forEach(function (tab) {
-    if (tab.getAttribute("aria-selected") === "true") {
-      const parentMenu = tab.closest(".js-tab-menu");
-      if (parentMenu) {
-        parentMenu.setAttribute("aria-selected", "true");
+  const tabs = Array.from(tabList.querySelectorAll(".js-tab[role='tab']"));
+  
+  // W3C標準に準拠: 各タブのaria-controlsから個別に取得して配列に格納
+  const tabPanels = [];
+  for (let i = 0; i < tabs.length; i += 1) {
+    const tab = tabs[i];
+    const tabpanel = document.getElementById(tab.getAttribute('aria-controls'));
+    if (tabpanel) {
+      tabPanels.push(tabpanel);
+    }
+  }
+
+  // タブを切り替える関数
+  // setFocus: フォーカスを移動するかどうか（デフォルト: true）
+  function switchTab(selectedTab, setFocus) {
+    // setFocusが未指定の場合はtrue（デフォルト）
+    if (typeof setFocus !== 'boolean') {
+      setFocus = true;
+    }
+
+    // 選択されたタブのインデックスを取得
+    const selectedIndex = tabs.indexOf(selectedTab);
+
+    // すべてのタブの選択を解除
+    tabs.forEach(function (tab, index) {
+      const isSelected = tab === selectedTab;
+      tab.setAttribute("aria-selected", isSelected ? "true" : "false");
+      
+      // W3C標準に準拠: 選択されたタブのみTabキーでアクセス可能
+      if (isSelected) {
+        // 選択されたタブ: tabindexを削除（デフォルトの0になる）
+        tab.removeAttribute("tabindex");
+      } else {
+        // 未選択のタブ: tabindex="-1"（Tabキーでアクセス不可、矢印キーでアクセス可能）
+        tab.setAttribute("tabindex", "-1");
       }
+
+      // 対応するタブパネルを表示/非表示（W3C標準に準拠: 配列のインデックスを使用）
+      const panel = tabPanels[index];
+      if (panel) {
+        if (isSelected) {
+          // 選択されたタブパネルを表示（CSSクラスとaria-hidden属性の両方を使用）
+          panel.setAttribute("aria-hidden", "false");
+          panel.classList.remove("is-hidden");
+          panel.setAttribute("tabindex", "0");
+        } else {
+          // 非選択のタブパネルを非表示（CSSクラスとaria-hidden属性の両方を使用）
+          panel.setAttribute("aria-hidden", "true");
+          panel.classList.add("is-hidden");
+          panel.setAttribute("tabindex", "-1");
+        }
+      }
+    });
+
+    // setFocusがtrueの場合のみフォーカスを移動（W3C標準に準拠）
+    if (setFocus) {
+      selectedTab.focus();
+    }
+  }
+
+  // クリックイベント
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      switchTab(this);
+    });
+  });
+
+  // キーボード操作（矢印キー）のサポート（W3C標準に準拠: 左/右矢印キーのみ）
+  tabs.forEach(function (tab, index) {
+    tab.addEventListener("keydown", function (e) {
+      let targetIndex = -1;
+
+      // 左矢印キー: 前のタブに移動
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        targetIndex = index > 0 ? index - 1 : tabs.length - 1;
+      }
+      // 右矢印キー: 次のタブに移動
+      else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        targetIndex = index < tabs.length - 1 ? index + 1 : 0;
+      }
+      // Homeキー: 最初のタブに移動
+      else if (e.key === "Home") {
+        e.preventDefault();
+        targetIndex = 0;
+      }
+      // Endキー: 最後のタブに移動
+      else if (e.key === "End") {
+        e.preventDefault();
+        targetIndex = tabs.length - 1;
+      }
+
+      if (targetIndex !== -1) {
+        switchTab(tabs[targetIndex]);
+      }
+    });
+  });
+
+  // 初期状態の設定：非表示のタブパネルにis-hiddenクラスを追加
+  tabPanels.forEach(function (panel) {
+    if (panel.getAttribute("aria-hidden") === "true") {
+      panel.classList.add("is-hidden");
     }
   });
 
-  tabs.forEach(function (tab) {
-    tab.addEventListener("click", function () {
-      const targetID = "#" + this.getAttribute("aria-controls");
-
-      // いったんすべてのタブの選択を解除
-      tabs.forEach(function (t) {
-        t.setAttribute("aria-selected", "false");
-        t.setAttribute("aria-expanded", "false");
-      });
-
-      // いったんすべてのタブメニュー（親要素）の選択を解除
-      tabMenus.forEach(function (menu) {
-        menu.setAttribute("aria-selected", "false");
-      });
-
-      // いったんすべてのタブパネルを非表示
-      tabPanels.forEach(function (panel) {
-        panel.setAttribute("aria-hidden", "true");
-      });
-
-      // 現在のタブを選択中に変更
-      this.setAttribute("aria-selected", "true");
-      this.setAttribute("aria-expanded", "true");
-
-      // 現在のタブメニュー（親要素）を選択中に変更
-      const parentMenu = this.closest(".js-tab-menu");
-      if (parentMenu) {
-        parentMenu.setAttribute("aria-selected", "true");
-      }
-
-      // 現在のタブパネルを表示
-      const targetPanel = document.querySelector(targetID);
-      if (targetPanel) {
-        targetPanel.setAttribute("aria-hidden", "false");
-      }
-    });
+  // 初期状態の設定：最初に選択されているタブを設定（フォーカスは移動しない）
+  const initialTab = tabs.find(function (tab) {
+    return tab.getAttribute("aria-selected") === "true";
   });
-
-  // company-tab__menuをクリックした時に、その中のcompany-tab__buttonのクリックイベントをトリガー
-  tabMenus.forEach(function (menu) {
-    menu.addEventListener("click", function (e) {
-      // クリックされた要素がcompany-tab__buttonの場合は処理しない（既にイベントが設定されているため）
-      if (e.target.closest(".js-tab")) {
-        return;
-      }
-
-      // company-tab__menu内のcompany-tab__buttonを探す
-      const button = this.querySelector(".js-tab");
-
-      // ボタンが見つかった場合のみクリックイベントをトリガー
-      if (button) {
-        button.click();
-      }
-    });
-  });
+  if (initialTab) {
+    // 初期化時はフォーカスを移動しない（setFocus = false）
+    switchTab(initialTab, false);
+  }
 });
 
 // ============================================
@@ -1094,14 +1362,15 @@ const cleanupTransitionHandler = (content) => {
  * - これにより、アニメーションが正常に動作します
  */
 const startAnimation = (content, callback) => {
-  // offsetHeightプロパティ: 要素の高さ（padding、borderを含む）を取得するプロパティ
-  // void演算子: 戻り値を無視する（ここでは意図的にリフローを発生させるため）
-  // このプロパティにアクセスすることで、ブラウザが要素のレイアウトを再計算します
-  void content.offsetHeight; // リフロー（再レンダリング）を強制的に発生させる
-
   // requestAnimationFrameメソッド: ブラウザの次の描画タイミングで関数を実行する
   // アニメーションを滑らかに実行するために使用されます
   requestAnimationFrame(() => {
+    // offsetHeightプロパティ: 要素の高さ（padding、borderを含む）を取得するプロパティ
+    // void演算子: 戻り値を無視する（ここでは意図的にリフローを発生させるため）
+    // このプロパティにアクセスすることで、ブラウザが要素のレイアウトを再計算します
+    // requestAnimationFrame内で実行することで、リフローを最小化
+    void content.offsetHeight; // リフロー（再レンダリング）を強制的に発生させる
+
     // 二重ネストすることで、ブラウザの描画サイクルを確実に待つ
     requestAnimationFrame(() => {
       // コールバック関数を実行（この中でstyle.heightなどを変更してアニメーション開始）
@@ -1288,80 +1557,86 @@ const setUpAccordion = () => {
         // ============================================
         // 閉じる処理
         // ============================================
-        // classList.removeメソッド: 指定したクラス名を要素から削除する
-        // - 第1引数: 削除するクラス名
-        element.classList.remove(IS_OPENED_CLASS);
-        questionText.classList.remove(IS_OPEN_CLASS);
-
-        // scrollHeightプロパティ: 要素の実際の高さ（スクロール可能な部分も含む）を取得する
-        // これにより、現在のコンテンツの高さを正確に取得できます
-        // 例: コンテンツの高さが200pxの場合、scrollHeightは200を返します
+        // 読み取り操作を先に実行（リフローを最小化）
+        // DOM変更前にscrollHeightを取得
         const contentHeight = content.scrollHeight;
+        
+        // requestAnimationFrameで書き込み操作をバッチ化
+        requestAnimationFrame(() => {
+          // classList.removeメソッド: 指定したクラス名を要素から削除する
+          // - 第1引数: 削除するクラス名
+          element.classList.remove(IS_OPENED_CLASS);
+          questionText.classList.remove(IS_OPEN_CLASS);
 
-        // アニメーション開始前の準備
-        // 現在の高さを明示的に設定することで、高さの初期値として確実に認識させます
-        // これにより、「現在の高さ → 0」というアニメーションが可能になります
-        content.style.height = contentHeight + "px";
+          // アニメーション開始前の準備
+          // 現在の高さを明示的に設定することで、高さの初期値として確実に認識させます
+          // これにより、「現在の高さ → 0」というアニメーションが可能になります
+          content.style.height = contentHeight + "px";
 
-        // startAnimation関数: リフローとrequestAnimationFrameの処理を行い、アニメーションを開始する
-        // コールバック関数内で、高さを0に、透明度を0に変更して閉じるアニメーションを実行
-        startAnimation(content, () => {
-          content.style.height = "0"; // 高さを0に変更（CSSのtransitionでスムーズに変化）
-          content.style.opacity = "0"; // 透明度を0に変更（フェードアウト効果）
-        });
+          // startAnimation関数: リフローとrequestAnimationFrameの処理を行い、アニメーションを開始する
+          // コールバック関数内で、高さを0に、透明度を0に変更して閉じるアニメーションを実行
+          startAnimation(content, () => {
+            content.style.height = "0"; // 高さを0に変更（CSSのtransitionでスムーズに変化）
+            content.style.opacity = "0"; // 透明度を0に変更（フェードアウト効果）
+          });
 
-        // setupTransitionHandler関数: transitionendイベントハンドラーを設定する
-        // アニメーション完了後（閉じる処理が完了した後）に実行される処理
-        setupTransitionHandler(content, () => {
-          // removeAttributeメソッド: HTML要素から指定した属性を削除する
-          // - 第1引数: 削除する属性名（"open"）
-          element.removeAttribute("open");
+          // setupTransitionHandler関数: transitionendイベントハンドラーを設定する
+          // アニメーション完了後（閉じる処理が完了した後）に実行される処理
+          setupTransitionHandler(content, () => {
+            // removeAttributeメソッド: HTML要素から指定した属性を削除する
+            // - 第1引数: 削除する属性名（"open"）
+            element.removeAttribute("open");
 
-          // インラインスタイルを削除（CSSの初期値に戻す）
-          // 空文字を代入することで、インラインスタイルを削除できます
-          // これにより、CSSのスタイルが適用されるようになります
-          content.style.height = "";
-          content.style.opacity = "";
+            // インラインスタイルを削除（CSSの初期値に戻す）
+            // 空文字を代入することで、インラインスタイルを削除できます
+            // これにより、CSSのスタイルが適用されるようになります
+            content.style.height = "";
+            content.style.opacity = "";
+          });
         });
       } else {
         // ============================================
         // 開く処理
         // ============================================
-        // 開いている状態のクラスを追加
-        element.classList.add(IS_OPENED_CLASS);
-        questionText.classList.add(IS_OPEN_CLASS);
+        // requestAnimationFrameで書き込み操作をバッチ化（強制リフローを最小化）
+        requestAnimationFrame(() => {
+          // 開いている状態のクラスを追加
+          element.classList.add(IS_OPENED_CLASS);
+          questionText.classList.add(IS_OPEN_CLASS);
 
-        // setAttributeメソッド: HTML要素に指定した属性を追加または変更する
-        // - 第1引数: 属性名（"open"）
-        // - 第2引数: 属性値（"true"）
-        element.setAttribute("open", "true");
+          // setAttributeメソッド: HTML要素に指定した属性を追加または変更する
+          // - 第1引数: 属性名（"open"）
+          // - 第2引数: 属性値（"true"）
+          element.setAttribute("open", "true");
 
-        // アニメーション開始前の準備
-        // 高さを0に設定してから、実際の高さを取得します
-        // これにより、「0から実際の高さへ」という明確なアニメーションが可能になります
-        content.style.height = "0";
-        // 透明度は先に1（不透明）に設定（高さのアニメーションと同時にフェードイン）
-        content.style.opacity = "1";
+          // アニメーション開始前の準備
+          // 高さを0に設定してから、実際の高さを取得します
+          // これにより、「0から実際の高さへ」という明確なアニメーションが可能になります
+          content.style.height = "0";
+          // 透明度は先に1（不透明）に設定（高さのアニメーションと同時にフェードイン）
+          content.style.opacity = "1";
 
-        // 現在のコンテンツの実際の高さを取得
-        // この時点でheightが0なので、scrollHeightは要素の本来の高さを返します
-        const contentHeight = content.scrollHeight;
+          // 現在のコンテンツの実際の高さを取得
+          // この時点でheightが0なので、scrollHeightは要素の本来の高さを返します
+          // requestAnimationFrame内で読み取ることで、強制リフローを最小化
+          const contentHeight = content.scrollHeight;
 
-        // startAnimation関数: リフローとrequestAnimationFrameの処理を行い、アニメーションを開始する
-        // コールバック関数内で、高さを実際の高さに変更して開くアニメーションを実行
-        startAnimation(content, () => {
-          // 高さを実際の高さに変更（CSSのtransitionでスムーズに展開）
-          // これにより、0からcontentHeightまでスムーズに展開するアニメーションが実行されます
-          content.style.height = contentHeight + "px";
-        });
+          // startAnimation関数: リフローとrequestAnimationFrameの処理を行い、アニメーションを開始する
+          // コールバック関数内で、高さを実際の高さに変更して開くアニメーションを実行
+          startAnimation(content, () => {
+            // 高さを実際の高さに変更（CSSのtransitionでスムーズに展開）
+            // これにより、0からcontentHeightまでスムーズに展開するアニメーションが実行されます
+            content.style.height = contentHeight + "px";
+          });
 
-        // setupTransitionHandler関数: transitionendイベントハンドラーを設定する
-        // アニメーション完了後（開く処理が完了した後）に実行される処理
-        setupTransitionHandler(content, () => {
-          // 高さを"auto"に変更
-          // 理由: 固定のpx値だと、ウィンドウサイズ変更やコンテンツ追加に対応できないため
-          // "auto"にすることで、内容に応じた柔軟な高さになります
-          content.style.height = "auto";
+          // setupTransitionHandler関数: transitionendイベントハンドラーを設定する
+          // アニメーション完了後（開く処理が完了した後）に実行される処理
+          setupTransitionHandler(content, () => {
+            // 高さを"auto"に変更
+            // 理由: 固定のpx値だと、ウィンドウサイズ変更やコンテンツ追加に対応できないため
+            // "auto"にすることで、内容に応じた柔軟な高さになります
+            content.style.height = "auto";
+          });
         });
       }
     });
