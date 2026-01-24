@@ -104,7 +104,9 @@ body.is-menu-open {
   display: inline-block;
   position: relative;
   z-index: 0;
-  transition: transform 0.3s ease-out;
+  transition-duration: 0.3s;
+  transition-property: transform;
+  transition-timing-function: ease-out;
   cursor: pointer;
   box-shadow: 4px 3px 26px 0 rgba(0, 0, 0, 0.16);
   border-radius: 48px;
@@ -175,7 +177,9 @@ body.is-menu-open {
   display: inline-block;
   position: relative;
   z-index: 0;
-  transition: transform 0.3s ease-out;
+  transition-duration: 0.3s;
+  transition-property: transform;
+  transition-timing-function: ease-out;
   cursor: pointer;
   box-shadow: 4px 3px 26px 0 rgba(0, 0, 0, 0.16);
   border: 1px solid #2392db;
@@ -311,7 +315,7 @@ body.is-menu-open {
 
 .header__logo a {
   display: inline-block;
-  transition: outline 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition: outline 0.2s ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
   .header__logo a {
@@ -367,7 +371,7 @@ body.is-menu-open {
 .drawer-icon {
   position: relative;
   z-index: 40;
-  transition: outline 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.15s ease-out;
+  transition: outline 0.2s ease-out, transform 0.15s ease-out;
   margin-top: -2px;
   width: 40px;
   height: 20px;
@@ -419,7 +423,7 @@ body.is-menu-open {
   top: 0;
   left: 0;
   z-index: 40;
-  transition: transform 0.4s ease, top 0.4s ease, background 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.4s ease, top 0.4s ease, opacity 0.3s ease;
   border-radius: 10px;
   background: #2082e0;
   width: 40px;
@@ -427,7 +431,7 @@ body.is-menu-open {
 }
 @media (prefers-reduced-motion: reduce) {
   .drawer-icon__bar {
-    transition: background 0.2s ease, opacity 0.2s ease;
+    transition: opacity 0.2s ease;
   }
 }
 .drawer-icon__bar:nth-of-type(2) {
@@ -471,7 +475,7 @@ body.is-menu-open {
 }
 .header__logo-secondary a {
   display: inline-block;
-  transition: outline 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition: outline 0.2s ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
   .header__logo-secondary a {
@@ -574,7 +578,7 @@ body.is-menu-open {
 
 .header__link {
   display: inline-block;
-  transition: transform 0.2s ease-out, opacity 0.2s ease-out, outline 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out, outline 0.2s ease-out;
   color: #fff;
   font-weight: 700;
   font-size: 1.25rem;
@@ -916,7 +920,7 @@ body.is-menu-open {
   position: relative;
   justify-content: center;
   align-items: center;
-  transition: transform 0.2s ease-out, outline 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition: transform 0.2s ease-out, outline 0.2s ease-out;
   border: 1px solid #828282;
   padding: 9px 12px;
   width: max(30px, min(9vw, 36px));
@@ -931,7 +935,7 @@ body.is-menu-open {
 }
 @media (prefers-reduced-motion: reduce) {
   .pagination__item {
-    transition: outline 0.2s ease-out, box-shadow 0.2s ease-out;
+    transition: outline 0.2s ease-out;
   }
 }
 @media (hover: hover) {
@@ -1424,7 +1428,7 @@ body.is-menu-open {
 .work__prev,
 .work__next {
   position: absolute;
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition: transform 0.2s ease-out;
   cursor: pointer;
   margin-top: -19px !important;
   width: 44px;
@@ -1496,7 +1500,7 @@ body.is-menu-open {
 
 .work__prev {
   left: -8px !important;
-  background: url("../img/work-icon.webp") no-repeat center center/contain;
+  background: url("../img/work-icon-prev.svg") no-repeat center center/contain;
 }
 @media screen and (min-width: 768px) {
   .work__prev {
@@ -1516,7 +1520,7 @@ body.is-menu-open {
 
 .work__next {
   right: 10px !important;
-  background: url("../img/work-icon-2.webp") no-repeat center center/contain;
+  background: url("../img/work-icon-next.svg") no-repeat center center/contain;
 }
 @media screen and (min-width: 768px) {
   .work__next {
@@ -1746,7 +1750,9 @@ body.is-menu-open {
 
 .company-tab__button {
   position: relative;
-  transition: transform 0.2s ease-out;
+  transition-duration: 0.2s;
+  transition-property: transform;
+  transition-timing-function: ease-out;
   cursor: pointer;
   border: none;
   background: #fff;
@@ -2200,7 +2206,9 @@ body.is-menu-open {
 }
 
 .blog-card {
-  transition: transform 0.2s ease-out;
+  transition-duration: 0.2s;
+  transition-property: transform;
+  transition-timing-function: ease-out;
 }
 @media (hover: hover) {
   .blog-card:hover {
@@ -2524,7 +2532,9 @@ summary::-webkit-details-marker {
 .faq__question {
   display: flex;
   position: relative;
-  transition: transform 0.2s ease-out;
+  transition-duration: 0.2s;
+  transition-property: transform;
+  transition-timing-function: ease-out;
   border: 0 solid #707070;
   border-radius: 10px;
   background: #fff;
@@ -2737,7 +2747,7 @@ summary::-webkit-details-marker {
 
 .footer__logo {
   display: inline-block;
-  transition: transform 0.2s ease-out, filter 0.2s ease-out;
+  transition: transform 0.2s ease-out;
 }
 @media (hover: hover) {
   .footer__logo:hover {
@@ -2828,7 +2838,7 @@ summary::-webkit-details-marker {
 .footer__item a {
   display: inline-block;
   -webkit-text-decoration: none;
-  transition: transform 0.2s ease-out, color 0.2s ease-out;
+  transition: transform 0.2s ease-out;
   text-decoration: none;
 }
 @media (hover: hover) {

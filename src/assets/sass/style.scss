@@ -45,10 +45,12 @@ $breakpoints: (
   $duration: 0.2s
 ) {
   // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
-  transition: transform $duration ease-out;
+  transition-property: transform;
+  transition-duration: $duration;
+  transition-timing-function: ease-out;
 
-  // box-shadowのアニメーションを削除（合成されないため）
-  // background-colorのアニメーションを削除（合成されないため）
+  // color, box-shadow, background-colorのアニメーションを明示的に無効化（合成されないため）
+  // 状態変更は即座に反映される
 
   // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
   @media (hover: hover) {
@@ -253,9 +255,12 @@ body {
   letter-spacing: 3px;
 
   // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
-  transition: transform 0.3s ease-out;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
 
-  // box-shadowのアニメーションを削除（合成されないため）
+  // color, box-shadow, background-colorのアニメーションを明示的に無効化（合成されないため）
+  // 状態変更は即座に反映される
 
   // GPU合成を促進（will-changeはアニメーション時のみ有効化）
   cursor: pointer;
@@ -329,9 +334,12 @@ body {
   letter-spacing: 3px;
 
   // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
-  transition: transform 0.3s ease-out;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
 
-  // box-shadowのアニメーションを削除（合成されないため）
+  // color, box-shadow, border-color, background-colorのアニメーションを明示的に無効化（合成されないため）
+  // 状態変更は即座に反映される
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -455,9 +463,9 @@ body {
     display: inline-block;
 
     // フォーカスインジケーター用のトランジション
-    transition:
-      outline 0.2s ease-out,
-      box-shadow 0.2s ease-out;
+    // box-shadowのアニメーションを削除（合成されないため）
+    // フォーカスリングは即座に表示される
+    transition: outline 0.2s ease-out;
 
     // アクセシビリティ: アニメーションを減らす設定に対応
     @media (prefers-reduced-motion: reduce) {
@@ -538,9 +546,10 @@ body {
   z-index: layer(drawer);
 
   // フォーカスインジケーターとアクティブ用のトランジション
+  // box-shadowのアニメーションを削除（合成されないため）
+  // フォーカスリングは即座に表示される
   transition:
     outline 0.2s ease-out,
-    box-shadow 0.2s ease-out,
     transform 0.15s ease-out;
 
   // アクセシビリティ: アニメーションを減らす設定に対応
@@ -608,17 +617,18 @@ body {
   border-radius: 10px;
   z-index: layer(drawer);
 
-  // アニメーション用のトランジション設定
+  // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
   transition:
     transform 0.4s ease,
     top 0.4s ease,
-    background 0.3s ease,
     opacity 0.3s ease;
 
+  // backgroundのアニメーションを削除（合成されないため）
+  // 状態変更は即座に反映される
+
   @media (prefers-reduced-motion: reduce) {
-    transition:
-      background 0.2s ease,
-      opacity 0.2s ease;
+    // backgroundのアニメーションを削除（合成されないため）
+    transition: opacity 0.2s ease;
   }
 
   &:nth-of-type(2) {
@@ -670,9 +680,9 @@ body {
     display: inline-block;
 
     // フォーカスインジケーター用のトランジション
-    transition:
-      outline 0.2s ease-out,
-      box-shadow 0.2s ease-out;
+    // box-shadowのアニメーションを削除（合成されないため）
+    // フォーカスリングは即座に表示される
+    transition: outline 0.2s ease-out;
 
     // アクセシビリティ: アニメーションを減らす設定に対応
     @media (prefers-reduced-motion: reduce) {
@@ -797,12 +807,14 @@ body {
   font-weight: 700;
   display: inline-block;
 
-  // アニメーション用のトランジション設定
+  // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
   transition:
     transform 0.2s ease-out,
     opacity 0.2s ease-out,
-    outline 0.2s ease-out,
-    box-shadow 0.2s ease-out;
+    outline 0.2s ease-out;
+
+  // box-shadowのアニメーションを削除（合成されないため）
+  // フォーカスリングは即座に表示される
 
   // アクセシビリティ: アニメーションを減らす設定に対応
   @media (prefers-reduced-motion: reduce) {
@@ -1179,16 +1191,14 @@ font-weight: 400;
   // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
   transition:
     transform 0.2s ease-out,
-    outline 0.2s ease-out,
-    box-shadow 0.2s ease-out;
+    outline 0.2s ease-out;
 
-  // background-color, border-color, border-width, colorのアニメーションを削除（合成されないため）
+  // background-color, border-color, border-width, color, box-shadowのアニメーションを削除（合成されないため）
+  // 状態変更は即座に反映される
 
   // アクセシビリティ: アニメーションを減らす設定に対応
   @media (prefers-reduced-motion: reduce) {
-    transition:
-      outline 0.2s ease-out,
-      box-shadow 0.2s ease-out;
+    transition: outline 0.2s ease-out;
   }
 
   // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用（アクティブ状態以外）
@@ -1716,9 +1726,12 @@ font-weight: 400;
   margin-top: -19px !important;
   position: absolute;
   cursor: pointer;
-  transition:
-    transform 0.2s ease-out,
-    box-shadow 0.2s ease-out;
+
+  // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
+  transition: transform 0.2s ease-out;
+
+  // box-shadowのアニメーションを削除（合成されないため）
+  // 状態変更は即座に反映される
 
   // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
   @media (hover: hover) {
@@ -1768,7 +1781,7 @@ font-weight: 400;
 
 .work__prev {
   left: -8px !important;
-  background: url("../img/work-icon.webp") no-repeat center center / contain;
+  background: url("../img/work-icon-prev.svg") no-repeat center center / contain;
 
   @include mq(md) {
     left: 1px !important;
@@ -1785,7 +1798,7 @@ font-weight: 400;
 
 .work__next {
   right: 10px !important;
-  background: url("../img/work-icon-2.webp") no-repeat center center / contain;
+  background: url("../img/work-icon-next.svg") no-repeat center center / contain;
 
   @include mq(md) {
     right: 1px !important;
@@ -2988,9 +3001,12 @@ summary {
 
 .footer__logo {
   display: inline-block;
-  transition:
-    transform 0.2s ease-out,
-    filter 0.2s ease-out;
+
+  // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
+  transition: transform 0.2s ease-out;
+
+  // filterのアニメーションを削除（合成されないため）
+  // 状態変更は即座に反映される
 
   // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
   @media (hover: hover) {
@@ -3075,9 +3091,12 @@ summary {
   a {
     display: inline-block;
     text-decoration: none;
-    transition:
-      transform 0.2s ease-out,
-      color 0.2s ease-out;
+
+    // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
+    transition: transform 0.2s ease-out;
+
+    // colorのアニメーションを削除（合成されないため）
+    // 状態変更は即座に反映される
 
     // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
     @media (hover: hover) {
