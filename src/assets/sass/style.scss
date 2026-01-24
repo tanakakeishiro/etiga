@@ -2119,6 +2119,9 @@ font-weight: 400;
     outline: 2px solid $color-base;
     outline-offset: 4px;
 
+    // フォーカスリングが他の要素の後ろに隠れないようにz-indexを設定
+    z-index: 1;
+
     // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
     box-shadow: 0 0 0 2px #ffd43d;
   }
