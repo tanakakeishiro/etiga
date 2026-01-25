@@ -153,8 +153,8 @@ body.is-menu-open {
 }
 @media (hover: none) and (pointer: coarse) {
   .button:active {
-    transform: scale(0.96);
-    opacity: 0.9;
+    transform: scale(0.95);
+    opacity: 0.85;
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
   }
 }
@@ -232,8 +232,8 @@ body.is-menu-open {
 }
 @media (hover: none) and (pointer: coarse) {
   .buttons:active {
-    transform: scale(0.96);
-    opacity: 0.9;
+    transform: scale(0.95);
+    opacity: 0.85;
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
   }
 }
@@ -334,14 +334,26 @@ body.is-menu-open {
     transition: none;
   }
 }
-.header__logo a:hover img {
-  transform: translateY(-1px) scale(1.03);
-  opacity: 0.8;
+@media (hover: hover) {
+  .header__logo a:hover img {
+    transform: translateY(-1px) scale(1.03);
+    opacity: 0.8;
+  }
 }
-@media (prefers-reduced-motion: reduce) {
+@media (hover: hover) and (prefers-reduced-motion: reduce) {
   .header__logo a:hover img {
     transform: none;
     opacity: 1;
+  }
+}
+@media (hover: hover) {
+  .header__logo a:active img {
+    transform: translateY(0) scale(1);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: reduce) {
+  .header__logo a:active img {
+    transform: none;
   }
 }
 .header__logo a:focus-visible {
@@ -355,12 +367,25 @@ body.is-menu-open {
     outline-offset: 2px;
   }
 }
-.header__logo a:active img {
-  transform: translateY(0) scale(1);
+@media (hover: none) and (pointer: coarse) {
+  .header__logo a:active {
+    transform: scale(0.95);
+    opacity: 0.85;
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+  }
+}
+@media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
+  .header__logo a:active {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .header__logo a:active img {
-    transform: none;
+  .header__logo a {
+    transform: none !important;
+    transition: none;
+    box-shadow: none !important;
   }
 }
 
@@ -493,14 +518,26 @@ body.is-menu-open {
     transition: none;
   }
 }
-.header__logo-secondary a:hover img {
-  transform: scale(1.05);
-  opacity: 0.8;
+@media (hover: hover) {
+  .header__logo-secondary a:hover img {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
 }
-@media (prefers-reduced-motion: reduce) {
+@media (hover: hover) and (prefers-reduced-motion: reduce) {
   .header__logo-secondary a:hover img {
     transform: none;
     opacity: 1;
+  }
+}
+@media (hover: hover) {
+  .header__logo-secondary a:active img {
+    transform: scale(1.02);
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: reduce) {
+  .header__logo-secondary a:active img {
+    transform: none;
   }
 }
 .header__logo-secondary a:focus-visible {
@@ -514,12 +551,25 @@ body.is-menu-open {
     outline-offset: 2px;
   }
 }
-.header__logo-secondary a:active img {
-  transform: scale(1.02);
+@media (hover: none) and (pointer: coarse) {
+  .header__logo-secondary a:active {
+    transform: scale(0.95);
+    opacity: 0.85;
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+  }
+}
+@media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
+  .header__logo-secondary a:active {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .header__logo-secondary a:active img {
-    transform: none;
+  .header__logo-secondary a {
+    transform: none !important;
+    transition: none;
+    box-shadow: none !important;
   }
 }
 @media screen and (min-width: 768px) {
@@ -686,6 +736,9 @@ body.is-menu-open {
     max-width: 650px;
   }
 }
+.fv__image img {
+  width: 100%;
+}
 @media screen and (min-width: 768px) {
   .fv__image img {
     margin-top: -20px;
@@ -826,28 +879,12 @@ body.is-menu-open {
     outline-offset: 2px;
   }
 }
-@media (hover: hover) {
-  .news__link:active {
-    -webkit-text-decoration: underline;
-    text-decoration: underline;
-    -webkit-text-decoration-color: #333;
-            text-decoration-color: #333;
-    text-underline-offset: 4px;
-  }
-}
-@media (hover: none) and (pointer: coarse) {
-  .news__link:active {
-    transform: scale(0.96);
-    opacity: 0.9;
-    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
-  }
-}
-@media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
-  .news__link:active {
-    transform: none;
-    opacity: 1;
-    transition: none;
-  }
+.news__link:active {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  -webkit-text-decoration-color: #333;
+          text-decoration-color: #333;
+  text-underline-offset: 4px;
 }
 @media screen and (min-width: 768px) {
   .news__link {
@@ -1071,7 +1108,7 @@ body.is-menu-open {
 }
 @media (hover: none) and (pointer: coarse) {
   .pagination__link:active {
-    transform: scale(0.93);
+    transform: scale(0.95);
     opacity: 0.85;
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
   }
@@ -1356,8 +1393,8 @@ body.is-menu-open {
 }
 @media (hover: none) and (pointer: coarse) {
   .work-card__link:active {
-    transform: scale(0.98);
-    opacity: 0.95;
+    transform: scale(0.95);
+    opacity: 0.85;
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
   }
 }
@@ -1459,8 +1496,8 @@ body.is-menu-open {
 @media (hover: none) and (pointer: coarse) {
   .work__prev:active,
   .work__next:active {
-    transform: scale(0.96);
-    opacity: 0.9;
+    transform: scale(0.95);
+    opacity: 0.85;
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
   }
 }
@@ -1835,6 +1872,13 @@ body.is-menu-open {
     background: #2392db;
   }
 }
+@media (hover: none) and (pointer: coarse) {
+  .company-tab__button[aria-selected=true]:active {
+    transform: none;
+    opacity: 1;
+    background-color: #2392db;
+  }
+}
 @media (hover: hover) {
   .company-tab__button:active:not([aria-selected=true]) {
     transform: translateY(0) scale(0.98);
@@ -1849,17 +1893,19 @@ body.is-menu-open {
   box-shadow: 0 0 0 2px #ffd43d;
 }
 @media (hover: none) and (pointer: coarse) {
-  .company-tab__button:active {
-    transform: scale(0.98);
-    opacity: 0.95;
-    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+  .company-tab__button:active:not([aria-selected=true]) {
+    transform: scale(0.96);
+    opacity: 0.85;
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out, background-color 0.1s ease-out;
+    background-color: #f0f8ff;
   }
 }
 @media (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce) {
-  .company-tab__button:active {
+  .company-tab__button:active:not([aria-selected=true]) {
     transform: none;
     opacity: 1;
     transition: none;
+    background-color: #fff;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2253,8 +2299,8 @@ body.is-menu-open {
 }
 @media (hover: none) and (pointer: coarse) {
   .blog-card__link:active {
-    transform: scale(0.98);
-    opacity: 0.95;
+    transform: scale(0.95);
+    opacity: 0.85;
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
   }
 }
@@ -2775,8 +2821,8 @@ summary::-webkit-details-marker {
 }
 @media (hover: none) and (pointer: coarse) {
   .footer__logo:active {
-    transform: scale(0.97);
-    opacity: 0.95;
+    transform: scale(0.95);
+    opacity: 0.85;
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
   }
 }
@@ -2866,8 +2912,8 @@ summary::-webkit-details-marker {
 }
 @media (hover: none) and (pointer: coarse) {
   .footer__item a:active {
-    transform: scale(0.98);
-    opacity: 0.9;
+    transform: scale(0.95);
+    opacity: 0.85;
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
   }
 }
@@ -2970,7 +3016,7 @@ summary::-webkit-details-marker {
 @media (hover: none) and (pointer: coarse) {
   .footer-sns-link:active {
     transform: scale(0.95);
-    opacity: 0.9;
+    opacity: 0.85;
     transition: transform 0.1s ease-out, opacity 0.1s ease-out;
   }
 }

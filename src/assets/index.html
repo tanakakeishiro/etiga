@@ -30,7 +30,7 @@
     <meta property="og:site_name" content="e-tiga" />
     <meta
       property="og:image"
-      content="https://e-tiga.tanakakeishiro.com/img/first-view-1.webp"
+      content="https://e-tiga.tanakakeishiro.com/img/first-view-pc.webp"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -48,7 +48,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://e-tiga.tanakakeishiro.com/img/first-view-1.webp"
+      content="https://e-tiga.tanakakeishiro.com/img/first-view-pc.webp"
     />
     <!-- ここからFacebookカードの記述 -->
     <!-- <meta property="fb:app_id" content="FacebookアプリID" /> -->
@@ -57,7 +57,7 @@
     <link
       rel="preload"
       as="image"
-      href="./img/first-view-1.webp"
+      href="./img/first-view-pc.webp"
       fetchpriority="high"
     />
 
@@ -93,6 +93,7 @@
       @media (min-width:992px){.header__inner{padding:0 40px}}
       .header__logo a{display:inline-block}
       .header__logo a img{display:block;width:160px}
+      @media (min-width:768px){.header__logo-secondary{display:none}}
       .header__open{display:block}
       @media (min-width:768px){.header__open{display:none}}
       
@@ -128,10 +129,18 @@
       .fv__text{margin-top:20px;line-height:200%}
       .fv__button{margin-top:30px}
       
+      /* ボタン（ファーストビュー表示に必要） */
+      .button{display:inline-block;padding:9px 54px;border-radius:48px;background:linear-gradient(90deg,#2188de 1.75%,#2bcbc6 97.75%);box-shadow:4px 3px 26px 0 rgb(0 0 0 / 16%);color:#f6f7f7;font-weight:700;letter-spacing:3px;cursor:pointer}
+      
       /* 基本レイアウト */
       .inner{margin:0 auto;padding:0 15px;width:100%;max-width:1280px}
       @media (min-width:768px){.inner{padding:0 40px}}
       @media (min-width:992px){.inner{padding:0 80px}}
+      
+      /* セクション見出し（ニュースセクション表示に必要） */
+      .section__head{color:#238fdc;font-family:"Montserrat","Arial",sans-serif;font-size:1.875rem;font-weight:700;letter-spacing:3px;display:flex;flex-direction:column;gap:6px;align-items:center}
+      @media (min-width:768px){.section__head{font-size:2.25rem;letter-spacing:3.6px}}
+      .section__head::after{content:"";width:60px;height:3px;background:#2bc8c8}
       
       /* ニュースセクション（レイアウトシフト防止） */
       .news__list{margin-top:48px;min-height:400px}
@@ -159,21 +168,21 @@
     </noscript>
     <link
       rel="stylesheet"
-      href="./css/reset.min.min.css"
+      href="./css/reset.min.css"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
-      <link rel="stylesheet" href="./css/reset.min.min.css" />
+      <link rel="stylesheet" href="./css/reset.min.css" />
     </noscript>
     <link
       rel="stylesheet"
-      href="./css/style.min.min.css"
+      href="./css/style.min.css"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
-      <link rel="stylesheet" href="./css/style.min.min.css" />
+      <link rel="stylesheet" href="./css/style.min.css" />
     </noscript>
   </head>
   <body>
@@ -239,16 +248,11 @@
       <div id="fv" class="fv">
         <div class="fv__inner inner">
           <div class="fv__container">
-            <figure class="fv__image">
-              <img
-                src="./img/first-view-1.webp"
-                alt=""
-                width="796"
-                height="570"
-                fetchpriority="high"
-                loading="eager"
-              />
-            </figure>
+            <picture class="fv__image">
+              <source media="(min-width: 768px)" srcset="./img/first-view-pc.webp">
+              <img src="./img/first-view-sp.webp"  alt="" fetchpriority="high"
+              loading="eager" width="796" height="570">
+            </picture>
             <div class="fv__content">
               <figure class="fv__logo">
                 <img

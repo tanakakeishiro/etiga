@@ -93,7 +93,7 @@ $breakpoints: (
 }
 
 // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-@mixin mobile-tap-feedback($scale: 0.97, $opacity: 0.8) {
+@mixin mobile-tap-feedback($scale: 0.95, $opacity: 0.85) {
   // タッチデバイス向けのアクティブ状態
   @media (hover: none) and (pointer: coarse) {
     &:active {
@@ -316,7 +316,7 @@ body {
   }
 
   // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.96, 0.9);
+  @include mobile-tap-feedback;
 
   @include reduce-motion-interactive;
 }
@@ -401,7 +401,7 @@ body {
   }
 
   // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.96, 0.9);
+  @include mobile-tap-feedback;
 
   @include reduce-motion-interactive;
 }
@@ -493,6 +493,7 @@ body {
       }
     }
 
+    @media (hover: hover) {
     // ホバー時のアニメーション
     &:hover {
       img {
@@ -505,6 +506,22 @@ body {
           opacity: 1;
         }
       }
+
+    }
+
+     // クリック（アクティブ）時のフィードバック
+     &:active {
+      img {
+        transform: translateY(0) scale(1);
+
+        // アクセシビリティ: アニメーションを減らす設定に対応
+        @media (prefers-reduced-motion: reduce) {
+          transform: none;
+         
+        }
+      }
+    }
+
     }
 
     // フォーカスビジブル時のインジケーターとアニメーション
@@ -523,18 +540,10 @@ body {
       }
     }
 
-    // クリック（アクティブ）時のフィードバック
-    &:active {
-      img {
-        transform: translateY(0) scale(1);
 
-        // アクセシビリティ: アニメーションを減らす設定に対応
-        @media (prefers-reduced-motion: reduce) {
-          transform: none;
-         
-        }
-      }
-    }
+    @include mobile-tap-feedback;
+    @include reduce-motion-interactive;
+   
   }
 }
 
@@ -709,6 +718,7 @@ body {
       }
     }
 
+    @media (hover: hover) { 
     // ホバー時のアニメーション
     &:hover {
       img {
@@ -721,7 +731,20 @@ body {
           opacity: 1;
         }
       }
+    } 
+
+    // クリック（アクティブ）時のフィードバック
+    &:active {
+      img {
+        transform: scale(1.02);
+
+        // アクセシビリティ: アニメーションを減らす設定に対応
+        @media (prefers-reduced-motion: reduce) {
+          transform: none;
+        }
+      }
     }
+  }
 
     // フォーカスビジブル時のインジケーターとアニメーション
     &:focus-visible {
@@ -739,17 +762,10 @@ body {
       }
     }
 
-    // クリック（アクティブ）時のフィードバック
-    &:active {
-      img {
-        transform: scale(1.02);
 
-        // アクセシビリティ: アニメーションを減らす設定に対応
-        @media (prefers-reduced-motion: reduce) {
-          transform: none;
-        }
-      }
-    }
+    @include mobile-tap-feedback;
+    @include reduce-motion-interactive;
+
   }
 
   @include mq(md) {
@@ -934,6 +950,7 @@ body {
   }
 
   img {
+    width: 100%;
     @include mq(md) {
       margin-top: -20px;
     }
@@ -1101,7 +1118,7 @@ body {
   }
 
   // クリック（アクティブ）時のフィードバック（PC用）
-  @media (hover: hover) {
+ 
     &:active {
       // テキストに下線を表示（ホバーと同じスタイル）
       // WCAG 2.0準拠: 下線と背景のコントラスト比4.5:1以上を確保（#333と#fffで約12.6:1）
@@ -1109,11 +1126,7 @@ body {
       text-decoration: underline;
       text-decoration-color: $color-base;
       text-underline-offset: 4px;
-    }
   }
-
-  // スマホ向けタップフィードバック強化（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.96, 0.9);
 
   @include mq(md) {
     gap: 49px;
@@ -1367,7 +1380,7 @@ font-weight: 400;
   }
 
   // スマホ向けタップフィードバック強化（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.93, 0.85);
+  @include mobile-tap-feedback;
 }
 
 // 現在のページのリンク（クリック不可）
@@ -1411,7 +1424,6 @@ font-weight: 400;
         box-shadow: none;
       }
     }
-
     &:active {
       opacity: 1;
       transform: none;
@@ -1662,7 +1674,7 @@ font-weight: 400;
   }
 
   // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.98, 0.95);
+  @include mobile-tap-feedback;
 }
 
 // .work-card__image {
@@ -1765,7 +1777,7 @@ font-weight: 400;
   }
 
   // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.96, 0.9);
+  @include mobile-tap-feedback;
 
   @include mq(md) {
     margin-top: -18px !important;
@@ -2124,6 +2136,15 @@ font-weight: 400;
         box-shadow: none;
       }
     }
+
+    // モバイル: 選択中のタブはタップ時に変化させない（視認性のため）
+    @media (hover: none) and (pointer: coarse) {
+      &:active {
+        transform: none;
+        opacity: 1;
+        background-color: #2392db;
+      }
+    }
   }
 
   // クリック（アクティブ）時のフィードバック（PC用）
@@ -2146,8 +2167,26 @@ font-weight: 400;
     box-shadow: 0 0 0 2px #ffd43d;
   }
 
-  // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.98, 0.95);
+  // スマホ向けタップフィードバック（選択中でないタブのみ）
+  @media (hover: none) and (pointer: coarse) {
+    &:active:not([aria-selected="true"]) {
+      transform: scale(0.96);
+      opacity: 0.85;
+      background-color: #f0f8ff;
+      transition:
+        transform 0.1s ease-out,
+        opacity 0.1s ease-out,
+        background-color 0.1s ease-out;
+
+      // アクセシビリティ: アニメーションを減らす設定に対応
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+        opacity: 1;
+        background-color: #fff;
+        transition: none;
+      }
+    }
+  }
 
   @include reduce-motion-interactive;
 }
@@ -2526,7 +2565,7 @@ font-weight: 400;
   }
 
   // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.98, 0.95);
+  @include mobile-tap-feedback;
 }
 
 .blog-card__post {
@@ -3046,7 +3085,7 @@ summary {
   }
 
   // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.97, 0.95);
+  @include mobile-tap-feedback;
 
   @include reduce-motion-interactive(false, true);
 }
@@ -3137,7 +3176,7 @@ summary {
     }
 
     // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-    @include mobile-tap-feedback(0.98, 0.9);
+    @include mobile-tap-feedback;
 
     @include reduce-motion-interactive(false, true);
   }
@@ -3241,7 +3280,7 @@ summary {
   }
 
   // スマホ向けタップフィードバック（アクセシビリティとUX向上）
-  @include mobile-tap-feedback(0.95, 0.9);
+  @include mobile-tap-feedback;
 
   @include reduce-motion-interactive;
 }
