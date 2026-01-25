@@ -53,11 +53,12 @@
     <!-- ここからFacebookカードの記述 -->
     <!-- <meta property="fb:app_id" content="FacebookアプリID" /> -->
 
-    <!-- LCP画像のプリロード（最優先読み込み） -->
+    <!-- LCP画像のプリロード（PCサイズの時のみ最優先読み込み） -->
     <link
       rel="preload"
       as="image"
       href="./img/first-view-pc.webp"
+      media="(min-width: 768px)"
       fetchpriority="high"
     />
 
@@ -400,12 +401,10 @@
           <div class="concept__container">
             <figure class="concept__image">
               <img
-                src="./img/image_concept01.webp"
-                srcset="./img/image_concept01.webp 1x, ./img/concept-img.webp 2x"
+                src="./img/concept-img.webp"
                 alt=""
-                width="310"
-                height="300"
-                sizes="(max-width: 767px) 515px, 450px"
+                width="450"
+                height="436"
                 loading="lazy"
               />
             </figure>
@@ -440,7 +439,6 @@
                     <figure class="work-card__image">
                       <img
                         src="./img/image_card01.webp"
-                        srcset="./img/image_card01.webp 1x, ./img/card-1-img.webp 2x"
                         alt=""
                         width="320"
                         height="214"
@@ -466,11 +464,9 @@
                     <figure class="work-card__image">
                       <img
                         src="./img/image_card02.webp"
-                        srcset="./img/image_card02.webp 1x, ./img/card-2-img.webp 2x"
                         alt=""
                         width="320"
                         height="214"
-                        sizes="(max-width: 767px) 320px, 560px"
                         loading="lazy"
                       />
                     </figure>
@@ -492,11 +488,9 @@
                     <figure class="work-card__image">
                       <img
                         src="./img/image_card03.webp"
-                        srcset="./img/image_card03.webp 1x, ./img/card-3-img.webp 2x"
                         alt=""
                         width="320"
                         height="214"
-                        sizes="(max-width: 767px) 320px, 560px"
                         loading="lazy"
                       />
                     </figure>

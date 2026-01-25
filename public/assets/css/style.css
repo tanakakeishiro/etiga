@@ -726,6 +726,7 @@ body.is-menu-open {
   display: block;
   margin-right: auto;
   margin-left: auto;
+  max-width: 650px;
 }
 @media screen and (min-width: 768px) {
   .fv__image {
@@ -733,7 +734,6 @@ body.is-menu-open {
     margin-right: 0;
     margin-left: 0;
     width: 80%;
-    max-width: 650px;
   }
 }
 .fv__image img {
@@ -1248,11 +1248,9 @@ body.is-menu-open {
     max-width: 50%;
   }
 }
-@media screen and (min-width: 768px) {
-  .concept__image img {
-    width: 100%;
-    max-width: 450px;
-  }
+.concept__image img {
+  width: 100%;
+  max-width: 450px;
 }
 
 @media screen and (min-width: 768px) {
