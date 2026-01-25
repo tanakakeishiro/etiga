@@ -343,6 +343,9 @@ body {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+
+  // 新しいスタッキングコンテキストを作成してテキストを前面に表示
+  isolation: isolate;
   z-index: 0;
 
   &::before {
@@ -354,6 +357,8 @@ body {
     height: 100%;
     background: linear-gradient(90deg, #2188de 1.75%, #2bcbc6 97.75%);
     transition: width 0.3s ease-out;
+
+    // テキストの後ろに配置
     z-index: -1;
     border-radius: 2px;
   }
@@ -367,8 +372,9 @@ body {
 
       // box-shadowはアニメーションせず、即座に変更（合成されないため）
       box-shadow: 6px 5px 32px 0 rgb(0 0 0 / 20%);
+      color: #f6f7f7;
 
-      // colorとborder-colorはアニメーションしない（合成されないため）
+      // border-colorはアニメーションしない（合成されないため）
 
       &::before {
         width: 100%;
@@ -1726,6 +1732,7 @@ font-weight: 400;
   margin-top: -19px !important;
   position: absolute;
   cursor: pointer;
+  border-radius: 50%;
 
   // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
   transition: transform 0.2s ease-out;
@@ -3093,7 +3100,9 @@ summary {
     text-decoration: none;
 
     // 合成可能なプロパティのみをアニメーション（GPU合成を促進）
-    transition: transform 0.2s ease-out;
+    transition:
+      transform 0.3s ease-out,
+      opacity 0.3s ease-out;
 
     // colorのアニメーションを削除（合成されないため）
     // 状態変更は即座に反映される
@@ -3101,7 +3110,9 @@ summary {
     // ホバー可能なデバイス（マウスなど）でのみホバー効果を適用
     @media (hover: hover) {
       &:hover {
-        transform: scale(1.05);
+        // より大きなスケールアップとわずかな上方向への移動で視覚的なフィードバックを強化
+        transform: translateY(-3px) scale(1.1);
+        opacity: 0.85;
         color: rgb(255 255 255 / 90%);
       }
     }
@@ -3119,7 +3130,8 @@ summary {
     // クリック（アクティブ）時のフィードバック（PC用）
     @media (hover: hover) {
       &:active {
-        transform: scale(1.02);
+        transform: translateY(-1px) scale(1.05);
+        opacity: 0.8;
         color: rgb(255 255 255 / 80%);
       }
     }

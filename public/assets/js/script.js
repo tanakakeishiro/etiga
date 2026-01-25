@@ -1051,7 +1051,7 @@ const loadSwiperScript = () => {
 
     // スクリプトタグを作成
     const script = document.createElement('script');
-    script.src = './js/lib/swiper-bundle.min.min.js';
+    script.src = './js/lib/swiper-bundle.min.js';
     script.async = true;
     
     script.onload = () => resolve();
