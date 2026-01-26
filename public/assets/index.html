@@ -949,14 +949,19 @@
       <section id="company" class="company section-spacing">
         <div class="company__inner inner">
           <div class="company__heading heading">
-            <h2 class="company__heading-title heading__title">COMPANY</h2>
+            <h2
+              id="company-tabs-label"
+              class="company__heading-title heading__title"
+            >
+              COMPANY
+            </h2>
             <p class="company__heading-subtitle heading__subtitle">会社概要</p>
           </div>
 
           <div
             class="company__tab company-tab"
             role="tablist"
-            aria-label="会社情報"
+            aria-labelledby="company-tabs-label"
           >
             <button
               id="tab01"

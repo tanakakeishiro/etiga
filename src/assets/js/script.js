@@ -1151,6 +1151,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // タブパネルの最初のフォーカス可能要素を取得する関数
+  function getFirstFocusableElement(panel) {
+    const focusableSelectors = 'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    return panel.querySelector(focusableSelectors);
+  }
+
   // タブを切り替える関数
   // setFocus: フォーカスを移動するかどうか（デフォルト: true）
   function switchTab(selectedTab, setFocus) {
@@ -1183,7 +1189,16 @@ document.addEventListener("DOMContentLoaded", function () {
           // 選択されたタブパネルを表示（CSSクラスとaria-hidden属性の両方を使用）
           panel.setAttribute("aria-hidden", "false");
           panel.classList.remove("is-hidden");
-          panel.setAttribute("tabindex", "0");
+          
+          // WAI-ARIA推奨: 最初の要素がフォーカス可能でない場合のみtabindex="0"を設定
+          const firstFocusable = getFirstFocusableElement(panel);
+          if (firstFocusable) {
+            // フォーカス可能要素がある場合はtabindexを削除
+            panel.removeAttribute("tabindex");
+          } else {
+            // フォーカス可能要素がない場合のみtabindex="0"を設定
+            panel.setAttribute("tabindex", "0");
+          }
         } else {
           // 非選択のタブパネルを非表示（CSSクラスとaria-hidden属性の両方を使用）
           panel.setAttribute("aria-hidden", "true");
@@ -1203,6 +1218,16 @@ document.addEventListener("DOMContentLoaded", function () {
   tabs.forEach(function (tab) {
     tab.addEventListener("click", function () {
       switchTab(this);
+    });
+  });
+
+  // 自動アクティベーション: フォーカス時に自動的にアクティベーション
+  tabs.forEach(function (tab) {
+    tab.addEventListener("focus", function () {
+      // フォーカス時に自動的にアクティベーション（Automatic Activation）
+      if (tab.getAttribute("aria-selected") !== "true") {
+        switchTab(tab, false); // フォーカスは既にあるので移動しない
+      }
     });
   });
 
@@ -1236,6 +1261,35 @@ document.addEventListener("DOMContentLoaded", function () {
         switchTab(tabs[targetIndex]);
       }
     });
+  });
+
+  // タブリスト内でTabキーを押した時の処理（タブからタブパネルへのフォーカス移動）
+  tabList.addEventListener("keydown", function (e) {
+    // Tabキー（Shiftなし）でタブリストから出る時
+    if (e.key === "Tab" && !e.shiftKey) {
+      const activeTab = tabs.find(function (tab) {
+        return tab.getAttribute("aria-selected") === "true";
+      });
+      
+      // アクティブなタブにフォーカスがある場合
+      if (activeTab && document.activeElement === activeTab) {
+        e.preventDefault();
+        const activePanel = tabPanels[tabs.indexOf(activeTab)];
+        
+        if (activePanel) {
+          // タブパネルの最初のフォーカス可能要素を探す
+          const firstFocusable = getFirstFocusableElement(activePanel);
+          
+          if (firstFocusable) {
+            // フォーカス可能要素がある場合はそこにフォーカス
+            firstFocusable.focus();
+          } else if (activePanel.getAttribute("tabindex") === "0") {
+            // フォーカス可能要素がない場合、タブパネル自体にフォーカス
+            activePanel.focus();
+          }
+        }
+      }
+    }
   });
 
   // 初期状態の設定：非表示のタブパネルにis-hiddenクラスを追加
