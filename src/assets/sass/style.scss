@@ -2295,6 +2295,7 @@ font-weight: 400;
   &:nth-of-type(3) .company-group__term {
     padding-top: 25px;
     padding-bottom: 24px;
+    
 
     @include mq(md) {
       width: calc(25% - 1px);

@@ -6,6 +6,7 @@ import gulpSass from "gulp-sass";
 import * as sass from "sass";
 // gulp-sassにSassモジュールを渡す
 const sassCompiler = gulpSass(sass);
+import plumber from "gulp-plumber";
 import postcss from "gulp-postcss";
 import cssSorter from "css-declaration-sorter";
 import mmq from "gulp-merge-media-queries";
@@ -53,7 +54,15 @@ const paths = {
 function compileSass() {
   return gulp
     .src(paths.styles.src)
-    .pipe(sassCompiler().on("error", sassCompiler.logError)) // ここで使うのは 'sassCompiler'
+    .pipe(
+      plumber({
+        errorHandler: function (err) {
+          console.error("Sassコンパイルエラー:", err.message);
+          this.emit("end");
+        },
+      })
+    )
+    .pipe(sassCompiler().on("error", sassCompiler.logError))
     .pipe(
       postcss([
         // 1. まず論理プロパティなどの変換を行う（autoprefixerはpreset-env内で実行）
@@ -88,6 +97,14 @@ function compileSass() {
 function minJS() {
   return gulp
     .src(paths.scripts.src)
+    .pipe(
+      plumber({
+        errorHandler: function (err) {
+          console.error("JavaScript圧縮エラー:", err.message);
+          this.emit("end");
+        },
+      })
+    )
     .pipe(gulp.dest(paths.scripts.dest))
     .pipe(uglify())
     .pipe(rename({ suffix: ".min" }))
@@ -100,6 +117,14 @@ function minJS() {
 function formatHTML() {
   return gulp
     .src(paths.html.src)
+    .pipe(
+      plumber({
+        errorHandler: function (err) {
+          console.error("HTML整形エラー:", err.message);
+          this.emit("end");
+        },
+      })
+    )
     .pipe(
       prettier({
         tabWidth: 2,
@@ -146,7 +171,10 @@ function watchFiles() {
   // Sassファイルの監視（削除も検知）
   gulp
     .watch(paths.styles.src, { events: "all" }, function (cb) {
-      compileSass();
+      compileSass().on("error", function (err) {
+        console.error("Sassコンパイルエラー:", err.message);
+        cb();
+      });
       cb();
     })
     .on("unlink", function (filepath) {
