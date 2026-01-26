@@ -1938,6 +1938,17 @@ body.is-menu-open {
 .company-group__content:not(.is-hidden) {
   display: block;
 }
+.company-group__content:focus-visible {
+  outline: 2px solid #333;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 2px #ffd43d;
+  border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .company-group__content:focus-visible {
+    outline-offset: 2px;
+  }
+}
 
 .company-group__heading {
   margin-top: 57px;

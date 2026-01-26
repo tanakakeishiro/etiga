@@ -1141,21 +1141,49 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const tabs = Array.from(tabList.querySelectorAll(".js-tab[role='tab']"));
   
-  // W3C標準に準拠: 各タブのaria-controlsから個別に取得して配列に格納
+  // WAI-ARIA Authoring Practices Guide準拠: 各タブのaria-controlsから個別に取得して配列に格納
   const tabPanels = [];
   for (let i = 0; i < tabs.length; i += 1) {
     const tab = tabs[i];
-    const tabpanel = document.getElementById(tab.getAttribute('aria-controls'));
+    const ariaControls = tab.getAttribute('aria-controls');
+    if (!ariaControls) {
+      console.warn('タブにaria-controls属性が設定されていません:', tab);
+      continue;
+    }
+    const tabpanel = document.getElementById(ariaControls);
     if (tabpanel) {
       tabPanels.push(tabpanel);
+    } else {
+      console.warn('aria-controlsで指定されたIDが見つかりません:', ariaControls);
     }
   }
 
+  // タブとタブパネルの数が一致しない場合のエラーチェック
+  if (tabs.length !== tabPanels.length) {
+    console.error('タブとタブパネルの数が一致しません。タブ:', tabs.length, 'タブパネル:', tabPanels.length);
+  }
+
   // タブパネルの最初のフォーカス可能要素を取得する関数
+  // WAI-ARIA推奨: タブパネル内にフォーカス可能要素があるかどうかを確認するために使用
+  // 注意: タブパネル自体（panel要素）は除外する
   function getFirstFocusableElement(panel) {
     const focusableSelectors = 'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
-    return panel.querySelector(focusableSelectors);
+    const allFocusable = panel.querySelectorAll(focusableSelectors);
+    // タブパネル自体を除外（role="tabpanel"を持つ要素は除外）
+    for (let i = 0; i < allFocusable.length; i += 1) {
+      const element = allFocusable[i];
+      if (element !== panel && element.getAttribute('role') !== 'tabpanel') {
+        return element;
+      }
+    }
+    return null;
   }
+
+  // タブセット内に「最初の要素がフォーカス不可」のパネルが1つでもあるかどうかを判定
+  // WAI-ARIA推奨: そのようなパネルが存在する場合は、タブセット内のすべてのtabpanelをフォーカス可能にする
+  const shouldMakeAllPanelsFocusable = tabPanels.some(function (panel) {
+    return !getFirstFocusableElement(panel);
+  });
 
   // タブを切り替える関数
   // setFocus: フォーカスを移動するかどうか（デフォルト: true）
@@ -1173,7 +1201,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const isSelected = tab === selectedTab;
       tab.setAttribute("aria-selected", isSelected ? "true" : "false");
       
-      // W3C標準に準拠: 選択されたタブのみTabキーでアクセス可能
+      // WAI-ARIA Authoring Practices Guide準拠: Roving tabindexパターン（選択されたタブのみTabキーでアクセス可能）
       if (isSelected) {
         // 選択されたタブ: tabindexを削除（デフォルトの0になる）
         tab.removeAttribute("tabindex");
@@ -1182,22 +1210,20 @@ document.addEventListener("DOMContentLoaded", function () {
         tab.setAttribute("tabindex", "-1");
       }
 
-      // 対応するタブパネルを表示/非表示（W3C標準に準拠: 配列のインデックスを使用）
+      // 対応するタブパネルを表示/非表示（WAI-ARIA Authoring Practices Guide準拠: 配列のインデックスを使用）
       const panel = tabPanels[index];
       if (panel) {
         if (isSelected) {
           // 選択されたタブパネルを表示（CSSクラスとaria-hidden属性の両方を使用）
           panel.setAttribute("aria-hidden", "false");
           panel.classList.remove("is-hidden");
-          
-          // WAI-ARIA推奨: 最初の要素がフォーカス可能でない場合のみtabindex="0"を設定
-          const firstFocusable = getFirstFocusableElement(panel);
-          if (firstFocusable) {
-            // フォーカス可能要素がある場合はtabindexを削除
-            panel.removeAttribute("tabindex");
-          } else {
-            // フォーカス可能要素がない場合のみtabindex="0"を設定
+
+          // WAI-ARIA推奨に基づくタブパネルのフォーカス可否設定
+          // 「いずれかのパネルにフォーカス不可の先頭要素がある場合、すべてのtabpanelをフォーカス可能にする」
+          if (shouldMakeAllPanelsFocusable) {
             panel.setAttribute("tabindex", "0");
+          } else {
+            panel.removeAttribute("tabindex");
           }
         } else {
           // 非選択のタブパネルを非表示（CSSクラスとaria-hidden属性の両方を使用）
@@ -1208,7 +1234,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // setFocusがtrueの場合のみフォーカスを移動（W3C標準に準拠）
+    // setFocusがtrueの場合のみフォーカスを移動（WAI-ARIA Authoring Practices Guide準拠）
     if (setFocus) {
       selectedTab.focus();
     }
@@ -1231,7 +1257,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // キーボード操作（矢印キー）のサポート（W3C標準に準拠: 左/右矢印キーのみ）
+  // キーボード操作（矢印キー）のサポート（WAI-ARIA Authoring Practices Guide準拠: 左/右矢印キー、Home/End）
   tabs.forEach(function (tab, index) {
     tab.addEventListener("keydown", function (e) {
       let targetIndex = -1;
@@ -1264,22 +1290,22 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // タブリスト内でTabキーを押した時の処理（タブからタブパネルへのフォーカス移動）
+  // WAI-ARIA Authoring Practices Guide準拠: 「tablist がフォーカスを持つとき、次のタブ順要素は tabpanel」
   tabList.addEventListener("keydown", function (e) {
-    // Tabキー（Shiftなし）でタブリストから出る時
-    if (e.key === "Tab" && !e.shiftKey) {
+    // Tabキー（Shiftなし）で、かつフォーカスがtablist内にある場合
+    if (e.key === "Tab" && !e.shiftKey && tabList.contains(document.activeElement)) {
       const activeTab = tabs.find(function (tab) {
         return tab.getAttribute("aria-selected") === "true";
       });
-      
-      // アクティブなタブにフォーカスがある場合
-      if (activeTab && document.activeElement === activeTab) {
+
+      if (activeTab) {
         e.preventDefault();
         const activePanel = tabPanels[tabs.indexOf(activeTab)];
-        
+
         if (activePanel) {
           // タブパネルの最初のフォーカス可能要素を探す
           const firstFocusable = getFirstFocusableElement(activePanel);
-          
+
           if (firstFocusable) {
             // フォーカス可能要素がある場合はそこにフォーカス
             firstFocusable.focus();
@@ -1305,7 +1331,22 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   if (initialTab) {
     // 初期化時はフォーカスを移動しない（setFocus = false）
+    // この処理でタブパネルのtabindexも適切に設定される
     switchTab(initialTab, false);
+  } else {
+    // 初期状態で選択されているタブがない場合、すべてのタブパネルのtabindexを設定
+    tabPanels.forEach(function (panel) {
+      if (panel.getAttribute("aria-hidden") === "true") {
+        panel.setAttribute("tabindex", "-1");
+      } else {
+        // WAI-ARIA推奨に基づくタブパネルのフォーカス可否設定
+        if (shouldMakeAllPanelsFocusable) {
+          panel.setAttribute("tabindex", "0");
+        } else {
+          panel.removeAttribute("tabindex");
+        }
+      }
+    });
   }
 });
 

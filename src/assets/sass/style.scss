@@ -2211,6 +2211,22 @@ font-weight: 400;
   &:not(.is-hidden) {
     display: block;
   }
+
+  // タブパネルがフォーカス可能な場合のフォーカス表示（WAI-ARIA推奨）
+  // tabindex="0"が設定されている場合、フォーカス時の視覚的表示が必要
+  &:focus-visible {
+    outline: 2px solid $color-base;
+    outline-offset: 4px;
+    border-radius: 4px;
+
+    // 内側の黄色のリングで視認性を向上（デジタル庁のパターンを参考）
+    box-shadow: 0 0 0 2px #ffd43d;
+
+    // アクセシビリティ: アニメーションを減らす設定に対応
+    @media (prefers-reduced-motion: reduce) {
+      outline-offset: 2px;
+    }
+  }
 }
 
 .company-group__heading {
