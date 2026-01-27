@@ -132,16 +132,6 @@
         padding: 0 15px;
         max-width: 1280px;
       }
-      @media (min-width: 768px) {
-        .header__inner {
-          padding: 0 20px;
-        }
-      }
-      @media (min-width: 992px) {
-        .header__inner {
-          padding: 0 40px;
-        }
-      }
       .header__logo a {
         display: inline-block;
       }
@@ -149,18 +139,8 @@
         display: block;
         width: 160px;
       }
-      @media (min-width: 768px) {
-        .header__logo-secondary {
-          display: none;
-        }
-      }
       .header__open {
         display: block;
-      }
-      @media (min-width: 768px) {
-        .header__open {
-          display: none;
-        }
       }
 
       /* グローバルナビゲーション（PCサイズ） */
@@ -174,29 +154,11 @@
         height: 100%;
         z-index: 20;
       }
-      @media (min-width: 768px) {
-        .header__nav {
-          position: static;
-          transform: translateX(0);
-          visibility: visible;
-          width: auto;
-          height: auto;
-          background: transparent;
-        }
-      }
       .header__lists {
         display: flex;
         flex-direction: column;
         gap: 30px;
         margin-top: 60px;
-      }
-      @media (min-width: 768px) {
-        .header__lists {
-          flex-direction: row;
-          align-items: center;
-          gap: 20px;
-          margin-top: 0;
-        }
       }
       .header__list {
         display: flex;
@@ -210,20 +172,47 @@
         font-size: 1.25rem;
         font-weight: 700;
       }
+      .header__button {
+        display: none;
+      }
+
       @media (min-width: 768px) {
+        .header__inner {
+          padding: 0 20px;
+        }
+        .header__logo-secondary {
+          display: none;
+        }
+        .header__open {
+          display: none;
+        }
+        .header__nav {
+          position: static;
+          transform: translateX(0);
+          visibility: visible;
+          width: auto;
+          height: auto;
+          background: transparent;
+        }
+        .header__lists {
+          flex-direction: row;
+          align-items: center;
+          gap: 20px;
+          margin-top: 0;
+        }
         .header__link {
           color: #333;
           font-weight: 500;
           font-size: clamp(0.938rem, 0.577rem + 0.75vw, 1rem);
         }
-      }
-      .header__button {
-        display: none;
-      }
-      @media (min-width: 768px) {
         .header__button {
           display: block;
           margin-top: 5px;
+        }
+      }
+      @media (min-width: 992px) {
+        .header__inner {
+          padding: 0 40px;
         }
       }
 
@@ -265,36 +254,13 @@
       .fv__container {
         display: block;
       }
-      @media (min-width: 768px) {
-        .fv__container {
-          display: flex;
-          flex-direction: row-reverse;
-          justify-content: space-between;
-          align-items: center;
-        }
-      }
       .fv__image {
         display: block;
         margin: 0 auto;
       }
-      @media (min-width: 768px) {
-        .fv__image {
-          margin-top: 30px;
-          margin-right: 0;
-          margin-left: 0;
-          width: 80%;
-          max-width: 650px;
-        }
-      }
       .fv__content {
         margin-top: 40px;
         text-align: center;
-      }
-      @media (min-width: 768px) {
-        .fv__content {
-          margin-top: 10px;
-          text-align: left;
-        }
       }
       .fv__logo img {
         max-width: 250px;
@@ -305,17 +271,35 @@
         font-weight: 700;
         font-size: 1.25rem;
       }
-      @media (min-width: 768px) {
-        .fv__title {
-          font-size: 1.5rem;
-        }
-      }
       .fv__text {
         margin-top: 20px;
         line-height: 200%;
       }
       .fv__button {
         margin-top: 30px;
+      }
+
+      @media (min-width: 768px) {
+        .fv__container {
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .fv__image {
+          margin-top: 30px;
+          margin-right: 0;
+          margin-left: 0;
+          width: 80%;
+          max-width: 650px;
+        }
+        .fv__content {
+          margin-top: 10px;
+          text-align: left;
+        }
+        .fv__title {
+          font-size: 1.5rem;
+        }
       }
 
       /* ボタン（ファーストビュー表示に必要） */
@@ -361,12 +345,6 @@
         gap: 6px;
         align-items: center;
       }
-      @media (min-width: 768px) {
-        .section__head {
-          font-size: 2.25rem;
-          letter-spacing: 3.6px;
-        }
-      }
       .section__head::after {
         content: "";
         width: 60px;
@@ -379,12 +357,6 @@
         margin-top: 48px;
         min-height: 400px;
       }
-      @media (min-width: 768px) {
-        .news__list {
-          margin-top: 60px;
-          min-height: 300px;
-        }
-      }
       .news__item {
         display: none;
         flex-direction: column;
@@ -395,34 +367,15 @@
       .news__item.is-on {
         display: flex;
       }
-      @media (min-width: 768px) {
-        .news__item {
-          padding-top: 11px;
-          padding-bottom: 12px;
-        }
-      }
       .news__link {
         display: block;
         padding: 8px 8px 20px;
         margin: -8px -8px -10px;
         border-radius: 4px;
       }
-      @media (min-width: 768px) {
-        .news__link {
-          display: flex;
-          gap: 49px;
-          padding: 8px 12px;
-          margin: -8px -12px;
-        }
-      }
       .news__date {
         font-size: 0.875rem;
         white-space: nowrap;
-      }
-      @media (min-width: 768px) {
-        .news__date {
-          font-size: 16px;
-        }
       }
       .news__title {
         margin-top: 7px;
@@ -430,7 +383,29 @@
         font-size: 0.9375rem;
         font-weight: 400;
       }
+
       @media (min-width: 768px) {
+        .section__head {
+          font-size: 2.25rem;
+          letter-spacing: 3.6px;
+        }
+        .news__list {
+          margin-top: 60px;
+          min-height: 300px;
+        }
+        .news__item {
+          padding-top: 11px;
+          padding-bottom: 12px;
+        }
+        .news__link {
+          display: flex;
+          gap: 49px;
+          padding: 8px 12px;
+          margin: -8px -12px;
+        }
+        .news__date {
+          font-size: 16px;
+        }
         .news__title {
           margin-top: 0;
           font-size: 16px;
@@ -439,30 +414,30 @@
       }
     </style>
 
-    <!-- 非クリティカルCSS - 非同期読み込み -->
+    <!-- 非クリティカルCSS - 非同期読み込み（preload + onloadパターン） -->
     <link
-      rel="stylesheet"
+      rel="preload"
       href="./css/swiper-bundle.min.min.css"
-      media="print"
-      onload="this.media='all'"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
       <link rel="stylesheet" href="./css/swiper-bundle.min.min.css" />
     </noscript>
     <link
-      rel="stylesheet"
+      rel="preload"
       href="./css/reset.min.css"
-      media="print"
-      onload="this.media='all'"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
       <link rel="stylesheet" href="./css/reset.min.css" />
     </noscript>
     <link
-      rel="stylesheet"
+      rel="preload"
       href="./css/style.min.css"
-      media="print"
-      onload="this.media='all'"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
       <link rel="stylesheet" href="./css/style.min.css" />
